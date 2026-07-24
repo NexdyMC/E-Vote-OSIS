@@ -1,6 +1,6 @@
 <?php
-include 'class.php';
-include 'rand.php';
+require_once __DIR__ . '/class.php';
+require_once __DIR__ . '/rand.php';
 
 $host = "localhost";
 $user = "root";

@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-require_once __DIR__ . "/sql/conn.php";
+require_once __DIR__ . "/config/conn.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
