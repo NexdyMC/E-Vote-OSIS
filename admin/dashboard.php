@@ -1,21 +1,42 @@
 <?php
+
 require_once __DIR__ . "/../config/conn.php";
 
 if (isset($_POST['submit'])) {
-  $nama_kardidat  = $_POST['input-nama'];
-  $visi_kardidat  = $_POST['text-visi'];
-  $misi_kardidat  = $_POST['text-misi'];
-  
-  $status = $conn->add_kandidat($nama_kardidat, $visi_kardidat, $misi_kardidat);
 
-  if ($status) {
-    echo "data tersimpan di database";
-  } else {
-    echo "data tidak tersimpan: " . die($status);
-  }
+    $nama_kardidat = $_POST['input-nama'];
+    $visi_kardidat = $_POST['text-visi'];
+    $misi_kardidat = $_POST['text-misi'];
+
+    $status = $conn->add_kandidat(
+        $nama_kardidat,
+        $visi_kardidat,
+        $misi_kardidat
+    );
+
+    if ($status) {
+
+        header("Location: dashboard.php?v=true");
+        exit;
+
+    } else {
+
+        header("Location: dashboard.php?v=false");
+        exit;
+
+    }
 }
 
+if (isset($_GET["v"])) {
+  $status = $_GET["v"];
 
+  if ($status  == "true") {
+    echo "Data berhasil disimpan";
+  } 
+  if ($status == "false") {
+    echo "data tidak berhasil disimpan";
+  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,6 +69,18 @@ if (isset($_POST['submit'])) {
   
       <button type="submit" name="submit">Tambahkan Kardidat</button>
     </form>
+
+
+    <?php
+    $hasil = $conn->mysql_select("tb_kardidat");
+    foreach ($hasil as $row) {
+      echo "<hr>";
+      echo $row["nama"];
+      echo $row["visi"];
+      echo $row["misi"];
+      echo "<hr>";
+      }
+    ?>
   </div>
 
 </body>
