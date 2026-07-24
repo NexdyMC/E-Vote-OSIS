@@ -9,6 +9,7 @@ $base = "db_piketos";
 
 $conn = new MySQL($host, $user, $pass, $base);
 
+echo " " . random(4);
 // $siswa = $conn->mysql_select("tb_siswa" );
 
 // foreach ($siswa as $row) {

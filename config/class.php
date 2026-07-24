@@ -61,25 +61,25 @@ class MySQL {
     return $stmt->execute();
   }
   
-  // mysql kardidat : add  
   public function add_kandidat($nama, $visi, $misi)
   {
     $stmt = $this->conn->prepare(
-        "INSERT INTO tb_kardidat
-        (nama, visi, misi)
-        VALUES (?, ?, ?)"
+        "INSERT INTO tb_kardidat (nama, visi, misi)
+         VALUES (?, ?, ?)"
     );
 
-    $stmt->bind_param(
-        "sss",
-        $nama,
-        $visi,
-        $misi
-    );
+    if (!$stmt) {
+        die("Prepare Error: " . $this->conn->error);
+    }
 
-    return $stmt->execute();
+    $stmt->bind_param("sss", $nama, $visi, $misi);
+
+    if (!$stmt->execute()) {
+        die("Execute Error: " . $stmt->error);
+    }
+
+    return true;
   }
-
   // mysql kardidat : delete 
   public function mysql_delete($table, $column, $id)
   {

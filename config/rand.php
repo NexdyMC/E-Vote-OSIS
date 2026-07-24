@@ -24,5 +24,3 @@ function random($length = 12) {
   return $cuid;
 
 }
-
-echo random(4);

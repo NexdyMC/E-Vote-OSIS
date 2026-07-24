@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . "/config/conn.php";
 
 session_start();
 
@@ -30,6 +31,18 @@ if (!isset($_SESSION['token'])) {
     </p>
 
     <h3>Silakan pilih kandidat</h3>
+
+    <?php 
+        $data = $conn->mysql_select("tb_kardidat");
+        foreach ($data as $row) {
+            echo "<hr>";
+            echo $row["nama"] . "<br>";
+            echo $row["visi"] . "<br>";
+            echo $row["misi"] . "<br>";
+            echo "<hr>";
+            }
+        
+    ?>
 
 </body>
 </html>
