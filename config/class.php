@@ -119,9 +119,10 @@ class MySQL {
     return $stmt->execute();
   }
 
+  // mysql kardidat : delete
   public function delete_kardidat($id)
   {
-    
+
     // ubah value voted menjadi 0
     $stmt = $this->conn->prepare(
       "UPDATE tb_siswa SET voted = 0 WHERE voted = ?");

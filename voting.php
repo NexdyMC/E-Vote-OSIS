@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . "/config/conn.php";
-
 session_start();
+
 
 if (!isset($_SESSION['token'])) {
     header("Location: index.php");
@@ -15,6 +15,8 @@ if (!isset($_SESSION['token'])) {
 <head>
     <meta charset="UTF-8">
     <title>Voting PIKETOS</title>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+    <script src="assets/scripts/sweetalert.2.11.js"></script>
 </head>
 <body>
 
@@ -40,8 +42,8 @@ if (!isset($_SESSION['token'])) {
             <?= $row["nama"] . "<br>"; ?>
             <?= $row["visi"] . "<br>"; ?>
             <?= $row["misi"] . "<br>"; ?>
-            <button class="">Pilih Kardidat Ini</button>
+            <button class="" onclick="selectKardidat(<?= $row['id'] ?>, '<?= $row['nama'] ?>')">Pilih Kardidat Ini</button>
         <?php }; ?>
-
+    <script src="assets/scripts/script.js"></script>
 </body>
 </html>
