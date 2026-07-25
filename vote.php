@@ -18,6 +18,7 @@ if ($button && !empty($id_kardidat)) {
             'status' => 'success',
             'message' => 'Vote successfully recorded.'
         ]);
+        session_unset();
         session_destroy();
     } else {
         echo json_encode([

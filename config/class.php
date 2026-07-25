@@ -173,7 +173,7 @@ class MySQL {
     
     $stmt = $this->conn->prepare(
         "SELECT * FROM tb_siswa
-        WHERE token = ?"
+        WHERE BINARY token = ?"
     );
 
     if (!$stmt) {
@@ -188,8 +188,9 @@ class MySQL {
     if ($result->num_rows === 0) {
         return false;
     }
-
-    return $result->fetch_assoc();
+    $data = $result->fetch_assoc();
+    $stmt->close();
+    return $data;
   }
   
   // mysql login : admin
@@ -212,8 +213,9 @@ class MySQL {
     if ($result->num_rows === 0) {
         return false;
     }
-
-    return $result->fetch_assoc();
+    $data = $result->fetch_assoc();
+    $stmt->close();
+    return $data;
   }
 
   // mysql image : upload file
