@@ -34,15 +34,14 @@ if (!isset($_SESSION['token'])) {
 
     <?php 
         $data = $conn->mysql_select("tb_kardidat");
-        foreach ($data as $row) {
-            echo "<hr>";
-            echo $row["nama"] . "<br>";
-            echo $row["visi"] . "<br>";
-            echo $row["misi"] . "<br>";
-            echo "<hr>";
-            }
-        
-    ?>
+        foreach ($data as $row) {?>
+
+            <?= "<hr>"; ?>
+            <?= $row["nama"] . "<br>"; ?>
+            <?= $row["visi"] . "<br>"; ?>
+            <?= $row["misi"] . "<br>"; ?>
+            <button class="">Pilih Kardidat Ini</button>
+        <?php }; ?>
 
 </body>
 </html>

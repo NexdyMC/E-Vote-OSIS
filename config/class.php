@@ -119,6 +119,23 @@ class MySQL {
     return $stmt->execute();
   }
 
+  public function delete_kardidat($id)
+  {
+    
+    // ubah value voted menjadi 0
+    $stmt = $this->conn->prepare(
+      "UPDATE tb_siswa SET voted = 0 WHERE voted = ?");
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+
+    // delete kardidat
+    $stmt = $this->conn->prepare(
+        "DELETE FROM tb_kardidat WHERE id = ?"
+      );
+    $stmt->bind_param("i", $id);
+    return $stmt->execute();
+  }
+
   // mysql siswa : add
   public function add_siswa($token, $nama, $kelas)
   {
@@ -198,7 +215,7 @@ class MySQL {
     return $result->fetch_assoc();
   }
 
-  // mysql image : upload
+  // mysql image : upload file
   public function upload_image( $local_folder, $name_file, $post_file,)
   {
     $file_name = $_FILES[$post_file]['name'];
@@ -225,6 +242,18 @@ class MySQL {
       return $new_name;
     }
 
+  }
+  
+  // mysql image : delete file
+  public function delete_image($folder, $file_name)
+  {
+    $path = rtrim($folder, "/\\") . DIRECTORY_SEPARATOR . $file_name;
+
+    if (file_exists($path)) {
+        return unlink($path);
+    }
+
+    return false;
   }
 
 }

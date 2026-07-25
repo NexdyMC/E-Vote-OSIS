@@ -37,6 +37,13 @@ if (isset($_GET["v"])) {
     echo "data tidak berhasil disimpan";
   }
 }
+
+if (isset($_GET['d'])){
+  $id = $_GET['d'];
+  $conn->delete_kardidat($id);
+  echo " kardidat $id sudah dihapus";
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,8 +52,8 @@ if (isset($_GET["v"])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>dashboard admin</title>
   <!-- CDN : tailwindcss v3 -->
-  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-  <script src="../assets/scripts/tailwind.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- <script src="../assets/scripts/tailwind.js"></script> -->
 </head>
 <body>
   <nav>
@@ -56,8 +63,13 @@ if (isset($_GET["v"])) {
     </ul>
   </nav>
   <div class="grid bg-gray-300 w-96">
-    <form method="post">
-      <!-- <input type="file" name="foto"> -->
+    <form method="post" enctype="multipart/form-data">
+      
+      <!-- input kardidat : photo -->
+      <label>
+        <input type="file" name="photo">
+      </label>
+
       <!-- input kardidat : nama -->
       <label class="grid">
         nama kardidat: 
@@ -89,6 +101,7 @@ if (isset($_GET["v"])) {
         foreach ($hasil as $row) { ?> 
         
         <div class="card border rounded-md text-center">
+          <img src="assets/photo/<?=  $row['image']; ?>" alt="Kardidat <?= $row["nama"];  ?>" class="w-24">
           <p><?= $row["nama"];  ?> </p>
           <p>
             <?= $row["visi"];  ?> 
@@ -97,8 +110,8 @@ if (isset($_GET["v"])) {
             <?= $row["misi"];  ?> 
           </p>
 
-          <a href="update_kardidat.php?i=<?= $row["id"]; ?>" class="text-blue-500 hover:text-blue-600">update</a>
-          <a href="delete_kardidat.php?i=<?= $row["id"]; ?>" class="text-red-500 hover:text-red-600">delete</a>
+          <a href="dashboard.php?u=<?= $row["id"]; ?>" class="text-blue-500 hover:text-blue-600">update</a>
+          <a href="dashboard.php?d=<?= $row["id"]; ?>" class="text-red-500 hover:text-red-600">delete</a>
         </div>
         
         <?php }; ?>
