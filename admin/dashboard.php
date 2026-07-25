@@ -158,6 +158,6 @@ if (isset($_GET['d'])){
     </div>
   </section>
   </div>
-
+  <!-- <script src="../assets/scripts/dashboard.js"></script> -->
 </body>
 </html>
