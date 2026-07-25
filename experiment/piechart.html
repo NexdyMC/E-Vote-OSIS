@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Voting Chart — Contoh</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root{
+    --bg:#0f1117;
+    --panel:#171a23;
+    --line:#262a36;
+    --text:#e7e9ee;
+    --muted:#8b8fa3;
+    --accent:#5b8cff;
+    --danger:#ff6b6b;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    padding:32px 16px;
+  }
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+  }
+  h1{
+    font-size:22px;
+    margin-bottom:4px;
+  }
+  p.sub{
+    color:var(--muted);
+    margin-top:0;
+    margin-bottom:24px;
+    font-size:14px;
+  }
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:20px;
+  }
+  form{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:flex-end;
+  }
+  .field{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .field label{
+    font-size:12px;
+    color:var(--muted);
+  }
+  input{
+    background:#0f1117;
+    border:1px solid var(--line);
+    color:var(--text);
+    padding:9px 10px;
+    border-radius:8px;
+    font-size:14px;
+    outline:none;
+  }
+  input:focus{
+    border-color:var(--accent);
+  }
+  input#nama{ width:220px; }
+  input#suara{ width:110px; }
+  button{
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    padding:10px 16px;
+    border-radius:8px;
+    font-size:14px;
+    cursor:pointer;
+    font-weight:600;
+  }
+  button:disabled{
+    background:#3a3d4a;
+    cursor:not-allowed;
+  }
+  button:hover:not(:disabled){
+    filter:brightness(1.1);
+  }
+  #pesan{
+    font-size:13px;
+    color:var(--danger);
+    margin-top:10px;
+    min-height:16px;
+  }
+  .chart-area{
+    display:flex;
+    gap:24px;
+    flex-wrap:wrap;
+    align-items:center;
+  }
+  .chart-box{
+    width:280px;
+    height:280px;
+    flex-shrink:0;
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+  }
+  th,td{
+    text-align:left;
+    padding:8px 6px;
+    border-bottom:1px solid var(--line);
+  }
+  th{
+    color:var(--muted);
+    font-weight:500;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  }
+  .swatch{
+    display:inline-block;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    margin-right:8px;
+  }
+  .hapus{
+    background:transparent;
+    color:var(--danger);
+    padding:4px 8px;
+    font-size:12px;
+    font-weight:400;
+  }
+  .kosong{
+    color:var(--muted);
+    font-size:13px;
+    text-align:center;
+    padding:20px 0;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Voting Kandidat</h1>
+  <p class="sub">Maksimal 5 kandidat. Tambahkan nama dan jumlah suara, grafik akan diperbarui otomatis.</p>
+
+  <div class="panel">
+    <form id="formVote">
+      <div class="field">
+        <label for="nama">Nama kandidat</label>
+        <input type="text" id="nama" placeholder="mis. Budi" required>
+      </div>
+      <div class="field">
+        <label for="suara">Jumlah suara</label>
+        <input type="number" id="suara" placeholder="0" min="0" required>
+      </div>
+      <button type="submit" id="btnTambah">Tambah</button>
+    </form>
+    <div id="pesan"></div>
+  </div>
+
+  <div class="panel chart-area">
+    <div class="chart-box">
+      <canvas id="chartVote"></canvas>
+    </div>
+    <div style="flex:1; min-width:220px;">
+      <table id="tabelVote">
+        <thead>
+          <tr><th></th><th>Nama</th><th>Suara</th><th></th></tr>
+        </thead>
+        <tbody id="tbodyVote"></tbody>
+      </table>
+      <div class="kosong" id="pesanKosong">Belum ada kandidat.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const MAX_KANDIDAT = 5;
+  const WARNA = ['#5b8cff', '#ff9f43', '#2ed3a3', '#ff6b6b', '#c084fc'];
+
+  // Data disimpan sebagai array of {nama, suara}
+  let kandidat = [];
+
+  const form = document.getElementById('formVote');
+  const inputNama = document.getElementById('nama');
+  const inputSuara = document.getElementById('suara');
+  const btnTambah = document.getElementById('btnTambah');
+  const pesan = document.getElementById('pesan');
+  const tbody = document.getElementById('tbodyVote');
+  const pesanKosong = document.getElementById('pesanKosong');
+
+  const ctx = document.getElementById('chartVote').getContext('2d');
+  let chart = new Chart(ctx, {
+    type: 'bar', // diagram batang
+    data: {
+      labels: [], // X axis = nama kandidat
+      datasets: [{
+        label: 'Jumlah Suara',
+        data: [], // Y axis = jumlah suara
+        backgroundColor: WARNA,
+        borderColor: '#262a36',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      indexAxis: 'x', // batang ke arah vertikal (y)
+      responsive: true,
+      maintainAspectRatio: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            stepSize: 1,
+            color: '#8b8fa3'
+          },
+          grid: {
+            color: '#262a36'
+          }
+        },
+        x: {
+          ticks: {
+            color: '#8b8fa3'
+          },
+          grid: {
+            display: false
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: true,
+          labels: {
+            color: '#8b8fa3',
+            boxWidth: 12,
+            padding: 16
+          }
+        }
+      }
+    }
+  });
+
+  function render() {
+    // update chart
+    chart.data.labels = kandidat.map(k => k.nama);
+    chart.data.datasets[0].data = kandidat.map(k => k.suara);
+    chart.update();
+
+    // update tabel
+    tbody.innerHTML = '';
+    kandidat.forEach((k, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><span class="swatch" style="background:${WARNA[i]}"></span></td>
+        <td>${k.nama}</td>
+        <td>${k.suara}</td>
+        <td><button class="hapus" data-index="${i}">Hapus</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    pesanKosong.style.display = kandidat.length === 0 ? 'block' : 'none';
+
+    // batasi input jika sudah 5 kandidat
+    const penuh = kandidat.length >= MAX_KANDIDAT;
+    btnTambah.disabled = penuh;
+    inputNama.disabled = penuh;
+    inputSuara.disabled = penuh;
+    pesan.textContent = penuh ? `Sudah mencapai batas maksimal ${MAX_KANDIDAT} kandidat.` : '';
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    pesan.textContent = '';
+
+    if (kandidat.length >= MAX_KANDIDAT) {
+      pesan.textContent = `Maksimal ${MAX_KANDIDAT} kandidat.`;
+      return;
+    }
+
+    const nama = inputNama.value.trim();
+    const suara = parseInt(inputSuara.value, 10);
+
+    if (!nama) {
+      pesan.textContent = 'Nama tidak boleh kosong.';
+      return;
+    }
+    if (isNaN(suara) || suara < 0) {
+      pesan.textContent = 'Jumlah suara harus angka positif.';
+      return;
+    }
+    if (kandidat.some(k => k.nama.toLowerCase() === nama.toLowerCase())) {
+      pesan.textContent = 'Nama kandidat sudah ada.';
+      return;
+    }
+
+    kandidat.push({ nama, suara });
+    inputNama.value = '';
+    inputSuara.value = '';
+    inputNama.focus();
+    render();
+  });
+
+  tbody.addEventListener('click', (e) => {
+    if (e.target.matches('.hapus')) {
+      const idx = parseInt(e.target.dataset.index, 10);
+      kandidat.splice(idx, 1);
+      render();
+    }
+  });
+
+  render();
+</script>
+</body>
+</html>

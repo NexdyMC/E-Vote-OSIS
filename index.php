@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Token tidak boleh kosong";
     } else {
 
-        $siswa = $conn->login_piketos($token);
+        $siswa = $conn->login_siswa($token);
 
         if (!$siswa) {
 

@@ -2,9 +2,19 @@
 
 class MySQL { 
   public $conn;
+  private $host;
+  private $user;
+  private $pass;
+  private $base;
 
   // construct start class
-  public function __construct($host, $user, $pass, $db) {
+  public function __construct($host, $user, $pass, $db) 
+  {
+    $this->host = "localhost";
+    $this->user = "localhost";
+    $this->pass = "localhost";
+    $this->base = "localhost";
+
     $this->conn = new mysqli($host, $user, $pass, $db);
 
     if ($this->conn->connect_error) {
@@ -61,6 +71,19 @@ class MySQL {
     return $stmt->execute();
   }
   
+  // mysql : delete 
+  public function mysql_delete($table, $column, $id)
+  {
+    $stmt = $this->conn->prepare(
+        "DELETE FROM $table WHERE $column = ?"
+    );
+
+    $stmt->bind_param("i", $id);
+
+    return $stmt->execute();
+  }
+  
+  // mysql kardidat : add 
   public function add_kandidat($nama, $visi, $misi)
   {
     $stmt = $this->conn->prepare(
@@ -80,18 +103,7 @@ class MySQL {
 
     return true;
   }
-  // mysql kardidat : delete 
-  public function mysql_delete($table, $column, $id)
-  {
-    $stmt = $this->conn->prepare(
-        "DELETE FROM $table WHERE $column = ?"
-    );
 
-    $stmt->bind_param("i", $id);
-
-    return $stmt->execute();
-  }
-  
   // mysql kardidat : update  
   public function update_kardidat($id, $nama, $visi, $misi) 
   {
@@ -104,6 +116,17 @@ class MySQL {
     
     $stmt->bind_param("sssi", $nama, $visi, $misi, $id);
 
+    return $stmt->execute();
+  }
+
+  // mysql siswa : add
+  public function add_siswa($token, $nama, $kelas)
+  {
+    $stmt = $this->conn->prepare(
+      "INSERT INTO tb_siswa 
+      (token, nama, kelas, status, voted) VALUE (?, ?, ?, 0, 0)");
+
+    $stmt->bind_param("sss", $token, $nama, $kelas);
     return $stmt->execute();
   }
 
@@ -122,9 +145,14 @@ class MySQL {
     return $stmt->execute();
   }
 
-  // Login : user 
-  public function login_piketos($token)
+  // mysql Login : user 
+  public function login_siswa($token)
   {
+
+    if (empty($token)) {
+      return false;
+    }
+    
     $stmt = $this->conn->prepare(
         "SELECT * FROM tb_siswa
         WHERE token = ?"
@@ -146,7 +174,7 @@ class MySQL {
     return $result->fetch_assoc();
   }
   
-  // login : admin
+  // mysql login : admin
   public function login_admin($token)
   {
     $stmt = $this->conn->prepare(
@@ -171,7 +199,6 @@ class MySQL {
   }
 
 }
-
 // $db->insert("siswa",["nama" => "Febri", "kelas" => "XI RPL 1"]);
 
 $host = "localhost";
