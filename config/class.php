@@ -198,6 +198,35 @@ class MySQL {
     return $result->fetch_assoc();
   }
 
+  // mysql image : upload
+  public function upload_image( $local_folder, $name_file, $post_file,)
+  {
+    $file_name = $_FILES[$post_file]['name'];
+    $file_size = $_FILES[$post_file]['size'];
+    $file_tmp = $_FILES[$post_file]['tmp_name'];
+    
+    $extension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+    $validasi_type = ['jpg', 'jpeg', 'png', 'webp'];
+    
+    if (!in_array($extension , $validasi_type)) {
+      return false;
+    }
+
+    if ($file_size >= 2 * 1024 * 1024) {
+      return false;
+    }
+
+    $new_name = "$name_file" . ".$extension";
+
+    $destination =rtrim($local_folder, "/\\") . DIRECTORY_SEPARATOR . $new_name;
+    
+    if (move_uploaded_file($file_tmp, $destination))
+    {
+      return $new_name;
+    }
+
+  }
+
 }
 // $db->insert("siswa",["nama" => "Febri", "kelas" => "XI RPL 1"]);
 
