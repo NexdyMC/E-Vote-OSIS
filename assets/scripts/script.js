@@ -33,7 +33,10 @@ async function selectKardidat(id_kardidat, name) {
                 text: `Vote untuk ${name} berhasil disimpan.`,
                 icon: "success"
             });
-            document.location.href = "index.php";
+
+            setTimeout(() => {
+                location.href = "index.php";
+            }, 500);
 
         } catch (error) {
             console.error(error);

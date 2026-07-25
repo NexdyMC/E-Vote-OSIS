@@ -15,8 +15,10 @@ if (!isset($_SESSION['token'])) {
 <head>
     <meta charset="UTF-8">
     <title>Voting PIKETOS</title>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
-    <script src="assets/scripts/sweetalert.2.11.js"></script>
+    <!-- script : tailwind css -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- <script src="assets/scripts/sweetalert.2.11.js"></script> -->
 </head>
 <body>
 
@@ -37,12 +39,14 @@ if (!isset($_SESSION['token'])) {
     <?php 
         $data = $conn->mysql_select("tb_kardidat");
         foreach ($data as $row) {?>
-
+            <div class="flex justify-center items-center w-32 h-32">
+                <img src="assets/photo/<?=  $row['image']; ?>" alt="<?= $row['nama'];?>" class="w-32 h-32 object-cover">
+            </div>
             <?= "<hr>"; ?>
             <?= $row["nama"] . "<br>"; ?>
             <?= $row["visi"] . "<br>"; ?>
             <?= $row["misi"] . "<br>"; ?>
-            <button class="" onclick="selectKardidat(<?= $row['id'] ?>, '<?= $row['nama'] ?>')">Pilih Kardidat Ini</button>
+            <button class="bg-cyan-100 hover:bg-cyan-200 py-2 px-4" onclick="selectKardidat(<?= $row['id'] ?>, '<?= $row['nama'] ?>')">Pilih Kardidat Ini</button>
         <?php }; ?>
     <script src="assets/scripts/script.js"></script>
 </body>

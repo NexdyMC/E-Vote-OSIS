@@ -3,6 +3,7 @@
 session_start();
 require_once __DIR__ . "/config/conn.php";
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $token = trim($_POST['token'] ?? '');
@@ -33,6 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+
+if (isset($_SESSION['token'])) {
+    header("Location: voting.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>

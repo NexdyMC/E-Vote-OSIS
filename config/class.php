@@ -84,18 +84,18 @@ class MySQL {
   }
   
   // mysql kardidat : add 
-  public function add_kandidat($nama, $visi, $misi)
+  public function add_kandidat($nama, $visi, $misi, $image)
   {
     $stmt = $this->conn->prepare(
-        "INSERT INTO tb_kardidat (nama, visi, misi)
-         VALUES (?, ?, ?)"
+        "INSERT INTO tb_kardidat (nama, visi, misi, image)
+         VALUES (?, ?, ?, ?)"
     );
 
     if (!$stmt) {
         die("Prepare Error: " . $this->conn->error);
     }
 
-    $stmt->bind_param("sss", $nama, $visi, $misi);
+    $stmt->bind_param("ssss", $nama, $visi, $misi, $image);
 
     if (!$stmt->execute()) {
         die("Execute Error: " . $stmt->error);
@@ -125,7 +125,7 @@ class MySQL {
 
     // ubah value voted menjadi 0
     $stmt = $this->conn->prepare(
-      "UPDATE tb_siswa SET voted = 0 WHERE voted = ?");
+      "UPDATE tb_siswa SET voted = 0, status = 0 WHERE voted = ?");
     $stmt->bind_param('i', $id);
     $stmt->execute();
 
@@ -260,12 +260,12 @@ class MySQL {
 }
 // $db->insert("siswa",["nama" => "Febri", "kelas" => "XI RPL 1"]);
 
-$host = "localhost";
-$user = "root";
-$pass = "";
-$base = "db_piketos";
+// $host = "localhost";
+// $user = "root";
+// $pass = "";
+// $base = "db_piketos";
 
-$conn = new MySQL($host, $user, $pass, $base);
-echo "koneksi berhasil";
+// $conn = new MySQL($host, $user, $pass, $base);
+// echo "koneksi berhasil";
 
 ?>
