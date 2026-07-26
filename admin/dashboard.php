@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . "/../config/conn.php";
 
 if (isset($_POST['submit'])) {
@@ -11,7 +10,6 @@ if (isset($_POST['submit'])) {
     $extension = strtolower(pathinfo($image_kardidat, PATHINFO_EXTENSION));
     $randon = random(10);
     $file_enc = $randon .  ".$extension";
-    
 
     $status = $conn->add_kandidat(
         $nama_kardidat,
@@ -23,15 +21,11 @@ if (isset($_POST['submit'])) {
     $upload = $conn->upload_image('../assets/photo/', $randon ,'photo');
   
     if ($status && $upload) {
-
         header("Location: dashboard.php?v=true");
         exit;
-
     } else {
-
         header("Location: dashboard.php?v=false");
         exit;
-
     }
 }
 
@@ -49,8 +43,15 @@ if (isset($_GET["v"])) {
 if (isset($_GET['d'])){
   $id = $_GET['d'];
   $file = $conn->mysql_select("tb_kardidat", "id = $id", "image");
-  $conn->delete_image('../assets/photo/', $file);
-  $conn->delete_kardidat($id);
+  foreach ($file as $row) {
+    $status  = unlink("../assets/photo/" . $row['image']);
+    if ($status) {
+      echo "delete file done";
+    } else {
+      echo "delete file don't ";
+    }
+    $conn->delete_kardidat($id);
+  }
 }
 
 ?>
@@ -61,8 +62,8 @@ if (isset($_GET['d'])){
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>dashboard admin</title>
   <!-- CDN : tailwindcss v3 -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- <script src="../assets/scripts/tailwind.js"></script> -->
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  <script src="../assets/scripts/tailwind.js"></script>
 </head>
 <body>
   <nav>
@@ -119,7 +120,7 @@ if (isset($_GET['d'])){
       <?php }; ?>
     </div>
   </div>
-  <section class="grid w-screen">
+  <section class="grid">
 
     
     <!-- table : siswa -->

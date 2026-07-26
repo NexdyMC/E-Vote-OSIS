@@ -7,13 +7,13 @@ class MySQL {
   private $pass;
   private $base;
 
-  // construct start class
+  // start construct class
   public function __construct($host, $user, $pass, $db) 
   {
     $this->host = "localhost";
-    $this->user = "localhost";
-    $this->pass = "localhost";
-    $this->base = "localhost";
+    $this->user = "root";
+    $this->pass = "";
+    $this->base = "db_piketos";
 
     $this->conn = new mysqli($host, $user, $pass, $db);
 
@@ -22,7 +22,7 @@ class MySQL {
     }
   }
 
-  // mysql : select
+  // mysql query : select
   public function mysql_select($table, $where = "", $column = "*")
   {
     $sql = "SELECT $column FROM $table";
@@ -40,7 +40,7 @@ class MySQL {
     return $result->fetch_all(MYSQLI_ASSOC);
   }
 
-  // mysql : insert
+  // mysql query : insert
   public function mysql_insert($table, $column, $value) 
   {
 
@@ -49,11 +49,12 @@ class MySQL {
     );
 
     // $stmt->bind_param("s", $value);
-
-    return $stmt->execute();
+    $data = $stmt->execute();
+    $stmt->close();
+    return $data;
   }
 
-  // mysql : update
+  // mysql query : update
   public function mysql_update($table, $id, $new_name)
   {
     $stmt = $this->conn->prepare(
@@ -67,11 +68,12 @@ class MySQL {
         $new_name,
         $id
     );
-
-    return $stmt->execute();
+    $data = $stmt->execute();
+    $stmt->close();
+    return $data;
   }
   
-  // mysql : delete 
+  // mysql query : delete 
   public function mysql_delete($table, $column, $id)
   {
     $stmt = $this->conn->prepare(
@@ -79,8 +81,9 @@ class MySQL {
     );
 
     $stmt->bind_param("i", $id);
-
-    return $stmt->execute();
+    $data = $stmt->execute();
+    $stmt->close();
+    return $data;
   }
   
   // mysql kardidat : add 
@@ -100,7 +103,7 @@ class MySQL {
     if (!$stmt->execute()) {
         die("Execute Error: " . $stmt->error);
     }
-
+    $stmt->close();
     return true;
   }
 
@@ -115,8 +118,9 @@ class MySQL {
     );
     
     $stmt->bind_param("sssi", $nama, $visi, $misi, $id);
-
-    return $stmt->execute();
+    $data = $stmt->execute();
+    $stmt->close();
+    return $data;
   }
 
   // mysql kardidat : delete
@@ -134,7 +138,9 @@ class MySQL {
         "DELETE FROM tb_kardidat WHERE id = ?"
       );
     $stmt->bind_param("i", $id);
-    return $stmt->execute();
+    $data = $stmt->execute();
+    $stmt->close();
+    return $data;
   }
 
   // mysql siswa : add
@@ -145,7 +151,9 @@ class MySQL {
       (token, nama, kelas, status, voted) VALUE (?, ?, ?, 0, 0)");
 
     $stmt->bind_param("sss", $token, $nama, $kelas);
-    return $stmt->execute();
+    $data = $stmt->execute();
+    $stmt->close();
+    return $data;
   }
 
   // mysql siswa : voting
@@ -159,11 +167,12 @@ class MySQL {
     );
 
     $stmt->bind_param("is", $voted, $id);
-
-    return $stmt->execute();
+    $data = $stmt->execute();
+    $stmt->close();
+    return $data;
   }
 
-  // mysql Login : user 
+  // mysql Login : siswa
   public function login_siswa($token)
   {
 
@@ -218,7 +227,7 @@ class MySQL {
     return $data;
   }
 
-  // mysql image : upload file
+  // mysql image : upload
   public function upload_image( $local_folder, $name_file, $post_file,)
   {
     $file_name = $_FILES[$post_file]['name'];
@@ -247,27 +256,17 @@ class MySQL {
 
   }
   
-  // mysql image : delete file
+  // mysql image : delete
   public function delete_image($folder, $file_name)
   {
     $path = rtrim($folder, "/\\") . DIRECTORY_SEPARATOR . $file_name;
-
-    if (file_exists($path)) {
-        return unlink($path);
+ 
+    if (file_exists($file_name)) {
+        return unlink($file_name);
     }
 
     return false;
   }
 
 }
-// $db->insert("siswa",["nama" => "Febri", "kelas" => "XI RPL 1"]);
-
-// $host = "localhost";
-// $user = "root";
-// $pass = "";
-// $base = "db_piketos";
-
-// $conn = new MySQL($host, $user, $pass, $base);
-// echo "koneksi berhasil";
-
 ?>
