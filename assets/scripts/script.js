@@ -14,12 +14,12 @@ async function selectKardidat(id_kardidat, name) {
     // 2. Proceed only if the user clicked "Ya, Pilih!"
     if (result.isConfirmed) {
         try {
-            const response = await fetch("vote.php", {
+            const response = await fetch("api/siswa.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    id_kardidat: id_kardidat,
-                    button: true
+                    type: "voting",
+                    id_kardidat: id_kardidat
                 })
             });
 

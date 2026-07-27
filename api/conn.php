@@ -2,18 +2,10 @@
 
 class MySQL { 
   public $conn;
-  private $host;
-  private $user;
-  private $pass;
-  private $base;
 
   // start construct class
   public function __construct($host, $user, $pass, $db) 
   {
-    $this->host = "localhost";
-    $this->user = "root";
-    $this->pass = "";
-    $this->base = "db_piketos";
 
     $this->conn = new mysqli($host, $user, $pass, $db);
 
@@ -23,7 +15,7 @@ class MySQL {
   }
 
   // mysql query : select
-  public function mysql_select($table, $where = "", $column = "*")
+  public function mysql_select($table, $column = "*", $where = "")
   {
     $sql = "SELECT $column FROM $table";
 
@@ -107,6 +99,25 @@ class MySQL {
     return true;
   }
 
+  // mysql kardidat : select
+  public function select_kardidat($where = "", $column = "*")
+  {
+    $sql = "SELECT $column FROM tb_kardidat";
+
+    if (!empty($where)) {
+        $sql .= " WHERE $where";
+    }
+
+    $result = $this->conn->query($sql);
+
+    if (!$result)
+    {
+        return [];
+    }
+
+    return $result->fetch_all(MYSQLI_ASSOC);
+  }
+  
   // mysql kardidat : update  
   public function update_kardidat($id, $nama, $visi, $misi) 
   {
@@ -154,6 +165,21 @@ class MySQL {
     $data = $stmt->execute();
     $stmt->close();
     return $data;
+  }
+
+  // mysql siswa : select
+  public function select_siswa()
+  {
+    $sql = "SELECT * FROM tb_siswa";
+
+    $result = $this->conn->query($sql);
+
+    if (!$result)
+    {
+        return [];
+    }
+
+    return $result->fetch_all(MYSQLI_ASSOC);
   }
 
   // mysql siswa : voting
@@ -255,18 +281,12 @@ class MySQL {
     }
 
   }
-  
-  // mysql image : delete
-  public function delete_image($folder, $file_name)
-  {
-    $path = rtrim($folder, "/\\") . DIRECTORY_SEPARATOR . $file_name;
- 
-    if (file_exists($file_name)) {
-        return unlink($file_name);
-    }
-
-    return false;
-  }
 
 }
-?>
+
+$host = "localhost";
+$user = "root";
+$pass = "";
+$base = "db_piketos";
+
+$conn = new MySQL($host, $user, $pass, $base);

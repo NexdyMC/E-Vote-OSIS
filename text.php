@@ -17,26 +17,34 @@
     <p><strong>Response from API:</strong> <span id="responseArea">None</span></p>
 
     <script>
-        document.getElementById('sendBtn').addEventListener('click', function() {
-            // 1. Get the value from the input field
-            const inputValue = document.getElementById('userInput').value;
+    document.getElementById('sendBtn').addEventListener('click', function() {
 
-            // 2. Send the data to api.php using Fetch API (POST method)
-            fetch('vote.php', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ message: inputValue })
+        fetch('api/siswa.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                type: 'voting',
+                id_kardidat: 8
             })
-            .then(response => response.json()) // Parse the incoming JSON response
-            .then(data => {
-                // 3. Display the returned value in index.php
-                document.getElementById('responseArea').textContent = data.reply;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById('responseArea').textContent = 'An error occurred.';
-            });
+        })
+        .then(response => response.json())
+        .then(data => {
+
+            console.log(data);
+
+            document.getElementById('responseArea').textContent =
+                JSON.stringify(data, null, 2);
+
+        })
+        .catch(error => {
+            console.error(error);
+            document.getElementById('responseArea').textContent =
+                'Terjadi kesalahan';
         });
+
+    });
     </script>
 
 </body>

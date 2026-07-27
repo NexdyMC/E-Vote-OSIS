@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/config/conn.php";
+require_once __DIR__ . "/api/conn.php";
 session_start();
 
 
@@ -8,6 +8,7 @@ if (!isset($_SESSION['token'])) {
     exit;
 }
 
+echo $_SESSION['token'];
 ?>
 
 <!DOCTYPE html>
@@ -17,9 +18,9 @@ if (!isset($_SESSION['token'])) {
     <title>Voting PIKETOS</title>
     <!-- script : tailwind css -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
-    <script src="assets/scripts/sweetalert.2.11.js"></script>
-    <script src="assets/scripts/tailwind.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- <script src="assets/scripts/sweetalert.2.11.js"></script> -->
+    <!-- <script src="assets/scripts/tailwind.js"></script> -->
 </head>
 <body>
     <nav>
@@ -45,7 +46,7 @@ if (!isset($_SESSION['token'])) {
         foreach ($data as $row) {?>
         <div class="grid justify-items-center w-48 bg-cyan-100 border text-center">
             <div class="flex justify-center items-center w-32 h-32">
-                <img src="assets/photo/<?=  $row['image']; ?>" alt="<?= $row['nama'];?>" class="w-32 h-32 object-cover">
+                <img src="upload/photo/<?=  $row['image']; ?>" alt="<?= $row['nama'];?>" class="w-32 h-32 object-cover">
             </div>
             <?= $row["nama"] . "<br>"; ?>
             <?= $row["visi"] . "<br>"; ?>

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/../config/conn.php";
+require_once __DIR__ . "/../api/conn.php";
 
 if (isset($_POST['submit'])) {
 
@@ -18,7 +18,7 @@ if (isset($_POST['submit'])) {
         $file_enc 
     );
 
-    $upload = $conn->upload_image('../assets/photo/', $randon ,'photo');
+    $upload = $conn->upload_image('../upload/photo/', $randon ,'photo');
   
     if ($status && $upload) {
         header("Location: dashboard.php?v=true");
@@ -42,15 +42,24 @@ if (isset($_GET["v"])) {
 
 if (isset($_GET['d'])){
   $id = $_GET['d'];
-  $file = $conn->mysql_select("tb_kardidat", "id = $id", "image");
+  $file = $conn->select_kardidat("id = $id","image");
   foreach ($file as $row) {
-    $status  = unlink("../assets/photo/" . $row['image']);
+    echo $row['image'];
+
+    $status  = unlink("../upload/photo/" . $row['image']);
     if ($status) {
       echo "delete file done";
     } else {
       echo "delete file don't ";
     }
-    $conn->delete_kardidat($id);
+    $delete = $conn->delete_kardidat($id);
+  }
+  if ($status && $delete) {
+    header("Location: dashboard.php?v=true");
+    exit;
+  } else {
+    header("Location: dashboard.php?v=false");
+    exit;
   }
 }
 
@@ -108,7 +117,7 @@ if (isset($_GET['d'])){
         
       <div class="card border rounded-md text-center w-64">
         <div class="flex justify-center items-center">
-          <img src="../assets/photo/<?=  $row['image']; ?>" alt="Kardidat <?= $row["nama"];  ?>" class="w-32 h-32 object-cover object-center">
+          <img src="../upload/photo/<?=  $row['image']; ?>" alt="Kardidat <?= $row["nama"];  ?>" class="w-32 h-32 object-cover object-center">
         </div>
         <p><?= $row["nama"];  ?></p>
         <p><?= $row["visi"];  ?></p>
