@@ -52,9 +52,8 @@ if (isset($_GET['d'])){
     } else {
       echo "delete file don't ";
     }
-    $delete = $conn->delete_kardidat($id);
   }
-  if ($status && $delete) {
+  if ($status) {
     header("Location: dashboard.php?v=true");
     exit;
   } else {
