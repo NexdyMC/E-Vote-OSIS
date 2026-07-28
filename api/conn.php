@@ -297,8 +297,9 @@ class MySQL {
 
   }
 
-  // mysql siswa : voting persen
-  public function persen_voting_siswa() {
+  // mysql fitur : voting persen
+  public function persen_voting_siswa() 
+  {
     $total_query = $this->conn->query("SELECT COUNT(*) as total FROM tb_siswa");
     $total = $total_query->fetch_assoc()['total'];
 
@@ -319,7 +320,32 @@ class MySQL {
         'persen_sudah' => round($persen_sudah)
     ];
   }
+  
+  // mysql fitur : grafik
+  public function get_data_grafik_voting() {
+    
+  // Query menggabungkan tb_kardidat dan menghitung jumlah suara dari tb_siswa berdasarkan 'voted'
+    $query = "SELECT k.nama AS nama_kand, COUNT(s.voted) AS total_suara 
+              FROM tb_kardidat k 
+              LEFT JOIN tb_siswa s ON k.id = s.voted AND s.status = 1 
+              GROUP BY k.id, k.nama";
+              
+    $result = $this->conn->query($query);
+    
+    $nama_kandidat = [];
+    $value_voted = [];
 
+    while ($row = $result->fetch_assoc()) {
+        $nama_kandidat[] = $row['nama_kand'];     // Masukin nama kandidat ke array
+        $value_voted[] = (int)$row['total_suara']; // Masukin jumlah suara ke array (dikonversi ke angka)
+    }
+
+    // Mengembalikan array yang berisi 2 array (nama dan value)
+    return [
+        'nama' => $nama_kandidat,
+        'value' => $value_voted
+    ];
+  }
 }
 
 $host = "localhost";
