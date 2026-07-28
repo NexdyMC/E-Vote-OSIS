@@ -269,7 +269,7 @@ class MySQL {
   }
 
   // mysql image : upload
-  public function upload_image( $local_folder, $name_file, $post_file,)
+  public function upload_image( $local_folder, $name_file, $post_file)
   {
     $file_name = $_FILES[$post_file]['name'];
     $file_size = $_FILES[$post_file]['size'];

@@ -31,7 +31,7 @@ function load_kardidat()
           <p>${kardidat.visi}</p>
           <p>${kardidat.misi}</p>
           <a href="dashboard.php?u=${kardidat.id}" class="text-blue-500 hover:text-blue-600">update</a>
-          <a href="dashboard.php?d=${kardidat.id}" class="text-red-500 hover:text-red-600">delete</a>
+          <button onclick="delete_kardidat(${kardidat.id})" class="text-red-500 hover:text-red-600">delete</a>
         </div>
       `;
     });
@@ -45,7 +45,7 @@ function load_kardidat()
   });
 }
 load_kardidat();
-setInterval(load_kardidat, 1000); 
+setInterval(load_kardidat, 10000); 
 
 async function add_kardidat(nama, visi, misi, imageFile) 
 {
@@ -90,12 +90,32 @@ async function add_kardidat(nama, visi, misi, imageFile)
   }
 }
 
+async function delete_kardidat(id_kardidat) {
+  const res = await fetch('../api/kardidat.php', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      type: 'delete',
+      id: id_kardidat
+    })
+  });
+
+  const data = await res.json();
+
+  if (data.status == 'success') {
+    alert('Kandidat berhasil dihapus!');
+    load_kardidat(); // refresh daftar card
+  } else {
+    alert(data.message || 'Gagal menghapus kandidat.');
+  }
+}
+
 const input_nama = document.getElementById('text-nama');
 const input_visi = document.getElementById('text-visi');
 const input_misi = document.getElementById('text-misi');
 const input_image = document.getElementById('photo');
 
-document.getElementById('btn-add-kardidat').addEventListener('click', () =>  {
+document.getElementById('btn-add-kardidat').addEventListener('click', () => {
   if (!input_nama.value.trim() || !input_visi.value.trim() || !input_misi.value.trim()) {
     alert('Semua field wajib diisi!');
     return;
@@ -106,5 +126,5 @@ document.getElementById('btn-add-kardidat').addEventListener('click', () =>  {
   input_nama.value = '';
   input_visi.value = '';
   input_misi.value = '';
-  input_image.files[0] = null;
-})
+  input_image.value = '';
+});

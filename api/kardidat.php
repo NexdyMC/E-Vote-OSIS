@@ -5,6 +5,7 @@ $inputData = json_decode(file_get_contents('php://input'), true);
 
 switch ($inputData['type'] ?? '')
 {
+  // api mode : get
   case 'select':
     $stmt = $conn->select_kardidat();
     
@@ -21,6 +22,8 @@ switch ($inputData['type'] ?? '')
 
     }
     break;
+
+  // api mode : push
   case 'add':
     $nama = $inputData['nama'] ?? '';
     $visi = $inputData['visi'] ?? '';
@@ -43,6 +46,29 @@ switch ($inputData['type'] ?? '')
         'message' => 'data gagal dikirim'
       ]);
     }
+  // api mode : delete
+  case 'delete':
+    $id = $inputData['id'] ?? null;
+    $file = $conn->select_kardidat("id = $id","image");
+    
+    foreach ($file as $row) {
+      echo $row['image'];
+      $status  = unlink("../upload/photo/" . $row['image']);
+    }
+    $stmt = $conn->delete_kardidat($id);
+    
+    if ($stmt) {
+      echo json_encode([
+        'status' => 'success',
+        'message' => 'data berhasil dikirim'
+      ]);
+    } else {
+      echo json_encode([
+        'status' => 'error',
+        'message' => 'data gagal dikirim'
+      ]);
+    }
+
   default:
     echo json_encode([
         'status' => 'error',

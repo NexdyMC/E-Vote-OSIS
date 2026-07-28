@@ -12,29 +12,6 @@ if (isset($_GET["v"])) {
   }
 }
 
-if (isset($_GET['d'])){
-  $id = $_GET['d'];
-  $file = $conn->select_kardidat("id = $id","image");
-  foreach ($file as $row) {
-    echo $row['image'];
-
-    $status  = unlink("../upload/photo/" . $row['image']);
-    if ($status) {
-      echo "delete file done";
-    } else {
-      echo "delete file don't ";
-    }
-  }
-  $conn->delete_kardidat($id);
-
-  if ($status) {
-    header("Location: dashboard.php?v=true");
-    exit;
-  } else {
-    header("Location: dashboard.php?v=false");
-    exit;
-  }
-}
 
 ?>
 <!DOCTYPE html>
