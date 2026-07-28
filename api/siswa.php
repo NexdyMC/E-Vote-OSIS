@@ -1,23 +1,28 @@
 <?php
 include "conn.php";
+session_start();
 header('Content-Type: application/json');
 $inputData = json_decode(file_get_contents('php://input'), true);
-session_start();
-$token = $_SESSION['token'];
+$token = $_SESSION['token'] ?? 0;
 
 switch($inputData['type'] ?? '')
 {
   case 'select':
-
-    $data = $conn->select_siswa();
-
-    echo json_encode([
+    $stmt = $conn->select_siswa();
+    
+    if ($stmt) {
+      echo json_encode([
         'status' => 'success',
-        'data' => $data
-    ]);
+        'data' => $stmt
+      ]);
+    } else {
+      echo json_encode([
+        'status' => 'error',
+        'data' => 'Invalid request.'
+      ]);
 
+    }
     break;
-
   case 'voting':
     $id_kardidat = $inputData['id_kardidat'];
     $stmt = $conn->voting_kardidat($token, $id_kardidat);

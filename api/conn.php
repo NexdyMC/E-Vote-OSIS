@@ -57,18 +57,18 @@ class MySQL {
   }
 
   // mysql query : insert
-  public function mysql_insert($table, $column, $value) 
-  {
+  // public function mysql_insert($table, $column, $value) 
+  // {
 
-    $stmt = $this->conn->prepare(
-        "INSERT INTO $table ($column) VALUES ($value)"
-    );
+  //   $stmt = $this->conn->prepare(
+  //       "INSERT INTO $table ($column) VALUES ($value)"
+  //   );
 
-    // $stmt->bind_param("s", $value);
-    $data = $stmt->execute();
-    $stmt->close();
-    return $data;
-  }
+  //   // $stmt->bind_param("s", $value);
+  //   $data = $stmt->execute();
+  //   $stmt->close();
+  //   return $data;
+  // }
 
   // mysql query : update
   public function mysql_update($table, $id, $new_name)
@@ -194,7 +194,7 @@ class MySQL {
   // mysql siswa : select
   public function select_siswa($where = "", $column = "*")
   {
-    $sql = "SELECT $column FROM tb_kardidat";
+    $sql = "SELECT $column FROM tb_siswa";
 
     if (!empty($where)) {
         $sql .= " WHERE $where";
@@ -206,7 +206,7 @@ class MySQL {
     {
         return [];
     }
-
+    
     return $result->fetch_all(MYSQLI_ASSOC);
   }
 

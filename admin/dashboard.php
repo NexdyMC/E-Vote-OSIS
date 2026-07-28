@@ -53,6 +53,8 @@ if (isset($_GET['d'])){
       echo "delete file don't ";
     }
   }
+  $conn->delete_kardidat($id);
+  
   if ($status) {
     header("Location: dashboard.php?v=true");
     exit;
