@@ -1,5 +1,7 @@
 <?php
-function random($length = 12) {
+
+// random for id
+function random_id($length = 12) {
   $array = [ "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n",
  "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" ];
  
@@ -22,7 +24,6 @@ function random($length = 12) {
   return $cuid;
 
 }
-
 
 class MySQL { 
   public $conn;
@@ -55,20 +56,6 @@ class MySQL {
 
     return $result->fetch_all(MYSQLI_ASSOC);
   }
-
-  // mysql query : insert
-  // public function mysql_insert($table, $column, $value) 
-  // {
-
-  //   $stmt = $this->conn->prepare(
-  //       "INSERT INTO $table ($column) VALUES ($value)"
-  //   );
-
-  //   // $stmt->bind_param("s", $value);
-  //   $data = $stmt->execute();
-  //   $stmt->close();
-  //   return $data;
-  // }
 
   // mysql query : update
   public function mysql_update($table, $id, $new_name)

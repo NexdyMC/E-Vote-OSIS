@@ -5,10 +5,10 @@ header('Content-Type: application/json');
 $inputData = json_decode(file_get_contents('php://input'), true);
 $token = $_SESSION['token'] ?? 0;
 
-switch($inputData['type'] ?? '')
+switch ($inputData['type'] ?? '')
 {
   case 'select':
-    $stmt = $conn->select_siswa();
+    $stmt = $conn->select_kardidat();
     
     if ($stmt) {
       echo json_encode([
