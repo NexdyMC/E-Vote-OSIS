@@ -10,20 +10,49 @@ function loadData() {
     })
     .then(response => response.json())
     .then(data => {
-
         console.log(data);
 
-        document.getElementById('responseArea').textContent =
-            JSON.stringify(data, null, 2);
+        // tampilkan pesan error
+        if (data.status !== 'success') {
+            document.getElementById('responseArea').textContent =
+                data.data || data.message || 'Terjadi kesalahan';
+            return;
+        }
+        
+        // start tabel 
+        let html = `
+            <table>
+                <tr>
+                    <th>Token</th>
+                    <th>Nama</th>
+                    <th>Kelas</th>
+                    <th>Status</th>
+                    <th>Voted</th>
+                </tr>
+                `;
 
+        data.data.forEach(siswa => {
+            html += `
+                <tr>
+                    <td>${siswa.token}</td>
+                    <td>${siswa.nama}</td>
+                    <td>${siswa.kelas}</td>
+                    <td class="status-${siswa.status}">${siswa.status == 1 ? 'Sudah Vote' : 'Belum Vote'}</td>
+                    <td>${siswa.voted}</td>
+                </tr>
+            `;
+        });
+        html += `</table>`;
+        // end table
+      
+        document.getElementById('responseArea').innerHTML = html;
     })
     .catch(error => {
         console.error(error);
         document.getElementById('responseArea').textContent =
             'Terjadi kesalahan';
     });
-
 }
+
 loadData();
 setInterval(loadData, 5000);
-    
