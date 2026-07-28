@@ -297,6 +297,29 @@ class MySQL {
 
   }
 
+  // mysql siswa : voting persen
+  public function persen_voting_siswa() {
+    $total_query = $this->conn->query("SELECT COUNT(*) as total FROM tb_siswa");
+    $total = $total_query->fetch_assoc()['total'];
+
+    $belum_query = $this->conn->query("SELECT COUNT(*) as count FROM tb_siswa WHERE status = 0");
+    $belum = $belum_query->fetch_assoc()['count'];
+
+    $sudah_query = $this->conn->query("SELECT COUNT(*) as count FROM tb_siswa WHERE status = 1");
+    $sudah = $sudah_query->fetch_assoc()['count'];
+
+    $persen_belum = ($total > 0) ? ($belum / $total) * 100 : 0;
+    $persen_sudah = ($total > 0) ? ($sudah / $total) * 100 : 0;
+
+    return [
+        'total_siswa' => $total,
+        'belum_voting' => $belum,
+        'sudah_voting' => $sudah,
+        'persen_belum' => round($persen_belum),
+        'persen_sudah' => round($persen_sudah)
+    ];
+  }
+
 }
 
 $host = "localhost";

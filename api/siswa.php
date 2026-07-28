@@ -8,7 +8,7 @@ $token = $_SESSION['token'] ?? 0;
 switch ($inputData['type'] ?? '')
 {
   case 'select':
-    $stmt = $conn->select_kardidat();
+    $stmt = $conn->select_siswa();
     
     if ($stmt) {
       echo json_encode([

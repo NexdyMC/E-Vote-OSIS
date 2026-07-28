@@ -1,3 +1,6 @@
+<?php
+include 'api/conn.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +11,11 @@
 <body>
 
     <h2>Send Data to API</h2>
-    
+    <?php
+    $data = $conn->persen_voting_siswa();
+
+    echo $data['persen_sudah'] . "%";
+    ?>
     <!-- Input and Button -->
     <input type="text" id="userInput" placeholder="Type something here...">
     <button id="sendBtn">Send to API</button>

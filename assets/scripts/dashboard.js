@@ -1,7 +1,7 @@
 
 function load_kardidat() 
 {
-  fetch('../api/siswa.php', {
+  fetch('../api/kardidat.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

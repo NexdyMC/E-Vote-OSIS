@@ -34,10 +34,10 @@ function loadData() {
       data.data.forEach(siswa => {
         html += `
                 <tr>
-                    <td>${siswa.id}</td>
+                    <td>${siswa.token}</td>
                     <td>${siswa.nama}</td>
-                    <td>${siswa.visi}</td>
-                    <td>${siswa.misi}</td>
+                    <td>${siswa.kelas}</td>
+                    <td>${siswa.status}</td>
                     <td class="status-${siswa.status}">${siswa.status == 1 ? 'Sudah Vote' : 'Belum Vote'}</td>
                 </tr>
             `;
