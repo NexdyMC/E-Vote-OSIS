@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Beranda - Pemilihan Ketua OSIS 2026 | Pilketos App</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.min.js"></script>
+    
+    <!-- Prevent Theme Flash -->
+    <script>
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.remove('dark');
+        } else {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+
+    <script type="module" src="http://[::1]:5173/@vite/client"></script><link rel="stylesheet" href="http://[::1]:5173/resources/css/app.css" /><script type="module" src="http://[::1]:5173/resources/js/app.js"></script></head>
+<body class="bg-slate-50 text-slate-900 dark:bg-[#070a12] dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-amber-400 selection:text-slate-950 transition-colors duration-300">
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-50 backdrop-blur-xl bg-slate-900/80 dark:bg-[#0b101d]/90 border-b border-slate-200/10 shadow-lg transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo & Brand -->
+                <a href="http://127.0.0.1:8080/home" class="flex items-center gap-3 group">
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-500 via-amber-400 to-yellow-300 p-0.5 shadow-lg shadow-amber-500/20 group-hover:scale-105 transition-transform duration-300">
+                        <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
+                            <span class="text-xl">🗳️</span>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="font-extrabold text-lg sm:text-xl tracking-tight text-white flex items-center gap-1.5">
+                            PILKETOS <span class="text-amber-400 font-black">2026</span>
+                        </span>
+                        <span class="text-[10px] uppercase tracking-widest text-slate-400 font-semibold block -mt-1">E-Voting Ketua OSIS</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center gap-1">
+                    <a href="http://127.0.0.1:8080/home" 
+                       class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 bg-amber-400 text-slate-950 shadow-md shadow-amber-400/20">
+                       🏠 Beranda
+                    </a>
+                    <a href="http://127.0.0.1:8080/voting" 
+                       class="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-800/60">
+                       🗳️ Voting Paslon
+                    </a>
+                </nav>
+
+                <!-- Action Controls (Theme Switcher & Mobile Menu Trigger) -->
+                <div class="flex items-center gap-3">
+                    
+                    <!-- Theme Toggle Button -->
+                    <button id="theme-toggle" type="button" 
+                            class="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700/60 text-slate-300 hover:text-amber-400 hover:border-amber-400/40 focus:outline-none transition-all duration-200 cursor-pointer"
+                            title="Beralih Tema">
+                        <!-- Dark Icon -->
+                        <svg id="theme-toggle-dark-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                        <!-- Light Icon -->
+                        <svg id="theme-toggle-light-icon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+
+                    <!-- CTA Button -->
+                    <a href="http://127.0.0.1:8080/voting" class="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-slate-950 font-bold text-xs uppercase tracking-wider shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transition-all duration-300 transform hover:-translate-y-0.5">
+                        <span>Gunakan Suara</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Subbar -->
+        <div class="md:hidden border-t border-slate-800/80 bg-slate-950/80 px-4 py-2.5 flex justify-around text-xs font-semibold">
+            <a href="http://127.0.0.1:8080/home" class="flex items-center gap-1.5 py-1 px-3 rounded-lg text-amber-400 bg-amber-400/10">
+                <span>🏠</span> Home
+            </a>
+            <a href="http://127.0.0.1:8080/voting" class="flex items-center gap-1.5 py-1 px-3 rounded-lg text-slate-400">
+                <span>🗳️</span> Voting
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow">
+        <div class="relative overflow-hidden">
+    <!-- Background Decorative Glows -->
+    <div class="absolute top-10 left-1/2 -translate-x-1/2 w-96 sm:w-[600px] h-96 bg-amber-500/10 dark:bg-amber-400/10 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+    <div class="absolute top-1/3 right-0 w-80 h-80 bg-blue-600/10 dark:bg-blue-500/10 blur-[100px] rounded-full pointer-events-none -z-10"></div>
+
+    <!-- Hero Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20">
+        <div class="text-center max-w-4xl mx-auto">
+            
+            <!-- Badge -->
+            <div data-aos="fade-down" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-500 dark:text-amber-400 text-xs font-bold uppercase tracking-wider mb-6 shadow-sm">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                <span>Voting Online Resmi Paslon OSIS Periode 2026/2027</span>
+            </div>
+
+            <!-- Title -->
+            <h1 data-aos="fade-up" data-aos-delay="100" class="text-4xl sm:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-tight sm:leading-none mb-6">
+                Suarakan Aspirasimu,<br>
+                <span class="bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-500 bg-clip-text text-transparent drop-shadow-sm">
+                    Tentukan Masa Depan OSIS!
+                </span>
+            </h1>
+
+            <!-- Description -->
+            <p data-aos="fade-up" data-aos-delay="200" class="text-slate-600 dark:text-slate-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed mb-8">
+                Selamat datang di platform e-Voting Pemilihan Ketua & Wakil Ketua OSIS. Gunakan hak pilihmu secara jujur, bebas, dan rahasia demi mewujudkan sekolah yang lebih berprestasi dan inklusif.
+            </p>
+
+            <!-- CTA Action Buttons -->
+            <div data-aos="fade-up" data-aos-delay="300" class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="http://127.0.0.1:8080/voting" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-slate-950 font-extrabold text-base tracking-wide shadow-xl shadow-amber-400/25 hover:shadow-amber-400/40 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-3">
+                    <span>Mulai Memilih Sekarang</span>
+                    <span class="text-xl">🗳️</span>
+                </a>
+                <a href="#tata-cara" class="w-full sm:w-auto px-7 py-4 rounded-2xl bg-slate-200/80 dark:bg-slate-800/80 hover:bg-slate-300 dark:hover:bg-slate-700/80 text-slate-800 dark:text-white font-bold text-base transition-all duration-300 flex items-center justify-center gap-2 border border-slate-300/40 dark:border-slate-700/60">
+                    <span>Tata Cara Pemilihan</span>
+                    <span>📖</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Live Statistics Counter Cards Grid -->
+        <div data-aos="zoom-in-up" data-aos-delay="400" class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mt-16 max-w-5xl mx-auto">
+            
+            <div class="p-6 rounded-2xl bg-white dark:bg-[#0f172a]/80 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none text-center relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-16 h-16 bg-amber-400/10 rounded-bl-full pointer-events-none"></div>
+                <div class="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mb-1">1,310</div>
+                <div class="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400">Total DPT Pemilih</div>
+                <div class="text-[11px] text-amber-500 font-bold mt-2 flex items-center justify-center gap-1">
+                    <span>👥 Siswa & Guru</span>
+                </div>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-white dark:bg-[#0f172a]/80 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none text-center relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-16 h-16 bg-blue-500/10 rounded-bl-full pointer-events-none"></div>
+                <div class="text-3xl sm:text-4xl font-black text-amber-500 dark:text-amber-400 mb-1">3</div>
+                <div class="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400">Pasangan Calon</div>
+                <div class="text-[11px] text-slate-400 font-bold mt-2 flex items-center justify-center gap-1">
+                    <span>🌟 Kandidat Terbaik</span>
+                </div>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-white dark:bg-[#0f172a]/80 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none text-center relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-16 h-16 bg-emerald-500/10 rounded-bl-full pointer-events-none"></div>
+                <div class="text-3xl sm:text-4xl font-black text-emerald-500 mb-1">87.4%</div>
+                <div class="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400">Partisipasi Suara</div>
+                <div class="text-[11px] text-emerald-500 font-bold mt-2 flex items-center justify-center gap-1">
+                    <span>⚡ Real-time Update</span>
+                </div>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-white dark:bg-[#0f172a]/80 border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none text-center relative overflow-hidden group">
+                <div class="absolute top-0 right-0 w-16 h-16 bg-purple-500/10 rounded-bl-full pointer-events-none"></div>
+                <div class="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mb-1 mt-1">04:12:30</div>
+                <div class="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400">Sisa Waktu Voting</div>
+                <div class="text-[11px] text-purple-400 font-bold mt-2 flex items-center justify-center gap-1">
+                    <span>⏳ Ditutup Hari Ini</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Paslon Preview Highlight Cards -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-slate-200/10">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <span class="text-amber-500 dark:text-amber-400 font-extrabold text-xs uppercase tracking-widest">Kandidat Pemimpin</span>
+            <h2 class="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-1">Pasangan Calon Ketua & Wakil OSIS</h2>
+            <p class="text-slate-500 dark:text-slate-400 text-sm mt-2 max-w-xl mx-auto">Kenali visi, misi, dan gagasan dari setiap pasangan calon sebelum menentukan pilihanmu.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Paslon 01 -->
+            <div data-aos="fade-up" data-aos-delay="100" class="rounded-3xl bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xl hover:border-amber-400/50 transition-all duration-300 group flex flex-col justify-between">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="w-12 h-12 rounded-2xl bg-amber-400 text-slate-950 font-black text-xl flex items-center justify-center shadow-lg shadow-amber-400/20">01</span>
+                        <span class="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-semibold text-slate-600 dark:text-slate-300">Paslon No. 1</span>
+                    </div>
+                    <div class="h-44 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 p-4 flex items-center justify-center relative overflow-hidden mb-5">
+                        <div class="text-6xl group-hover:scale-110 transition-transform duration-300">👨‍🎓👩‍🎓</div>
+                        <div class="absolute bottom-2 left-3 right-3 text-center bg-slate-950/75 backdrop-blur-md py-1.5 px-3 rounded-xl border border-white/10 text-xs text-amber-300 font-bold">
+                            Fikri Ahmad & Nabila Putri
+                        </div>
+                    </div>
+                    <h3 class="font-extrabold text-lg text-slate-900 dark:text-white mb-2">OSIS Inovatif & Berkarakter</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-xs line-clamp-3 leading-relaxed">
+                        Mewujudkan OSIS yang responsif terhadap aspirasi siswa, mengedepankan teknologi digital, serta membentuk karakter kepemimpinan yang berakhlak mulia.
+                    </p>
+                </div>
+                <div class="p-6 pt-0">
+                    <a href="http://127.0.0.1:8080/voting" class="w-full py-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-amber-400 hover:text-slate-950 text-slate-800 dark:text-white font-bold text-xs flex items-center justify-center gap-2 transition-all duration-200">
+                        <span>Lihat Visi Misi & Pilih</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Paslon 02 -->
+            <div data-aos="fade-up" data-aos-delay="200" class="rounded-3xl bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xl hover:border-amber-400/50 transition-all duration-300 group flex flex-col justify-between">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="w-12 h-12 rounded-2xl bg-amber-400 text-slate-950 font-black text-xl flex items-center justify-center shadow-lg shadow-amber-400/20">02</span>
+                        <span class="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-semibold text-slate-600 dark:text-slate-300">Paslon No. 2</span>
+                    </div>
+                    <div class="h-44 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 p-4 flex items-center justify-center relative overflow-hidden mb-5">
+                        <div class="text-6xl group-hover:scale-110 transition-transform duration-300">👨‍🎓👨‍🎓</div>
+                        <div class="absolute bottom-2 left-3 right-3 text-center bg-slate-950/75 backdrop-blur-md py-1.5 px-3 rounded-xl border border-white/10 text-xs text-amber-300 font-bold">
+                            Rizky Pratama & Dimas Setiawan
+                        </div>
+                    </div>
+                    <h3 class="font-extrabold text-lg text-slate-900 dark:text-white mb-2">Aksi Nyata & Kolaboratif</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-xs line-clamp-3 leading-relaxed">
+                        Mendorong kegiatan ekstrakurikuler yang aktif, wadah seni dan olahraga yang inklusif, serta transparansi kegiatan OSIS berbasis digital.
+                    </p>
+                </div>
+                <div class="p-6 pt-0">
+                    <a href="http://127.0.0.1:8080/voting" class="w-full py-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-amber-400 hover:text-slate-950 text-slate-800 dark:text-white font-bold text-xs flex items-center justify-center gap-2 transition-all duration-200">
+                        <span>Lihat Visi Misi & Pilih</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Paslon 03 -->
+            <div data-aos="fade-up" data-aos-delay="300" class="rounded-3xl bg-white dark:bg-[#0f172a] border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xl hover:border-amber-400/50 transition-all duration-300 group flex flex-col justify-between">
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="w-12 h-12 rounded-2xl bg-amber-400 text-slate-950 font-black text-xl flex items-center justify-center shadow-lg shadow-amber-400/20">03</span>
+                        <span class="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-semibold text-slate-600 dark:text-slate-300">Paslon No. 3</span>
+                    </div>
+                    <div class="h-44 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 p-4 flex items-center justify-center relative overflow-hidden mb-5">
+                        <div class="text-6xl group-hover:scale-110 transition-transform duration-300">👩‍🎓👩‍🎓</div>
+                        <div class="absolute bottom-2 left-3 right-3 text-center bg-slate-950/75 backdrop-blur-md py-1.5 px-3 rounded-xl border border-white/10 text-xs text-amber-300 font-bold">
+                            Siti Rahma & Amanda Zahrani
+                        </div>
+                    </div>
+                    <h3 class="font-extrabold text-lg text-slate-900 dark:text-white mb-2">Harmoni Siswa & Edukasi Lingkungan</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-xs line-clamp-3 leading-relaxed">
+                        Fokus pada kesehatan mental siswa, sekolah ramah lingkungan, serta peningkatan jiwa kewirausahaan siswa melalui event sekolah secara berkala.
+                    </p>
+                </div>
+                <div class="p-6 pt-0">
+                    <a href="http://127.0.0.1:8080/voting" class="w-full py-3 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-amber-400 hover:text-slate-950 text-slate-800 dark:text-white font-bold text-xs flex items-center justify-center gap-2 transition-all duration-200">
+                        <span>Lihat Visi Misi & Pilih</span>
+                        <span>→</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Tata Cara Pemilihan Section -->
+    <section id="tata-cara" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="bg-slate-900 dark:bg-[#0d1322] border border-slate-800 rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+            <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-amber-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="text-center max-w-2xl mx-auto mb-12" data-aos="fade-up">
+                <span class="text-amber-400 font-extrabold text-xs uppercase tracking-widest">Panduan Pemilih</span>
+                <h2 class="text-3xl font-black text-white mt-1">4 Langkah Mudah Memberikan Suara</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-10">
+                
+                <div data-aos="fade-up" data-aos-delay="100" class="bg-slate-950/60 p-6 rounded-2xl border border-slate-800/80">
+                    <div class="w-10 h-10 rounded-xl bg-amber-400/20 text-amber-400 font-black flex items-center justify-center text-lg mb-4">1</div>
+                    <h4 class="font-bold text-white text-base mb-1">Masuk Halaman Voting</h4>
+                    <p class="text-slate-400 text-xs leading-relaxed">Klik tombol "Voting Paslon" pada navigasi atau tombol utama.</p>
+                </div>
+
+                <div data-aos="fade-up" data-aos-delay="200" class="bg-slate-950/60 p-6 rounded-2xl border border-slate-800/80">
+                    <div class="w-10 h-10 rounded-xl bg-amber-400/20 text-amber-400 font-black flex items-center justify-center text-lg mb-4">2</div>
+                    <h4 class="font-bold text-white text-base mb-1">Pelajari Visi & Misi</h4>
+                    <p class="text-slate-400 text-xs leading-relaxed">Buka detail setiap Paslon untuk memahami program kerja yang ditawarkan.</p>
+                </div>
+
+                <div data-aos="fade-up" data-aos-delay="300" class="bg-slate-950/60 p-6 rounded-2xl border border-slate-800/80">
+                    <div class="w-10 h-10 rounded-xl bg-amber-400/20 text-amber-400 font-black flex items-center justify-center text-lg mb-4">3</div>
+                    <h4 class="font-bold text-white text-base mb-1">Klik "Gunakan Hak Pilih"</h4>
+                    <p class="text-slate-400 text-xs leading-relaxed">Pilih tombol kandidat pilihanmu dan konfirmasi dialog SweetAlert2.</p>
+                </div>
+
+                <div data-aos="fade-up" data-aos-delay="400" class="bg-slate-950/60 p-6 rounded-2xl border border-slate-800/80">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 font-black flex items-center justify-center text-lg mb-4">4</div>
+                    <h4 class="font-bold text-white text-base mb-1">Suara Sah & Real-time</h4>
+                    <p class="text-slate-400 text-xs leading-relaxed">Suara Anda akan tersimpan secara otomatis secara rahasia dan sah!</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+    </main>
+
+    <!-- Modern Footer -->
+    <footer class="bg-slate-900 dark:bg-[#070a12] border-t border-slate-200/10 py-12 text-slate-400 text-sm mt-16 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="w-8 h-8 rounded-xl bg-amber-400 flex items-center justify-center text-slate-950 font-bold text-sm">OSIS</div>
+                        <span class="font-bold text-white text-lg">E-Voting Pemilihan Ketua OSIS</span>
+                    </div>
+                    <p class="text-slate-400 text-xs sm:text-sm max-w-md leading-relaxed">
+                        Sistem Pemilihan Ketua & Wakil Ketua OSIS berbasis digital yang transparan, jujur, akuntabel, dan aman untuk mewujudkan kepemimpinan siswa yang unggul dan berintegritas.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-3">Navigasi</h4>
+                    <ul class="space-y-2 text-xs sm:text-sm">
+                        <li><a href="http://127.0.0.1:8080/home" class="hover:text-amber-400 transition-colors">Beranda Utama</a></li>
+                        <li><a href="http://127.0.0.1:8080/voting" class="hover:text-amber-400 transition-colors">Bilik Suara (Voting)</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold text-sm uppercase tracking-wider mb-3">Dukungan</h4>
+                    <ul class="space-y-2 text-xs sm:text-sm">
+                        <li class="flex items-center gap-2"><span class="text-amber-400">🛡️</span> Keamanan Terjamin</li>
+                        <li class="flex items-center gap-2"><span class="text-amber-400">⚡</span> Real-time Counting</li>
+                        <li class="flex items-center gap-2"><span class="text-amber-400">🔒</span> Kerahasiaan Pemilih</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+                <p>&copy; 2026 Panitia Pemilihan Ketua OSIS (PILKETOS). All rights reserved.</p>
+                <div class="flex items-center gap-2">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-amber-400 font-medium">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> System Active
+                    </span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        AOS.init();
+    </script>
+    <script src="../assets/scripts/page.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belajar Chart.js</title>
+    
+    <!-- 1. Masukkan CDN Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .controls {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 8px 12px;
+            cursor: pointer;
+            background-color: #36A2EB;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #2589cc;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Demo Chart.js</h2>
+        
+        <!-- Tombol untuk mencoba berbagai jenis chart secara interaktif -->
+        <div class="controls">
+            <button onclick="tampilkanBar()">Bar Chart</button>
+            <button onclick="tampilkanLine()">Line Chart</button>
+            <button onclick="tampilkanPie()">Pie Chart</button>
+            <button onclick="tampilkanRadar()">Radar Chart</button>
+        </div>
+
+        <!-- 2. Siapkan elemen Canvas sebagai wadah grafik -->
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        // Global variabel untuk menyimpan instance chart
+        let currentChart = null;
+
+        function renderChart(name, value, labelsData) {
+            const ctx = document.getElementById('myChart').getContext('2d');
+            
+            // Hancurkan chart sebelumnya jika ada agar tidak tumpang tindih (bug overlapping)
+            if (currentChart) {
+                currentChart.destroy();
+            }
+
+            let config = null;
+
+            // --- Pilihan Jenis Chart ---
+            if (name === 'bar') {
+                config = {
+                    type: 'bar',
+                    data: {
+                        labels: labelsData,
+                        datasets: [{
+                            label: 'Data Penjualan',
+                            data: value,
+                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+                        }]
+                    }
+                };
+            } 
+            else if (name === 'line') {
+                config = {
+                    type: 'line',
+                    data: {
+                        labels: labelsData,
+                        datasets: [{
+                            label: 'Grafik Tren',
+                            data: value,
+                            borderColor: '#36A2EB',
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            fill: true,
+                            tension: 0.3
+                        }]
+                    }
+                };
+            } 
+            else if (name === 'pie') {
+                config = {
+                    type: 'pie',
+                    data: {
+                        labels: labelsData,
+                        datasets: [{
+                            data: value,
+                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+                        }]
+                    }
+                };
+            }
+            else if (name === 'radar') {
+                config = {
+                    type: 'radar',
+                    data: {
+                        labels: labelsData,
+                        datasets: [{
+                            label: 'Statistik Kemampuan',
+                            data: value,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: '#FF6384',
+                            pointBackgroundColor: '#FF6384'
+                        }]
+                    }
+                };
+            }
+
+            // Render chart baru ke dalam canvas
+            if (config) {
+                currentChart = new Chart(ctx, config);
+            }
+        }
+
+        // --- Fungsi Bantuan untuk Tombol ---
+        function tampilkanBar() {
+            renderChart('bar', [12, 19, 3, 5, 2], ['Jan', 'Feb', 'Mar', 'Apr', 'Mei']);
+        }
+
+        function tampilkanLine() {
+            renderChart('line', [65, 59, 80, 81, 56], ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat']);
+        }
+
+        function tampilkanPie() {
+            renderChart('pie', [30, 50, 20], ['Desktop', 'Mobile', 'Tablet']);
+        }
+
+        function tampilkanRadar() {
+            renderChart('radar', [80, 90, 70, 85, 95], ['Speed', 'Reliability', 'Comfort', 'Safety', 'Design']);
+        }
+
+        // Jalankan default chart saat halaman pertama kali dibuka
+        tampilkanBar();
+    </script>
+
+</body>
+</html>
