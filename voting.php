@@ -27,6 +27,7 @@ echo $_SESSION['token'];
         <ul class="flex">
             <li class="text-blue-600 hover:text-blue-400 p-2 "><a href="hasil.php">Live Voting</a></li>
             <li class="text-blue-600 hover:text-blue-400 p-2 "><a href="logout.php">Logout</a></li>
+            <li class="text-blue-600 hover:text-blue-400 p-2 "><button type="submit" name="btn-logout">Logout</button></li>
         </ul>
     </nav>
     <p>

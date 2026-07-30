@@ -1,135 +1,36 @@
 <?php
-
 session_start();
-require_once __DIR__ . "/api/conn.php";
 
+// Token rahasia yang ditentukan panitia (bebas kamu ganti)
+define('VOTING_TOKEN', 'SMKINFO2026'); 
+
+$error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // $input_token = trim($_POST['token'] ?? '');
 
-    $token = trim($_POST['token'] ?? '');
-
-    if (empty($token)) {
-        $error = "Token tidak boleh kosong";
-    } else {
-
-        $siswa = $conn->login_siswa($token);
-
-        if (!$siswa) {
-
-            $error = "Token tidak ditemukan";
-
-        } elseif ($siswa['voted'] != 0) {
-
-            $error = "Anda sudah melakukan voting";
-
-        } else {
-
-            $_SESSION['token'] = $siswa['token'];
-            $_SESSION['nama'] = $siswa['nama'];
-            $_SESSION['kelas'] = $siswa['kelas'];
-
-            header("Location: voting.php");
-            exit;
-        }
-    }
+    // if (empty($input_token)) {
+    //     $error = 'Token voting wajib diisi!';
+    // } else if (strtoupper($input_token) === VOTING_TOKEN) {
+    //     // Simpan status login di session
+    //     $_SESSION['voter_logged_in'] = true;
+        
+    //     // Redirect langsung ke beranda/halaman voting
+    //     header('Location: index.php');
+    //     exit;
+    // } else {
+    //     $error = 'Token tidak valid! Silahkan tanyakan panitia OSIS.';
+    // }
 }
-
-
-if (isset($_SESSION['token'])) {
-    header("Location: voting.php");
-    exit;
-}
-?>
-
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login PIKETOS</title>
-</head>
-<body>
-
-    <h1>PIKETOS</h1>
-
-    <?php if (isset($error)) : ?>
-        <p><?= htmlspecialchars($error) ?></p>
-    <?php endif; ?>
-
-    <form method="post">
-
-        <input
-            type="text"
-            name="token"
-            placeholder="Masukkan Token"
-            required
-        >
-
-        <button type="submit">
-            Masuk dan Mulai Voting
-        </button>
-
-    </form>
-
-</body>
-</html>
-<?php
-
-session_start();
-require_once __DIR__ . "/api/conn.php";
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $token = trim($_POST['token'] ?? '');
-
-    if (empty($token)) {
-        $error = "Token tidak boleh kosong";
-    } else {
-
-        $siswa = $conn->login_siswa($token);
-
-        if (!$siswa) {
-
-            $error = "Token tidak ditemukan";
-
-        } elseif ($siswa['voted'] != 0) {
-
-            $error = "Anda sudah melakukan voting";
-
-        } else {
-
-            $_SESSION['token'] = $siswa['token'];
-            $_SESSION['nama'] = $siswa['nama'];
-            $_SESSION['kelas'] = $siswa['kelas'];
-
-            header("Location: voting.php");
-            exit;
-        }
-    }
-}
-
-
-// if (isset($_SESSION['token'])) {
-//     header("Location: voting.php");
-//     exit;
-// }
 ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Pemilihan OSIS - PIKETOS</title>
+    <title>Akses Voting — Pemilihan Ketua OSIS</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Font: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Inter & Lucide Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -146,17 +47,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     </script>
+    <!-- Font Inter & Lucide Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        /* Custom Background Image Overlay */
-        .bg-wallpaper {
-            background-image: linear-gradient(to bottom, rgba(15, 23, 42, 0.55), rgba(15, 23, 42, 0.65)), 
-                              url('assets/bg-school.jpg');
-            background-position: center;
-            background-size: cover;
-        }
+        body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
 <body class="bg-brand-darkblue text-slate-100 min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
