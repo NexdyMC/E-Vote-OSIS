@@ -336,7 +336,7 @@ $idVideoTutorial = 'ID_VIDEO_YOUTUBE_ANDA';
             </div>
 
             <!-- kardidat : nama siswa -->
-            <p class="text-2xl text-center font-bold text-brand-yellow my-4 line-clamp-1">
+            <p class="text-2xl text-center font-bold my-4 line-clamp-1">
                 <?= $row['nama'] ?>
             </p> 
             <div class="px-4 space-y-4 scrollbar-thin scrollbar-thumb-slate-700">
