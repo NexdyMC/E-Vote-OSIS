@@ -20,6 +20,7 @@ $paslon_list = $conn->mysql_select("tb_kardidat");
     <title>Bilik Suara — E-Voting OSIS SMK Informatika</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="assets/scripts/tailwind.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -142,7 +143,7 @@ $paslon_list = $conn->mysql_select("tb_kardidat");
                                 <i data-lucide="compass" class="w-3.5 h-3.5 text-brand-yellow"></i> Visi
                             </h4>
                             <p class="text-xs text-slate-300 leading-relaxed">
-                                <?= $paslon['visi'] ?>
+                                <?= nl2br($paslon['misi']); ?>
                             </p>
                         </div>
 

@@ -42,7 +42,8 @@ $idVideoTutorial = 'ID_VIDEO_YOUTUBE_ANDA';
 <title>Pemilihan Ketua OSIS — SMK Informatika Sumedang</title>
 
 <!-- Tailwind CDN -->
-<script src="https://cdn.tailwindcss.com"></script>
+<!-- <script src="https://cdn.tailwindcss.com"></script> -->
+ <script src="assets/scripts/tailwind.js"></script>
 <script>
   tailwind.config = {
     theme: {
@@ -169,13 +170,17 @@ $idVideoTutorial = 'ID_VIDEO_YOUTUBE_ANDA';
 </head>
 <body class="bg-white text-navy-900 antialiased">
 
-<!-- ================= NAVBAR ================= -->
+<!-- header : navbar -->
 <header class="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
   <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    
+    <!-- navbar : title -->
     <div class="flex items-center gap-2">
       <div class="w-9 h-9 rounded-xl bg-primary-700 flex items-center justify-center font-display font-bold text-accent-400">SI</div>
-      <span class="font-display font-semibold text-sm sm:text-base text-navy-900">SMK Informatika <span class="text-primary-600">Sumedang</span></span>
+      <span class="font-display font-semibold text-sm sm:text-base text-navy-900">E-Vote<span class="text-primary-600"> OSIS</span></span>
     </div>
+
+    <!-- navbar : menu -->
     <div class="hidden md:flex items-center gap-8 text-sm font-medium text-navy-800">
       <a href="#beranda" class="hover:text-primary-600 transition">Beranda</a>
       <a href="#tahapan" class="hover:text-primary-600 transition">Tahapan</a>
@@ -185,6 +190,7 @@ $idVideoTutorial = 'ID_VIDEO_YOUTUBE_ANDA';
       <a href="#video" class="hover:text-primary-600 transition">Video</a>
     </div>
 
+    <!-- navbar : button -->
     <?php if ($isLoggedIn): ?>
       <div class="flex items-center gap-3">
         <span class="hidden sm:block text-sm text-navy-700">Hai, <span class="font-semibold"><?= htmlspecialchars($namaSiswa) ?></span></span>
@@ -320,21 +326,53 @@ $idVideoTutorial = 'ID_VIDEO_YOUTUBE_ANDA';
       <?php
         $kardidat = $conn->mysql_select("tb_kardidat");
         foreach ($kardidat as $row) :?>
-        <div class="card-kandidat relative bg-white rounded-3xl shadow-[0_8px_30px_rgb(15,23,42,0.06)] overflow-hidden border border-slate-100">
 
-          <img src="upload/photo/<?=  $row['image']; ?>" alt="<?= $row['nama'];?>" class="w-full h-56 object-cover">
+        <div class="card-kandidat shrink-0 flex flex-col justify-between relative group bg-white rounded-3xl shadow-[0_8px_30px_rgb(15,23,42,0.06)] overflow-hidden border border-2 border-slate-300/80 ">
+          <div class="text-left">
 
-          <div class="p-6">
-            <h3 class="font-display font-semibold text-lg text-navy-900 mb-2"><?= htmlspecialchars($row['nama']) ?></h3>
-            <p class="text-sm text-navy-600 leading-relaxed mb-6"><?= htmlspecialchars($row['visi']) ?></p>
-              <a href="login.php"
-                class="btn-cta w-full font-display font-semibold text-sm px-5 py-3 rounded-xl bg-slate-100 text-navy-500 hover:bg-slate-200 flex items-center justify-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="5" y="11" width="14" height="9" rx="2"/>
-                  <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
-                </svg>
-                Login untuk Voting
-              </a>
+            <!-- kardidat : image -->
+            <div class="relative rounded-2xl overflow-hidden bg-slate-800 aspect-[4/3] mb-5">
+              <img src="upload/photo/<?=  $row['image']; ?>" alt="Kardidat <?= $row['nama'];?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+
+            <!-- kardidat : nama siswa -->
+            <p class="text-2xl text-center font-bold text-brand-yellow my-4 line-clamp-1">
+                <?= $row['nama'] ?>
+            </p> 
+            <div class="px-4 space-y-4 scrollbar-thin scrollbar-thumb-slate-700">
+
+              <!-- kardidat : Visi -->
+              <div class="bg-slate-100/60 p-3 rounded-xl border-slate-200/80 border-2">
+                <h4 class="text-md font-bold uppercase text-brand-blue mb-1 flex items-center gap-1">
+                    <i data-lucide="compass" class="w-3.5 h-3.5 text-brand-yellow"></i> Visi
+                </h4>
+                <p class="text-sm text-bland-blue leading-relaxed ">
+                    <?= nl2br($row['visi']); ?>
+                </p>
+              </div>
+
+              <!-- kardidat : Misi -->
+              <div class="bg-slate-100/60 p-3 rounded-xl border-slate-200/80 border-2">
+                <h4 class="text-md font-bold uppercase text-brand-blue mb-1 flex items-center gap-1">
+                    <i data-lucide="compass" class="w-3.5 h-3.5 text-brand-yellow"></i> Misi
+                </h4>
+                <p class="text-sm text-bland-blue leading-relaxed ">
+                    <?= nl2br($row['misi']); ?>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- kardidat : button -->
+          <div class="px-4 py-4 space-y-4 text-center">
+            <a href="login.php"
+              class="btn-cta w-full font-display font-semibold text-sm px-5 py-3 rounded-xl border-2 border-primary-700 text-primary-700 bg-slate-100 text-navy-500 hover:bg-primary-700 hover:text-white flex items-center justify-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="11" width="14" height="9" rx="2"/>
+                <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+              </svg>
+              Login untuk Voting
+            </a>
           </div>
         </div>
       <?php endforeach; ?>
@@ -447,7 +485,7 @@ $idVideoTutorial = 'ID_VIDEO_YOUTUBE_ANDA';
             </div>
 
             <!-- Card Konten -->
-            <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-[0_8px_30px_rgb(15,23,42,0.05)] flex-1 flex flex-col justify-between hover:-translate-y-1 transition-transform duration-300">
+            <div class="bg-white border-2 border-slate-300 rounded-2xl p-6 shadow-[0_8px_30px_rgb(15,23,42,0.05)] flex-1 flex flex-col justify-between hover:-translate-y-1 transition-transform duration-300">
               <div>
                 <h3 class="font-display font-semibold text-base text-navy-900 mb-2">
                   <?= $tp['judul'] ?>
@@ -516,6 +554,7 @@ $idVideoTutorial = 'ID_VIDEO_YOUTUBE_ANDA';
 </footer>
 
 <script>
+
   // ===================== COUNTDOWN VOTING =====================
   const targetVoting = new Date(<?= $waktuVotingBerakhir ?> * 1000).getTime();
 

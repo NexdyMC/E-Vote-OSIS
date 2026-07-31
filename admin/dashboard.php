@@ -24,22 +24,7 @@ if (isset($_GET["v"])) {
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- <script src="../assets/scripts/tailwind.js"></script> -->
 </head>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<body>
-=======
 <body> 
->>>>>>> d1ce069 (update a layout login)
-=======
-<body> 
-=======
-<<<<<<< HEAD
-<body>
-=======
-<body> 
->>>>>>> d1ce069 (update a layout login)
->>>>>>> eb06e21 (update a code index and voting)
->>>>>>> 6e86f29 (update a code index and voting)
   <nav>
     <ul class="flex">
       <li class="text-blue-600 hover:text-blue-400 p-2 "><a href="add_siswa.php">New Siswa</a></li>
