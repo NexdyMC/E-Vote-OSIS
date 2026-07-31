@@ -6,167 +6,23 @@ session_start();
 $isLoggedIn = isset($_SESSION['user']);
 $namaSiswa  = $isLoggedIn ? $_SESSION['user']['nama'] : null;
 
-
-// $kandidat = [
-//     [
-//         'nomor' => 1,
-//         'nama'  => 'Aditya Pratama & Salsa Nabila',
-//         'foto'  => 'https://placehold.co/400x400/1E3A8A/F8FAFC?text=Paslon+01',
-//         'visi'  => 'Mewujudkan OSIS yang inklusif, kolaboratif, dan berbasis teknologi untuk seluruh warga sekolah.',
-//     ],
-//     [
-//         'nomor' => 2,
-//         'nama'  => 'Bima Nugraha & Keisya Aulia',
-//         'foto'  => 'https://placehold.co/400x400/2563EB/F8FAFC?text=Paslon+02',
-//         'visi'  => 'OSIS yang mendengar, bergerak cepat, dan membangun ekosistem organisasi yang transparan.',
-//     ],
-//     [
-//         'nomor' => 3,
-//         'nama'  => 'Citra Ramadhani & Farrel Hidayat',
-//         'foto'  => 'https://placehold.co/400x400/0F172A/FACC15?text=Paslon+03',
-//         'visi'  => 'Sinergi siswa dan sekolah melalui program kerja yang nyata, kreatif, dan berkelanjutan.',
-//     ],
-// ];
-
-// --- WAKTU BATAS AKHIR VOTING (ganti sesuai jadwal sekolah) ---
-$waktuVotingBerakhir = strtotime('2026-09-26 08:00:00'); // format: Y-m-d H:i:s
-
-// --- ID VIDEO YOUTUBE TUTORIAL VOTING (ganti dengan ID video asli) ---
-$idVideoTutorial = 'ID_VIDEO_YOUTUBE_ANDA';
+$waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
 ?>
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pemilihan Ketua OSIS — SMK Informatika Sumedang</title>
-
-<!-- Tailwind CDN -->
-<!-- <script src="https://cdn.tailwindcss.com"></script> -->
- <script src="assets/scripts/tailwind.js"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          navy: {
-            950: '#0B1424',
-            900: '#0F172A',
-            800: '#152238',
-          },
-          primary: {
-            50:  '#EEF3FF',
-            100: '#DCE7FF',
-            500: '#2563EB',
-            600: '#1D4ED8',
-            700: '#1E3A8A',
-          },
-          accent: {
-            300: '#FDE68A',
-            400: '#FACC15',
-            500: '#EAB308',
-          },
-        },
-        fontFamily: {
-          display: ['Poppins', 'sans-serif'],
-          body: ['Inter', 'sans-serif'],
-        },
-      }
-    }
-  }
-</script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-  html { font-family: 'Inter', sans-serif; }
-  h1, h2, h3, .font-display { font-family: 'Poppins', sans-serif; }
-
-  /* ---------- Wave / slanted dividers between sections ---------- */
-  .divider { display: block; width: 100%; line-height: 0; }
-  .divider svg { width: 100%; height: 90px; display: block; }
-
-  /* ---------- Soft glow blobs on hero ---------- */
-  .blob {
-    position: absolute;
-    border-radius: 9999px;
-    filter: blur(60px);
-    opacity: 0.35;
-    pointer-events: none;
-  }
-
-  /* ---------- Timeline glowing connector ---------- */
-  .timeline-line {
-    background: linear-gradient(180deg, #FACC15 0%, #38BDF8 50%, #FACC15 100%);
-    box-shadow: 0 0 12px 2px rgba(250, 204, 21, 0.55), 0 0 24px 6px rgba(56, 189, 248, 0.25);
-    animation: pulseGlow 3s ease-in-out infinite;
-  }
-  @keyframes pulseGlow {
-    0%, 100% { box-shadow: 0 0 10px 2px rgba(250,204,21,.45), 0 0 22px 6px rgba(56,189,248,.2); }
-    50%      { box-shadow: 0 0 18px 4px rgba(250,204,21,.75), 0 0 32px 10px rgba(56,189,248,.4); }
-  }
-  .timeline-dot {
-    box-shadow: 0 0 0 4px rgba(15,23,42,1), 0 0 14px 3px rgba(250,204,21,.8);
-  }
-  .timeline-dot.live {
-    animation: livePulse 1.6s ease-in-out infinite;
-  }
-  @keyframes livePulse {
-    0%, 100% { box-shadow: 0 0 0 4px rgba(15,23,42,1), 0 0 10px 2px rgba(56,189,248,.7); }
-    50%      { box-shadow: 0 0 0 4px rgba(15,23,42,1), 0 0 22px 8px rgba(56,189,248,1); }
-  }
-
-  /* ---------- Candidate card hover ---------- */
-  .card-kandidat { transition: transform .35s ease, box-shadow .35s ease; }
-  .card-kandidat:hover { transform: translateY(-8px); box-shadow: 0 20px 40px -12px rgba(30,58,138,0.25); }
-
-  /* ---------- Button hover shine ---------- */
-  .btn-cta { transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease; }
-  .btn-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -6px rgba(37,99,235,0.45); }
-  .btn-accent:hover { box-shadow: 0 10px 25px -6px rgba(234,179,8,0.5); }
-
-  @media (prefers-reduced-motion: reduce) {
-    .timeline-line, .timeline-dot.live { animation: none !important; }
-  }
-
-  /* ---------- Countdown: glowing horizontal connector ---------- */
-  .countdown-line {
-    background: linear-gradient(90deg, #FACC15 0%, #38BDF8 50%, #FACC15 100%);
-    animation: pulseGlowH 3s ease-in-out infinite;
-  }
-  @keyframes pulseGlowH {
-    0%, 100% { box-shadow: 0 0 10px 2px rgba(250,204,21,.45), 0 0 22px 6px rgba(56,189,248,.2); }
-    50%      { box-shadow: 0 0 18px 4px rgba(250,204,21,.75), 0 0 32px 10px rgba(56,189,248,.4); }
-  }
-  .countdown-box {
-    box-shadow: 0 0 0 4px rgba(15,23,42,1), 0 0 16px 2px rgba(250,204,21,.35);
-  }
-  .countdown-number {
-    text-shadow: 0 0 18px rgba(250,204,21,.45);
-    font-variant-numeric: tabular-nums;
-  }
-
-  /* ---------- Tips timeline (light) reuses glow dot/line, tuned for light bg ---------- */
-  .timeline-dot-light {
-    box-shadow: 0 0 0 4px #F8FAFC, 0 0 14px 3px rgba(37,99,235,.55);
-  }
-
-  /* ---------- Video facade play button ---------- */
-  .play-btn {
-    transition: transform .25s ease, box-shadow .25s ease;
-    box-shadow: 0 0 0 0 rgba(250,204,21,.55);
-    animation: playPulse 2.2s ease-in-out infinite;
-  }
-  @keyframes playPulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(250,204,21,.45); }
-    50%      { box-shadow: 0 0 0 16px rgba(250,204,21,0); }
-  }
-  .video-facade:hover .play-btn { transform: scale(1.1); }
-
-  @media (prefers-reduced-motion: reduce) {
-    .countdown-line, .play-btn { animation: none !important; }
-  }
-</style>
+<title>E-Vote OSIS</title>
+  <!-- CDN : Tailwind css  -->
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  <script src="assets/scripts/tailwind.js"></script>
+  <script src="assets/scripts/tailwind.config.js"></script>
+  <!-- link : font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <!-- link : style css -->
+  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body class="bg-white text-navy-900 antialiased">
 
@@ -204,8 +60,8 @@ $idVideoTutorial = 'ID_VIDEO_YOUTUBE_ANDA';
 
 <!-- section : hero -->
 <section id="beranda" class="relative overflow-hidden bg-[#F8FAFC] pt-40 pb-32">
-  <div class="blob w-72 h-72 bg-primary-500 -top-10 -left-10"></div>
-  <div class="blob w-80 h-80 bg-accent-400 top-24 right-0"></div>
+  <div class="absolute rounded-full blur-3xl opacity-35 pointer-events-none w-72 h-72 bg-primary-500 -top-10 -left-10"></div>
+  <div class="absolute rounded-full blur-3xl opacity-35 pointer-events-none w-80 h-80 bg-accent-400 top-24 right-0"></div>
 
   <div class="relative max-w-6xl mx-auto px-6 text-center">
     <h1 class="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl leading-tight mt-6 text-navy-900">
@@ -240,7 +96,7 @@ $idVideoTutorial = 'ID_VIDEO_YOUTUBE_ANDA';
 
 <!-- section : time line -->
 <section id="tahapan" class="relative bg-navy-900 pt-28 pb-32 overflow-hidden">
-  <div class="blob w-96 h-96 bg-primary-600 top-1/3 -right-20 opacity-20"></div>
+  <div class="absolute rounded-full blur-3xl opacity-35 pointer-events-none w-96 h-96 bg-primary-600 top-1/3 -right-20 opacity-20"></div>
 
   <div class="relative max-w-5xl mx-auto px-6">
     <div class="text-center mb-20">
@@ -389,8 +245,8 @@ $idVideoTutorial = 'ID_VIDEO_YOUTUBE_ANDA';
 
 <!-- section : countdown voting -->
 <section id="countdown" class="relative bg-navy-900 pt-28 pb-32 overflow-hidden">
-  <div class="blob w-96 h-96 bg-primary-600 -top-16 -left-16 opacity-20"></div>
-  <div class="blob w-72 h-72 bg-accent-400 bottom-0 right-0 opacity-10"></div>
+  <div class="absolute rounded-full blur-3xl opacity-35 pointer-events-none w-96 h-96 bg-primary-600 -top-16 -left-16 opacity-20"></div>
+  <div class="absolute rounded-full blur-3xl opacity-35 pointer-events-none w-72 h-72 bg-accent-400 bottom-0 right-0 opacity-10"></div>
 
   <div class="relative max-w-4xl mx-auto px-6 text-center">
     <span class="text-xs sm:text-sm font-semibold tracking-widest text-accent-400 uppercase">Jangan Sampai Terlewat</span>
@@ -431,8 +287,8 @@ $idVideoTutorial = 'ID_VIDEO_YOUTUBE_ANDA';
 
 <!-- section : tips voting -->
 <section id="tips" class="relative bg-[#F8FAFC] pt-28 pb-32 overflow-hidden">
-  <div class="blob w-72 h-72 bg-primary-500 top-10 -right-10 opacity-10"></div>
-  <div class="blob w-80 h-80 bg-accent-400 bottom-10 -left-10 opacity-10"></div>
+  <div class="absolute rounded-full blur-3xl opacity-35 pointer-events-none w-72 h-72 bg-primary-500 top-10 -right-10 opacity-10"></div>
+  <div class="absolute rounded-full blur-3xl opacity-35 pointer-events-none w-80 h-80 bg-accent-400 bottom-10 -left-10 opacity-10"></div>
 
   <div class="relative max-w-7xl mx-auto px-6">
     <div class="text-center mb-16">
@@ -513,7 +369,7 @@ $idVideoTutorial = 'ID_VIDEO_YOUTUBE_ANDA';
 
 <!-- section : video tutorial -->
 <section id="video" class="relative bg-navy-900 pt-28 pb-32 overflow-hidden">
-  <div class="blob w-96 h-96 bg-primary-600 top-0 right-0 opacity-15"></div>
+  <div class="absolute rounded-full blur-3xl opacity-35 pointer-events-none w-96 h-96 bg-primary-600 top-0 right-0 opacity-15"></div>
 
   <div class="relative max-w-3xl mx-auto px-6">
     <div class="text-center mb-14">
