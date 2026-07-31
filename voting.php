@@ -3,10 +3,10 @@ require_once __DIR__ . "/api/conn.php";
 session_start();
 
 
-if (!isset($_SESSION['token'])) {
-    header("Location: index.php");
-    exit;
-}
+// if (!isset($_SESSION['token'])) {
+//     header("Location: index.php");
+//     exit;
+// }
 
 $paslon_list = $conn->mysql_select("tb_kardidat");
 
@@ -98,14 +98,17 @@ $paslon_list = $conn->mysql_select("tb_kardidat");
         <!-- CONTAINER SCROLL HORIZONTAL (CAROUSEL) -->
         <div id="cardContainer" class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar pb-6 pt-2">
 
-            <?php foreach ($paslon_list as $paslon): ?>
+            <?php 
+            $no = 1;
+            foreach ($paslon_list as $paslon): 
+            ?>
             <!-- INDIVIDUAL CARD PASLON -->
             <div class="snap-center shrink-0 w-[300px] sm:w-[380px] bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-2xl flex flex-col justify-between relative group hover:border-slate-700 transition-all">
                 
                 <!-- Badge Nomor Urut -->
                 <div class="absolute top-8 left-8 z-10">
                     <span class="bg-brand-yellow text-brand-darkblue text-sm font-extrabold px-3 py-1.5 rounded-xl shadow-md flex items-center gap-1">
-                        <span class="text-[10px] font-bold opacity-75">NO</span> <?= $paslon['no_urut'] ?>
+                        <span class="text-[10px] font-bold opacity-75">NO</span> <?= $no++; ?>
                     </span>
                 </div>
 
