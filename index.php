@@ -18,7 +18,7 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
   <!-- <script src="https://cdn.tailwindcss.com"></script> -->
   <script src="assets/scripts/tailwind.js"></script>
   <script src="assets/scripts/tailwind.config.js"></script>
-  <!-- link : font -->
+  <!-- link : font google -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
   <!-- link : style css -->

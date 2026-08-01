@@ -35,10 +35,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 
-// if (isset($_SESSION['token'])) {
-//     header("Location: voting.php");
-//     exit;
-// }
+
+if (isset($_SESSION['token'])) {
+    header("Location: voting.php");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -144,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php endif; ?>
 
             <!-- Form 1 Input -->
-            <form action="voting.php" method="POST" class="space-y-6">
+            <form action="" method="POST" class="space-y-6">
                 
                 <!-- Single Input: TOKEN -->
                 <div>
