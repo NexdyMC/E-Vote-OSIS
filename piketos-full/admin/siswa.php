@@ -41,7 +41,7 @@ if (!$is_ajax) {
     require_once __DIR__ . '/../layout/partials/navbar.php';
     ?>
     <main id="main-content" class="flex-1 p-4 sm:p-8 overflow-y-auto">
-<?php endif; ?>
+<?php } ?>
 
   <?= $pesan_alert ?>
 
