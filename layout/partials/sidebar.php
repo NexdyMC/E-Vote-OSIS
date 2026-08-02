@@ -37,15 +37,22 @@ if (!isset($activePage)) { $activePage = ''; }
        class="ajax-link nav-item <?= $activePage === 'siswa' ? 'active' : 'text-slate-300' ?> flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"
        data-title="Data Siswa / DPT" data-breadcrumb="Admin,Siswa / Data DPT">
       <i data-lucide="graduation-cap" class="w-[18px] h-[18px] shrink-0"></i>
-      Siswa / Data DPT
+      Siswa 
+    </a>
+      
+    <a href="settings.php"
+       class="ajax-link nav-item <?= $activePage === 'settings' ? 'active' : 'text-slate-300' ?> flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium"
+       data-title="Data Siswa / DPT" data-breadcrumb="Admin,Siswa / Data DPT">
+      <i data-lucide="settings" class="w-[18px] h-[18px] shrink-0"></i>
+      settings
     </a>
   </nav>
 
-  <!-- Footer sidebar -->
+  <!-- menu : settings -->
   <div class="px-4 py-5 border-t border-white/5 shrink-0">
     <a href="logout.php" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:bg-white/5 hover:text-white transition">
       <i data-lucide="log-out" class="w-[18px] h-[18px]"></i>
-      Keluar
+      Logout
     </a>
   </div>
 </aside>

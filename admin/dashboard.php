@@ -63,7 +63,10 @@ if (!$is_ajax) {
 <?php }; ?>
     
     <div class="p-4 sm:p-8 space-y-8">
-      
+      <div class="mb-6">
+        <h2 class="font-display font-semibold text-navy-900 text-2xl">Statistik Voting</h2>
+        <p class="text-sm text-slate-500 mt-1">Pantau perolehan suara sementara dan tingkat partisipasi pemilih secara real-time.</p>
+      </div>
       <!-- Tampilkan Alert Jika Ada -->
       <?= $pesan_alert ?>
 

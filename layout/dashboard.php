@@ -157,7 +157,7 @@ $activePage = 'dashboard';
 </div>
 
 <!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+
 <script>
   // Data dikirim dari PHP -> JS (di aplikasi nyata bisa lewat endpoint API/JSON)
   const dataSuara = <?= json_encode($suaraKandidat) ?>;

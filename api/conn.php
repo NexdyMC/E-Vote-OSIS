@@ -200,7 +200,7 @@ class MySQL {
 
     return false;
   }
-  
+
   // mysql fitur : voting persen
   public function persen_voting_siswa() 
   {
@@ -296,10 +296,10 @@ class MySQL {
     return $paslon_results;
   }
 
-  // mysql setting : get value
-  public function get_setting() 
+  // mysql settings : get value
+  public function get_settings() 
   {
-    $sql = "SELECT * FROM tb_setting LIMIT 1";
+    $sql = "SELECT * FROM tb_settings LIMIT 1";
     $result = $this->conn->query($sql);
 
     if (!$result || $result->num_rows === 0) {
@@ -317,12 +317,12 @@ class MySQL {
     return $result->fetch_assoc();
   }
 
-  // mysql setting : update 
-  public function update_setting($nama_sekolah, $judul_pemilihan, $tahun_ajaran, $status_voting, $waktu_mulai, $waktu_selesai, $logo_sekolah = null)
+  // mysql settings : update 
+  public function update_settings($nama_sekolah, $judul_pemilihan, $tahun_ajaran, $status_voting, $waktu_mulai, $waktu_selesai, $logo_sekolah = null)
   {
     if (!empty($logo_sekolah)) {
       $stmt = $this->conn->prepare(
-        "UPDATE tb_setting SET 
+        "UPDATE tb_settings SET 
           nama_sekolah = ?, 
           judul_pemilihan = ?, 
           tahun_ajaran = ?, 
@@ -336,7 +336,7 @@ class MySQL {
     } else {
       // Jika logo tidak diubah
       $stmt = $this->conn->prepare(
-        "UPDATE tb_setting SET 
+        "UPDATE tb_settings SET 
           nama_sekolah = ?, 
           judul_pemilihan = ?, 
           tahun_ajaran = ?, 
@@ -356,6 +356,7 @@ class MySQL {
     $stmt->close();
     return $data;
   }
+
 }
 
 $host = "localhost";

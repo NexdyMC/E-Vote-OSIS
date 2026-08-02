@@ -36,6 +36,8 @@
 <!-- Lucide Icons -->
 <script src="https://unpkg.com/lucide@latest"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+
 <style>
   html, body { font-family: 'Inter', sans-serif; background:#F8FAFC; }
   h1, h2, h3, .font-display { font-family: 'Poppins', sans-serif; }
