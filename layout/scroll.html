@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Kita tidak lagi membutuhkan gaya no-scrollbar karena kita tidak menggunakan scroll */
+    </style>
+</head>
+<body class="bg-slate-900 flex items-center justify-center min-h-screen">
+
+    <div class="relative flex items-center justify-center gap-4">
+        
+        <!-- Tombol Kiri -->
+        <button id="btn-prev" class="w-10 h-10 rounded-full bg-slate-800 text-white flex items-center justify-center hover:bg-slate-700 hover:scale-110 transition-transform active:scale-95 z-10 shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+
+        <!-- VIEWPORT (Container Luar - Ukuran Tetap, Tanpa Scroll, Menyembunyikan Overflow) -->
+        <div class="relative w-[400px] h-[600px]  rounded-xl overflow-hidden shadow-2xl border-4 border-slate-700 bg-slate-800">
+            <div id="scroll-container" class="flex w-full h-full transition-transform duration-500 ease-in-out">
+                
+                <!-- Card 1 -->
+                <!-- PERUBAHAN: Hapus snap-center -->
+                <div class="flex-none w-full h-full bg-blue-500 flex flex-col items-center justify-center text-white">
+                    <span class="text-4xl font-bold">1</span>
+                    <p class="text-sm mt-2 opacity-80">Rasio 3x4</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="flex-none w-full h-full bg-red-500 flex flex-col items-center justify-center text-white">
+                    <span class="text-4xl font-bold">2</span>
+                    <p class="text-sm mt-2 opacity-80">Rasio 3x4</p>
+                </div>
+                
+                <!-- Card 3 -->
+                <div class="flex-none w-full h-full bg-emerald-500 flex flex-col items-center justify-center text-white">
+                    <span class="text-4xl font-bold">3</span>
+                    <p class="text-sm mt-2 opacity-80">Rasio 3x4</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Tombol Kanan -->
+        <button id="btn-next" class="w-10 h-10 rounded-full bg-slate-800 text-white flex items-center justify-center hover:bg-slate-700 hover:scale-110 transition-transform active:scale-95 z-10 shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+
+    </div>
+
+    <script>
+        const scrollContainer = document.getElementById('scroll-container');
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+        const totalCards = scrollContainer.children.length;
+
+        // Lacak indeks secara manual
+        let currentIndex = 0; 
+
+        // Fungsi untuk mengupdate posisi carousel menggunakan CSS transform
+        const updateCarousel = (index) => {
+            // Kita ingin menggeser ke kiri, jadi gunakan nilai negatif
+            // Setiap index berarti geser sejauh 100% lebar kartu
+            const offset = -index * 100; 
+            scrollContainer.style.transform = `translateX(${offset}%)`;
+        };
+
+        // Fungsi geser ke kiri (Prev)
+        btnPrev.addEventListener('click', () => {
+            // Logika loop: Jika sudah di card pertama, pindah ke card terakhir
+            if (currentIndex === 0) {
+                currentIndex = totalCards - 1;
+            } else {
+                currentIndex--;
+            }
+            updateCarousel(currentIndex);
+        });
+
+        // Fungsi geser ke kanan (Next)
+        btnNext.addEventListener('click', () => {
+            // Logika loop: Jika sudah di card terakhir, kembali ke card pertama
+            if (currentIndex === totalCards - 1) {
+                currentIndex = 0;
+            } else {
+                currentIndex++;
+            }
+            updateCarousel(currentIndex);
+        });
+    </script>
+
+</body>
+</html>

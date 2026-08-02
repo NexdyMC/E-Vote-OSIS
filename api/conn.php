@@ -308,6 +308,9 @@ class MySQL {
 
     $sudah_query = $this->conn->query("SELECT COUNT(*) as count FROM tb_siswa WHERE status = 1");
     $sudah = $sudah_query->fetch_assoc()['count'];
+    
+    $kardidat_query = $this->conn->query("SELECT COUNT(*) as count FROM tb_kardidat");
+    $kardidat = $kardidat_query->fetch_assoc()['count'];
 
     $persen_belum = ($total > 0) ? ($belum / $total) * 100 : 0;
     $persen_sudah = ($total > 0) ? ($sudah / $total) * 100 : 0;
@@ -317,14 +320,14 @@ class MySQL {
         'belum_voting' => $belum,
         'sudah_voting' => $sudah,
         'persen_belum' => round($persen_belum),
-        'persen_sudah' => round($persen_sudah)
+        'persen_sudah' => round($persen_sudah),
+        'kardidat' => $kardidat
     ];
   }
   
-  // mysql fitur : grafik
-  public function get_data_grafik_voting() {
-    
-  // Query menggabungkan tb_kardidat dan menghitung jumlah suara dari tb_siswa berdasarkan 'voted'
+  // mysql : grafik kardidat
+  public function get_data_grafik_voting() {  
+  
     $query = "SELECT k.nama AS nama_kand, COUNT(s.voted) AS total_suara 
               FROM tb_kardidat k 
               LEFT JOIN tb_siswa s ON k.id = s.voted AND s.status = 1 
@@ -335,16 +338,73 @@ class MySQL {
     $nama_kandidat = [];
     $value_voted = [];
 
-    while ($row = $result->fetch_assoc()) {
-        $nama_kandidat[] = $row['nama_kand'];     // Masukin nama kandidat ke array
-        $value_voted[] = (int)$row['total_suara']; // Masukin jumlah suara ke array (dikonversi ke angka)
+  
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $nama_kandidat[] = $row['nama_kand'];     
+            $value_voted[] = (int)$row['total_suara']; 
+        }
+    } else {
+        error_log("Query Grafik Error: " . $this->conn->error);
     }
 
-    // Mengembalikan array yang berisi 2 array (nama dan value)
     return [
         'nama' => $nama_kandidat,
         'value' => $value_voted
     ];
+  }
+
+  // mysql : get paslon results
+  public function get_paslon_results() {
+    
+    // Query menggabungkan tb_kardidat dan menghitung jumlah suara
+    $query = "SELECT k.id, k.nama AS nama_kand, COUNT(s.voted) AS total_suara 
+              FROM tb_kardidat k 
+              LEFT JOIN tb_siswa s ON k.id = s.voted AND s.status = 1 
+              GROUP BY k.id, k.nama
+              ORDER BY k.id ASC"; // Diurutkan berdasarkan ID agar rapi
+              
+    $result = $this->conn->query($query);
+    
+    $temp_data = [];
+    $total_semua_suara = 0;
+    
+    $color_list = [
+        '#2563EB', // Blue
+        '#FACC15', // Yellow
+        '#06B6D4', // Cyan
+        '#10B981', // Emerald
+        '#EF4444', // Red 
+        '#8B5CF6' // Purple
+    ];
+
+    if ($result) {
+        $index = 0;
+        while ($row = $result->fetch_assoc()) {
+            $suara = (int)$row['total_suara'];
+            $total_semua_suara += $suara;
+            
+            $temp_data[] = [
+                'no_urut' => str_pad($index + 1, 2, '0', STR_PAD_LEFT),
+                'nama'    => $row['nama_kand'],
+                'suara'   => $suara,
+                'persen'  => 0, 
+                'warna'   => $color_list[$index % count($color_list)]
+            ];
+            
+            $index++;
+        }
+    }
+
+
+    $paslon_results = [];
+    foreach ($temp_data as $data) {
+        if ($total_semua_suara > 0) {
+            $data['persen'] = round(($data['suara'] / $total_semua_suara) * 100, 1);
+        }
+        $paslon_results[] = $data;
+    }
+    return $paslon_results;
   }
 }
 

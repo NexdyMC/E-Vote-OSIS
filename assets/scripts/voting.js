@@ -48,3 +48,4 @@ async function selectKardidat(id_kardidat, name) {
         }
     }
 }
+

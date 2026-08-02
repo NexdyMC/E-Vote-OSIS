@@ -1,154 +1,152 @@
 <?php
+/* =========================================================
+   LOGIN.PHP — Validasi Token Voting
+   SMK Informatika Sumedang — Sistem E-Voting OSIS
+   ---------------------------------------------------------
+   Di aplikasi nyata, $validTokens diganti dengan query ke
+   database (cek token milik siswa, status "belum dipakai",
+   lalu tandai sebagai "sudah dipakai" begitu berhasil login).
+   Session yang diisi ($_SESSION['user']) memakai key yang
+   sama dengan index.php, jadi begitu login di sini, tombol
+   vote di halaman Kandidat otomatis ikut terbuka.
+   ========================================================= */
 session_start();
 
-// Token rahasia yang ditentukan panitia (bebas kamu ganti)
-define('VOTING_TOKEN', 'SMKINFO2026'); 
-
-$error = '';
+$error = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // $input_token = trim($_POST['token'] ?? '');
+    $token = strtoupper(trim($_POST['token'] ?? ''));
 
-    // if (empty($input_token)) {
-    //     $error = 'Token voting wajib diisi!';
-    // } else if (strtoupper($input_token) === VOTING_TOKEN) {
-    //     // Simpan status login di session
-    //     $_SESSION['voter_logged_in'] = true;
-        
-    //     // Redirect langsung ke beranda/halaman voting
-    //     header('Location: index.php');
-    //     exit;
-    // } else {
-    //     $error = 'Token tidak valid! Silahkan tanyakan panitia OSIS.';
-    // }
+    // --- Contoh data dummy token yang valid (ganti dengan query DB) ---
+    $validTokens = [
+        'OSIS-2026-AB12' => ['nama' => 'Rangga Saputra', 'nis' => '2425.10.045'],
+        'OSIS-2026-CD34' => ['nama' => 'Putri Ayu Lestari', 'nis' => '2425.10.078'],
+        'OSIS-2026-EF56' => ['nama' => 'Fajar Nugroho', 'nis' => '2425.10.112'],
+    ];
+
+    if ($token === '') {
+        $error = 'Token tidak boleh kosong.';
+    } elseif (!array_key_exists($token, $validTokens)) {
+        $error = 'Token tidak ditemukan atau sudah pernah digunakan.';
+    } else {
+        $_SESSION['user'] = [
+            'nama'  => $validTokens[$token]['nama'],
+            'nis'   => $validTokens[$token]['nis'],
+            'token' => $token,
+        ];
+        header('Location: index.php#kandidat');
+        exit;
+    }
 }
 ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Akses Voting — Pemilihan Ketua OSIS</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            blue: '#0047AB',     // Biru Utama SMK Informatika
-                            darkblue: '#0F172A', // Midnight Navy
-                            yellow: '#FACC15',   // Kuning Aksen
-                            yellowhover: '#EAB308'
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Font Inter & Lucide Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Validasi Token Voting — E-Voting OSIS</title>
+
+<!-- Tailwind CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          navy:    { 950: '#0B1424', 900: '#0F172A' },
+          primary: { 50: '#EEF3FF', 100: '#DCE7FF', 500: '#2563EB', 700: '#1E3A8A' },
+          accent:  { 400: '#FACC15', 500: '#EAB308' },
+        },
+        fontFamily: {
+          display: ['Poppins', 'sans-serif'],
+          body: ['Inter', 'sans-serif'],
+        },
+      }
+    }
+  }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+  html, body { font-family: 'Inter', sans-serif; }
+  .font-display { font-family: 'Poppins', sans-serif; }
+  .btn-cta { transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease; }
+  .btn-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -8px rgba(234,179,8,0.45); }
+  .token-input { transition: border-color .2s ease, box-shadow .2s ease; }
+</style>
 </head>
-<body class="bg-brand-darkblue text-slate-100 min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
 
-    <!-- Ambient Glow / Blobs -->
-    <div class="absolute top-1/3 -left-20 w-80 h-80 bg-brand-blue/30 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute bottom-1/3 -right-20 w-80 h-80 bg-brand-yellow/20 rounded-full blur-3xl pointer-events-none"></div>
+<body class="min-h-screen">
 
-    <!-- Main Container Card -->
-    <div class="relative w-full max-w-4xl bg-white text-slate-800 rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 md:grid-cols-12 border border-slate-100">
-        
-        <!-- SIDEBAR KIRI: Gelap (Visual & Brand) -->
-        <div class="md:col-span-5 bg-gradient-to-br from-brand-darkblue via-slate-900 to-brand-blue p-8 md:p-10 text-white flex flex-col justify-between relative">
-            <div class="absolute top-0 right-0 w-2 h-full bg-brand-yellow"></div>
-            
-            <div>
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-12 h-12 rounded-xl bg-brand-yellow text-brand-darkblue font-bold flex items-center justify-center text-xl shadow-md">
-                        <i data-lucide="key-round"></i>
-                    </div>
-                    <div>
-                        <h1 class="font-bold text-sm tracking-wide uppercase text-brand-yellow">E-Voting OSIS</h1>
-                        <p class="text-xs text-slate-300">SMK Informatika Sumedang</p>
-                    </div>
-                </div>
+  <!-- ================= FULL BACKGROUND IMAGE ================= -->
+  <div class="min-h-screen relative flex items-center justify-center p-4 sm:p-6 bg-cover bg-center"
+       style="background-image:url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80');">
 
-                <h2 class="text-2xl font-extrabold leading-tight mb-3">Masukkan Token Masuk</h2>
-                <p class="text-xs text-slate-300 leading-relaxed">
-                    Minta kode token ke panitia atau guru pengawas di kelas/lab untuk membuka akses bilik suara digital.
-                </p>
-            </div>
+    <!-- Overlay gelap transparan agar kartu tetap kontras -->
+    <div class="absolute inset-0 bg-gradient-to-b from-navy-950/80 via-navy-900/70 to-navy-950/85 backdrop-blur-[2px]"></div>
 
-            <div class="mt-8 pt-6 border-t border-slate-700/50">
-                <div class="flex items-center gap-3">
-                    <i data-lucide="shield-check" class="w-5 h-5 text-brand-yellow shrink-0"></i>
-                    <p class="text-[11px] text-slate-300">
-                        Satu token untuk akses bersama seluruh siswa.
-                    </p>
-                </div>
-            </div>
+    <!-- ================= KONTEN ================= -->
+    <div class="relative z-10 w-full max-w-md">
+
+      <!-- Deretan 3 Logo -->
+      <div class="flex justify-center gap-4 mb-7">
+        <img src="https://placehold.co/72x72/FFFFFF/1E3A8A?text=SMK" alt="Logo Sekolah"
+             class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/95 object-contain p-2 shadow-lg shadow-black/20">
+        <img src="https://placehold.co/72x72/FFFFFF/1E3A8A?text=OSIS" alt="Logo OSIS"
+             class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/95 object-contain p-2 shadow-lg shadow-black/20">
+        <img src="https://placehold.co/72x72/FFFFFF/1E3A8A?text=VOTE" alt="Logo E-Voting"
+             class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/95 object-contain p-2 shadow-lg shadow-black/20">
+      </div>
+
+      <!-- Kartu Login Utama -->
+      <div class="bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/40 p-7 sm:p-10">
+
+        <div class="text-center mb-8">
+          <div class="w-14 h-14 mx-auto rounded-2xl bg-primary-50 flex items-center justify-center mb-4">
+            <i data-lucide="shield-check" class="w-7 h-7 text-primary-700"></i>
+          </div>
+          <h1 class="font-display font-bold text-xl sm:text-2xl text-navy-900">Validasi Token Voting</h1>
+          <p class="text-sm text-slate-500 mt-2 leading-relaxed">Masukkan token akses yang telah diberikan oleh panitia.</p>
         </div>
 
-        <!-- FORM KANAN: Terang (1 Input Token + 1 Button) -->
-        <div class="md:col-span-7 bg-white p-8 md:p-12 flex flex-col justify-center">
-            
-            <div class="mb-8">
-                <a href="index.php" class="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-blue hover:underline mb-4">
-                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Kembali ke Beranda
-                </a>
-                <h2 class="text-2xl font-bold text-slate-900">Validasi Token 🔑</h2>
-                <p class="text-sm text-slate-500 mt-1">Ketik kode token untuk mulai menentukan pilihanmu.</p>
-            </div>
-
-            <!-- Alert Error PHP -->
-            <?php if (!empty($error)): ?>
-                <div class="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-3">
-                    <i data-lucide="alert-circle" class="w-5 h-5 shrink-0 text-rose-500"></i>
-                    <span><?= htmlspecialchars($error) ?></span>
-                </div>
-            <?php endif; ?>
-
-            <!-- Form 1 Input -->
-            <form action="voting-card.php" method="POST" class="space-y-6">
-                
-                <!-- Single Input: TOKEN -->
-                <div>
-                    <label for="token" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Kode Token Voting</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
-                            <i data-lucide="ticket" class="w-5 h-5"></i>
-                        </div>
-                        <input type="text" id="token" name="token" required placeholder="Contoh: SMKINFO2026" autocomplete="off"
-                            class="w-full pl-12 pr-4 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-base font-bold tracking-widest uppercase text-slate-900 placeholder:normal-case placeholder:font-normal placeholder:tracking-normal placeholder-slate-400 focus:outline-none focus:border-brand-blue focus:bg-white focus:ring-4 focus:ring-brand-blue/10 transition-all">
-                    </div>
-                </div>
-
-                <!-- Single Button: SUBMIT -->
-                <button type="submit" 
-                    class="w-full py-4 px-6 rounded-2xl bg-brand-yellow hover:bg-brand-yellowhover text-brand-darkblue font-extrabold text-base shadow-lg shadow-brand-yellow/30 hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 group">
-                    <span>Masuk ke Bilik Suara</span>
-                    <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
-                </button>
-
-            </form>
-
-            <div class="mt-8 text-center border-t border-slate-100 pt-5">
-                <p class="text-xs text-slate-400">
-                    Belum punya token? Minta langsung ke Panitia OSIS di lokasi.
-                </p>
-            </div>
-
+        <?php if ($error): ?>
+        <div class="mb-5 flex items-start gap-2 text-sm text-red-600 bg-red-50 border border-red-100 rounded-xl px-4 py-3">
+          <i data-lucide="alert-circle" class="w-4 h-4 mt-0.5 shrink-0"></i>
+          <span><?= htmlspecialchars($error) ?></span>
         </div>
+        <?php endif; ?>
 
+        <form method="POST" class="space-y-5">
+          <!-- Satu-satunya input: Kode Token -->
+          <div class="relative">
+            <i data-lucide="key-round" class="w-5 h-5 text-primary-500 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            <input
+              type="text"
+              name="token"
+              required
+              autofocus
+              autocomplete="off"
+              placeholder="TOKEN VOTING"
+              oninput="this.value = this.value.toUpperCase()"
+              class="token-input w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-200 text-center text-lg sm:text-xl font-display font-bold uppercase tracking-[0.15em] text-navy-900 placeholder:text-slate-300 placeholder:font-normal placeholder:tracking-normal focus:border-primary-500 focus:ring-4 focus:ring-primary-100 outline-none"
+            >
+          </div>
+
+          <button type="submit"
+                  class="btn-cta w-full flex items-center justify-center gap-2 bg-accent-400 hover:bg-accent-500 text-navy-900 font-display font-bold text-base py-4 rounded-2xl">
+            Masuk dan Mulai Voting
+          </button>
+        </form>
+      </div>
     </div>
+  </div>
 
-    <script>
-        lucide.createIcons();
-    </script>
+<script>
+  lucide.createIcons();
+</script>
 </body>
 </html>

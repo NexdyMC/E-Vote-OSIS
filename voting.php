@@ -17,9 +17,9 @@ $paslon_list = $conn->mysql_select("tb_kardidat");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Voting Kardidat | E-Voting OSIS</title>
     <!-- Tailwind CSS CDN -->
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <script src="assets/scripts/sweetalert.2.11.js"></script>
-    <script src="assets/scripts/tailwind.js"></script>
+    <!-- <script src="assets/scripts/tailwind.js"></script> -->
     <script src="assets/scripts/tailwind.config.js"></script>
     <!-- link : font google -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -28,127 +28,194 @@ $paslon_list = $conn->mysql_select("tb_kardidat");
     <link rel="stylesheet" href="assets/css/voting.css">
 </head>
 <body>
-
-    <!-- section : header -->
-    <header class="sticky top-0 z-40 bg-brand-darkblue/90 backdrop-blur-md border-b border-slate-800 px-6 py-4">
-        <div class="max-w-7xl mx-auto flex items-center justify-center">
-
-            <!-- navbar : logo & brand -->
-            <div class="absolute left-20 flex items-center gap-3">
-                <div
-                    class="w-10 h-10 rounded-xl bg-brand-yellow text-brand-darkblue font-bold flex items-center justify-center text-lg shadow-md">
-                    <i data-lucide="vote"></i>
+    <!-- header  : desktop -->
+    <header class="sticky top-0 z-40 bg-brand-darkblue/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-6 py-4">
+            
+            <!-- Navbar : Logo & Brand -->
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-brand-yellow text-brand-darkblue font-bold flex items-center justify-center text-lg shadow-md">
+                    <i data-lucide="vote" class="w-8 h-8"></i>
                 </div>
                 <div>
-                    <h1 class="font-bold text-sm tracking-wide uppercase text-brand-yellow">E-Vote</h1>
-                    <p class="text-[11px] text-slate-400">SMK Informatika Sumedang</p>
+                    <h1 class="font-bold text-xl tracking-wide uppercase text-brand-yellow">E-Vote OSIS</h1>
+                    <p class="text-xs text-slate-400 hidden md:block">SMK Informatika Sumedang</p>
+                    <p class="text-xs text-slate-400 block md:hidden">Febri Pratama</p>
                 </div>
             </div>
 
-            <!-- navbar : navigation -->
+            <!-- Navbar : Navigation desktop & mobile top -->
+            <div class="hidden md:flex justify-center items-center gap-4">
+                <a href="voting.php" class="inline-flex items-center gap-1.5 text-md font-bold text-brand-darkblue bg-gradient-to-br to-amber-500 from-amber-300 px-4 py-2 rounded-lg shadow-md transition-all">
+                    <i data-lucide="vote" class="w-6 h-6"></i> Voting
+                </a>
+                <a href="hasil.php" class="inline-flex items-center gap-1.5 px-4 py-2 text-md font-semibold text-slate-300 hover:text-brand-yellow transition-colors">
+                    <i data-lucide="bar-chart-3" class="w-6 h-6"></i> Hasil
+                </a>
+            </div>
+
+            <!-- Navbar : User Info & Logout -->
             <div class="flex items-center gap-4">
-                <a href="voting.php"
-                    class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-brand-yellow transition-colors">
-                    <i data-lucide="vote" class="w-4 h-4"></i> Voting
-                </a>
-                <a href="live.php"
-                    class="inline-flex items-center gap-1.5 text-sm font-bold text-brand-darkblue bg-brand-yellow hover:bg-brand-yellowhover px-3.5 py-2 rounded-xl shadow-md transition-all">
-                    <i data-lucide="bar-chart-3" class="w-4 h-4"></i> Hasil
-                </a>
-            </div>
-
-            <div class="absolute right-20 flex items-center gap-4">
-                <div class="text-right">
-                    <p class="text-sm font-semibold text-white">
-                        <?= $_SESSION['nama']; ?>
-                    </p>
-                    <p class="text-xs text-slate-400">
-                        <?= $_SESSION['kelas']; ?>
-                    </p>
+                <div class="text-right hidden md:block">
+                    <p class="text-sm text-white font-semibold">Febri Pratama</p>
+                    <p class="text-xs text-slate-400">12 RPL 1</p>
                 </div>
-                <a href="logout.php"
-                    class="inline-flex items-center gap-1.5 text-md font-bold text-white bg-red-500 hover:bg-red-500/80 px-4 py-2 rounded-lg transition-all">
-                    <i data-lucide="logout" class="w-4 h-4"></i>
-                    Logout
-                </a>
+                
+                <button type="button" onclick="logout()" class="flex items-center bg-red-500 hover:bg-red-600 p-2 md:p-3 text-sm md:text-base text-white font-semibold rounded-lg transition-colors">
+                    <i data-lucide="log-out" class="w-4 h-4 md:w-5 md:h-5"></i>
+                    <span class="hidden sm:block ml-2">Logout</span>
+                </button>
             </div>
+            
         </div>
     </header>
+
+    <!-- navbar : mobile bottom -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-brand-darkblue/90 backdrop-blur-md border-t border-slate-800 px-4 py-3">
+        
+        <!-- Navbar : Navigation mobile bottom -->
+        <div class="flex justify-center items-center gap-4 w-full">
+            <a href="voting.php" class="inline-flex items-center justify-center gap-1.5 text-sm font-bold text-brand-darkblue bg-brand-yellow hover:bg-brand-yellowhover px-5 py-2.5 rounded-xl shadow-md transition-all w-1/2">
+                <i data-lucide="vote" class="w-6 h-6"></i> Voting
+            </a>
+            <a href="hasil.php" class="inline-flex items-center justify-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-brand-yellow transition-colors px-5 py-2.5 w-1/2">
+                <i data-lucide="bar-chart-3" class="w-6 h-6"></i> Hasil
+            </a>
+        </div>
+    </nav>
 
     <!-- section : main  -->
     <main class="py-8 px-4 sm:px-6 max-w-6xl mx-auto w-full flex-1 flex flex-col justify-center">
 
-        <!--  main : select kardidat -->
-        <div class="flex gap-4 overflow-x-auto py-2 no-scrollbar scroll-smooth">
-            <?php
-            $kardidat = $conn->mysql_select("tb_kardidat");
-            foreach ($kardidat as $row) :?>
+        <div class="text-center ">
+            <h1 class="text-5xl font-extrabold text-center mb-4 text-slate-800">E-Vote <span class="text-[#FACC15]">OSIS</span></h1>
+            <p class="text-gray-600">Pilih calon ketua OSIS yang menurut Anda paling tepat</p>
+        </div>
 
-            <div class="max-w-96 w-full card-kandidat shrink-0 flex flex-col justify-between relative group bg-white rounded-3xl shadow-[0_8px_30px_rgb(15,23,42,0.06)] overflow-hidden border-2 border-slate-300/80 ">
-                <div class="text-left">
+        <div class="relative flex items-center justify-center gap-4">
+            
+            <!--  main : select kardidat -->
+            <div class="relative min-w-[320px] w-full max-w-[600px]  rounded-xl overflow-hidden shadow-2xl ">
+                
+                <!-- TRACK CAROUSEL -->
+                <div id="scroll-container" class="flex w-full h-full transition-transform duration-500 ease-in-out">
+                    <?php
+                    $kardidat = $conn->mysql_select("tb_kardidat");
+                    foreach ($kardidat as $row) :?>
 
-                    <!-- kardidat : image -->
-                    <div class="relative rounded-2xl overflow-hidden bg-slate-800 aspect-[4/3] mb-5">
-                        <img src="upload/photo/<?=  $row['image']; ?>" alt="Kardidat <?= $row['nama'];?>"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    </div>
+                    <div class="w-full h-full flex-none p-3"> 
+                        <div class="w-full h-full bg-white rounded-3xl overflow-hidden hover:border-blue-500 shadow-[0_8px_30px_rgb(15,23,42,0.06)] border-2 border-slate-300/80 flex flex-col  group relative">
+                            <!-- kardidat : image -->
+                            <div class="relative rounded-2xl overflow-hidden bg-slate-800 aspect-[4/3] mb-4 shrink-0">
+                                <img src="upload/photo/<?=  $row['image']; ?>" alt="Kandidat <?= $row['nama'];?>"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            </div>
+                            
+                            <div class="flex-1 p-4 scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent">
+                            
+                                <!-- kardidat : nama siswa -->
+                                <p class="text-2xl text-center font-bold mb-2 line-clamp-1 text-slate-800 shrink-0">
+                                    <?= $row['nama'] ?>
+                                </p>
 
-                    <!-- kardidat : nama siswa -->
-                    <p class="text-2xl text-center font-bold  my-4 line-clamp-1">
-                        <?= $row['nama'] ?>
-                    </p>
+                                <!-- kardidat : jenis -->
+                                <div class="flex justify-center mb-6 shrink-0">
+                                    <span class="text-sm font-bold tracking-widest text-brand-yellow bg-yellow-50 px-3 py-1 rounded-full border border-brand-yellow/20">
+                                    Calon Ketua OSIS
+                                    </span>
+                                </div>
 
-                    <!-- kardidat : jenis -->
-                    <p class="flex justify-center mb-6">
-                        <span class="text-xs font-bold tracking-widest text-brand-yellow uppercase bg-brand-yellow/10 px-3 py-1 rounded-full border border-brand-yellow/20">
-                        Ketua OSIS
-                        </span>
-                    </p>
+                                <!-- kardidat : visi & misi -->
+                                <div class="space-y-4">
+                                    <!-- kardidat : Visi -->
+                                    <div class="bg-slate-50 p-3 rounded-xl border-slate-200 border-2">
+                                        <h4 class="text-md font-bold uppercase text-blue-600 mb-1 flex items-center gap-1">
+                                            <i data-lucide="compass" class="w-3.5 h-3.5"></i> Visi
+                                        </h4>
+                                        <p class="text-sm text-slate-600 leading-relaxed">
+                                            <?= nl2br($row['visi']); ?>
+                                        </p>
+                                    </div>
 
-                    <!-- kardidat : visi & misi -->
-                    <div class="px-4 space-y-4 scrollbar-thin scrollbar-thumb-slate-700">
+                                    <!-- kardidat : Misi -->
+                                    <div class="bg-slate-50 p-3 rounded-xl border-slate-200 border-2">
+                                        <h4 class="text-md font-bold uppercase text-blue-600 mb-1 flex items-center gap-1">
+                                            <i data-lucide="compass" class="w-3.5 h-3.5"></i> Misi
+                                        </h4>
+                                        <p class="text-sm text-slate-600 leading-relaxed">
+                                            <?= nl2br($row['misi']); ?>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <!-- kardidat : Visi -->
-                        <div class="bg-slate-100/60 p-3 rounded-xl border-slate-200/80 border-2">
-                            <h4 class="text-md font-bold uppercase text-brand-blue mb-1 flex items-center gap-1">
-                                <i data-lucide="compass" class="w-3.5 h-3.5 text-brand-blue"></i> Visi
-                            </h4>
-                            <p class="text-sm text-bland-blue leading-relaxed ">
-                                <?= nl2br($row['visi']); ?>
-                            </p>
+                            <!-- kardidat : button voting-->
+                            <div class="p-4 bg-white border-t overflow-hidden border-slate-100 shrink-0 z-10">
+                                <button type="button" onclick="selectKardidat(<?= $row['id'];?>, '<?= $row['nama'];?>')" class="w-full font-semibold text-sm px-5 py-3 rounded-xl border-2 border-blue-600 text-blue-600 bg-white hover:bg-blue-600 hover:text-white transition-colors flex items-center justify-center gap-2">
+                                    <i data-lucide="vote" class="w-4 h-4"></i>
+                                    Pilih Kandidat Ini
+                                </button>
+                            </div>
+
                         </div>
 
-                        <!-- kardidat : Misi -->
-                        <div class="bg-slate-100/60 p-3 rounded-xl border-slate-200/80 border-2">
-                            <h4 class="text-md font-bold uppercase text-brand-blue mb-1 flex items-center gap-1">
-                                <i data-lucide="compass" class="w-3.5 h-3.5 text-brand-blue"></i> Misi
-                            </h4>
-                            <p class="text-sm text-bland-blue leading-relaxed ">
-                                <?= nl2br($row['misi']); ?>
-                            </p>
-                        </div>
                     </div>
-                </div>
-
-                <!-- kardidat : button voting -->
-                <div class="px-4 py-4 space-y-4 text-center">
-                    <button type="button" onclick="selectKardidat(<?= $row['id'];?>, '<?= $row['nama'];?>')" class="btn-cta w-full font-display font-semibold text-sm px-5 py-3 rounded-xl border-2 border-primary-700 text-primary-700 bg-slate-100 text-navy-500 hover:bg-primary-700 hover:text-white flex items-center justify-center gap-2">
-                        <i data-lucide="vote" class="w-4 h-4"></i>
-                        Pilih Kardidat Ini
-                    </button>
+                    <?php endforeach; ?>
                 </div>
             </div>
-            <?php endforeach; ?>
+            
+            <!-- button : Kiri -->
+            <button id="btn-prev" class="absolute left-0 top-1/2 w-10 h-10 rounded-full bg-slate-800 text-white flex items-center justify-center hover:bg-slate-700 hover:scale-110 transition-transform active:scale-95 z-10 shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+
+            <!-- button : Kanan -->
+            <button id="btn-next" class="absolute right-0 top-1/2 w-10 h-10 rounded-full bg-slate-800 text-white flex items-center justify-center hover:bg-slate-700 hover:scale-110 transition-transform active:scale-95 z-10 shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
         </div>
+
     </main>
 
     <!-- section : footer -->
-    <footer class="bg-slate-950 border-t border-slate-900 py-4 text-center text-xs text-slate-500">
-        &copy; <?= date('Y') ?> Pemilihan Ketua OSIS — SMK Informatika Sumedang
+    <footer class="bg-slate-950 border-t border-slate-900 py-6 text-center text-sm text-slate-500">
+        &copy; 2026 Febri Pratama — All rights reserved. 
     </footer>
 
     <!-- script : js -->
     <script src="assets/scripts/voting.js"></script>
-    <script>lucide.createIcons();</script>
+    <script>
+lucide.createIcons();
+
+const scrollContainer = document.getElementById('scroll-container');
+const btnLeft = document.getElementById('btn-prev');
+const btnRigth = document.getElementById('btn-next');
+const totalCards = scrollContainer.children.length;
+
+let currentIndex = 0; 
+
+const updateCarousel = (index) => {
+    const offset = -index * 100; 
+    scrollContainer.style.transform = `translateX(${offset}%)`;
+};
+
+btnLeft.addEventListener('click', () => {
+    if (currentIndex === 0) {
+        currentIndex = totalCards - 1;
+    } else {
+        currentIndex--;
+    }
+    updateCarousel(currentIndex);
+});
+
+btnRigth.addEventListener('click', () => {
+    if (currentIndex === totalCards - 1) {
+        currentIndex = 0;
+    } else {
+        currentIndex++;
+    }
+    updateCarousel(currentIndex);
+});
+    </script>
 </body>
 </html>

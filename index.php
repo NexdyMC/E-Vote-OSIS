@@ -410,7 +410,6 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
 </footer>
 
 <script>
-
   // ===================== COUNTDOWN VOTING =====================
   const targetVoting = new Date(<?= $waktuVotingBerakhir ?> * 1000).getTime();
 
