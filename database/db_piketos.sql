@@ -44,10 +44,10 @@ INSERT INTO `tb_admin` (`id_admin`, `nama`, `kelas`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_kardidat`
+-- Struktur dari tabel `tb_kandidat`
 --
 
-CREATE TABLE `tb_kardidat` (
+CREATE TABLE `tb_kandidat` (
   `id` int NOT NULL,
   `nama` varchar(100) NOT NULL,
   `visi` text NOT NULL,
@@ -56,10 +56,10 @@ CREATE TABLE `tb_kardidat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data untuk tabel `tb_kardidat`
+-- Dumping data untuk tabel `tb_kandidat`
 --
 
-INSERT INTO `tb_kardidat` (`id`, `nama`, `visi`, `misi`, `image`) VALUES
+INSERT INTO `tb_kandidat` (`id`, `nama`, `visi`, `misi`, `image`) VALUES
 (1, 'Febri', 'menjadikan smk informatika menjadi maju', 'mengubah menjadi smk dengan gaya profesional religius', ''),
 (2, 'fahri nasluroh', 'menjadi siswa yang aktif dan unggul', 'menjadi smk informatika yang aman yang nyaman untuk belajar ', NULL);
 
@@ -107,9 +107,9 @@ ALTER TABLE `tb_admin`
   ADD PRIMARY KEY (`id_admin`);
 
 --
--- Indeks untuk tabel `tb_kardidat`
+-- Indeks untuk tabel `tb_kandidat`
 --
-ALTER TABLE `tb_kardidat`
+ALTER TABLE `tb_kandidat`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -129,9 +129,9 @@ ALTER TABLE `tb_admin`
   MODIFY `id_admin` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_kardidat`
+-- AUTO_INCREMENT untuk tabel `tb_kandidat`
 --
-ALTER TABLE `tb_kardidat`
+ALTER TABLE `tb_kandidat`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 

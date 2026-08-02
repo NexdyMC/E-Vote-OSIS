@@ -7,7 +7,7 @@ switch ($inputData['type'] ?? '')
 {
   // api mode : get
   case 'select':
-    $stmt = $conn->select_kardidat();
+    $stmt = $conn->select_kandidat();
     
     if ($stmt) {
       echo json_encode([
@@ -49,13 +49,13 @@ switch ($inputData['type'] ?? '')
   // api mode : delete
   case 'delete':
     $id = $inputData['id'] ?? null;
-    $file = $conn->select_kardidat("id = $id","image");
+    $file = $conn->select_kandidat("id = $id","image");
     
     foreach ($file as $row) {
       echo $row['image'];
       $status  = unlink("../upload/photo/" . $row['image']);
     }
-    $stmt = $conn->delete_kardidat($id);
+    $stmt = $conn->delete_kandidat($id);
     
     if ($stmt) {
       echo json_encode([

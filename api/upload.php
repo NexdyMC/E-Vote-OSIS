@@ -23,7 +23,7 @@ if ($result) {
     echo json_encode([
         'status'   => 'success',
         'message'  => 'Upload berhasil.',
-        'filename' => $result   // ini yang dipakai buat kolom `image` di tb_kardidat
+        'filename' => $result   // ini yang dipakai buat kolom `image` di tb_kandidat
     ]);
 } else {
     echo json_encode([

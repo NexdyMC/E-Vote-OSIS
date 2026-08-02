@@ -1,4 +1,4 @@
-async function selectKardidat(id_kardidat, name) {
+async function selectkandidat(id_kandidat, name) {
     // 1. Show confirmation dialog using SweetAlert2
     const result = await Swal.fire({
         title: `Pilih ${name}?`,
@@ -19,7 +19,7 @@ async function selectKardidat(id_kardidat, name) {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     type: "voting",
-                    id_kardidat: id_kardidat
+                    id_kandidat: id_kandidat
                 })
             });
 

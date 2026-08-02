@@ -24,13 +24,30 @@ switch ($inputData['type'] ?? '')
     }
     break;
   case 'voting':
-    $id_kardidat = $inputData['id_kardidat'];
-    $stmt = $conn->voting_kardidat($token, $id_kardidat);
+    $id_kandidat = $inputData['id_kandidat'];
+    $stmt = $conn->voting_kandidat($token, $id_kandidat);
 
     if ($stmt) {
         echo json_encode([
             'status' => 'success',
             'message' => 'Vote successfully recorded.'
+        ]);
+        session_destroy();
+    } else {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Invalid request or missing candidate ID.'
+        ]);
+    }
+    break;
+  case 'delete':
+    $token = $inputData['token'];
+    $stmt = $conn->delete_siswa($token);
+
+    if ($stmt) {
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'data berhasil dihapus.'
         ]);
         session_destroy();
     } else {

@@ -7,7 +7,7 @@ if (!isset($_SESSION['token'])) {
     exit;
 }
 
-$paslon_list = $conn->mysql_select("tb_kardidat");
+$paslon_list = $conn->mysql_select("tb_kandidat");
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +15,7 @@ $paslon_list = $conn->mysql_select("tb_kardidat");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voting Kardidat | E-Voting OSIS</title>
+    <title>Voting kandidat | E-Voting OSIS</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="assets/scripts/sweetalert.2.11.js"></script>
@@ -94,18 +94,18 @@ $paslon_list = $conn->mysql_select("tb_kardidat");
 
         <div class="relative flex items-center justify-center gap-4">
             
-            <!--  main : select kardidat -->
+            <!--  main : select kandidat -->
             <div class="relative min-w-[320px] w-full max-w-[600px]  rounded-xl overflow-hidden shadow-2xl ">
                 
                 <!-- TRACK CAROUSEL -->
                 <div id="scroll-container" class="flex w-full h-full transition-transform duration-500 ease-in-out">
                     <?php
-                    $kardidat = $conn->mysql_select("tb_kardidat");
-                    foreach ($kardidat as $row) :?>
+                    $kandidat = $conn->mysql_select("tb_kandidat");
+                    foreach ($kandidat as $row) :?>
 
                     <div class="w-full h-full flex-none p-3"> 
                         <div class="w-full h-full bg-white rounded-3xl overflow-hidden hover:border-blue-500 shadow-[0_8px_30px_rgb(15,23,42,0.06)] border-2 border-slate-300/80 flex flex-col  group relative">
-                            <!-- kardidat : image -->
+                            <!-- kandidat : image -->
                             <div class="relative rounded-2xl overflow-hidden bg-slate-800 aspect-[4/3] mb-4 shrink-0">
                                 <img src="upload/photo/<?=  $row['image']; ?>" alt="Kandidat <?= $row['nama'];?>"
                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -113,21 +113,21 @@ $paslon_list = $conn->mysql_select("tb_kardidat");
                             
                             <div class="flex-1 p-4 scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent">
                             
-                                <!-- kardidat : nama siswa -->
+                                <!-- kandidat : nama siswa -->
                                 <p class="text-2xl text-center font-bold mb-2 line-clamp-1 text-slate-800 shrink-0">
                                     <?= $row['nama'] ?>
                                 </p>
 
-                                <!-- kardidat : jenis -->
+                                <!-- kandidat : jenis -->
                                 <div class="flex justify-center mb-6 shrink-0">
                                     <span class="text-sm font-bold tracking-widest text-brand-yellow bg-yellow-50 px-3 py-1 rounded-full border border-brand-yellow/20">
                                     Calon Ketua OSIS
                                     </span>
                                 </div>
 
-                                <!-- kardidat : visi & misi -->
+                                <!-- kandidat : visi & misi -->
                                 <div class="space-y-4">
-                                    <!-- kardidat : Visi -->
+                                    <!-- kandidat : Visi -->
                                     <div class="bg-slate-50 p-3 rounded-xl border-slate-200 border-2">
                                         <h4 class="text-md font-bold uppercase text-blue-600 mb-1 flex items-center gap-1">
                                             <i data-lucide="compass" class="w-3.5 h-3.5"></i> Visi
@@ -137,7 +137,7 @@ $paslon_list = $conn->mysql_select("tb_kardidat");
                                         </p>
                                     </div>
 
-                                    <!-- kardidat : Misi -->
+                                    <!-- kandidat : Misi -->
                                     <div class="bg-slate-50 p-3 rounded-xl border-slate-200 border-2">
                                         <h4 class="text-md font-bold uppercase text-blue-600 mb-1 flex items-center gap-1">
                                             <i data-lucide="compass" class="w-3.5 h-3.5"></i> Misi
@@ -149,9 +149,9 @@ $paslon_list = $conn->mysql_select("tb_kardidat");
                                 </div>
                             </div>
 
-                            <!-- kardidat : button voting-->
+                            <!-- kandidat : button voting-->
                             <div class="p-4 bg-white border-t overflow-hidden border-slate-100 shrink-0 z-10">
-                                <button type="button" onclick="selectKardidat(<?= $row['id'];?>, '<?= $row['nama'];?>')" class="w-full font-semibold text-sm px-5 py-3 rounded-xl border-2 border-blue-600 text-blue-600 bg-white hover:bg-blue-600 hover:text-white transition-colors flex items-center justify-center gap-2">
+                                <button type="button" onclick="selectkandidat(<?= $row['id'];?>, '<?= $row['nama'];?>')" class="w-full font-semibold text-sm px-5 py-3 rounded-xl border-2 border-blue-600 text-blue-600 bg-white hover:bg-blue-600 hover:text-white transition-colors flex items-center justify-center gap-2">
                                     <i data-lucide="vote" class="w-4 h-4"></i>
                                     Pilih Kandidat Ini
                                 </button>

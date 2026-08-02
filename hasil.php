@@ -11,7 +11,7 @@ $suara_belum_memilih    = $total_pemilih_terdaftar - $total_suara_masuk;
 $persentase_partisipasi = round(($total_suara_masuk / $total_pemilih_terdaftar) * 100, 1);
 
 
-// $voted_kardidat = $conn->get_data_grafik_voting();
+// $voted_kandidat = $conn->get_data_grafik_voting();
 
 $paslon_results = $conn->get_paslon_results();
 ?>
@@ -174,14 +174,14 @@ $paslon_results = $conn->get_paslon_results();
                     </div>
                 </div>
 
-                <!-- card : total kardidat -->
+                <!-- card : total kandidat -->
                 <div class="relative overflow-hidden bg-gradient-to-br from-green-500 to-emerald-700 rounded-2xl p-6 text-white shadow-lg shadow-green-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-green-500/50">
                     <div class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/20 blur-2xl"></div>
                     
                     <div class="relative z-10 flex justify-between items-start">
                         <div>
                             <span class="text-sm font-semibold tracking-wider">Kandidat</span>
-                            <div class="text-4xl font-extrabold text-white"><?= $totalSiswa['kardidat']; ?></div>
+                            <div class="text-4xl font-extrabold text-white"><?= $totalSiswa['kandidat']; ?></div>
                         </div>
                         <div class="p-3 bg-white/20 rounded-xl backdrop-blur-sm border border-white/20">
                             <i data-lucide="award" class="w-10 h-10 stroke-[2]"></i>
@@ -192,7 +192,7 @@ $paslon_results = $conn->get_paslon_results();
             </div>
         </section>
 
-        <!-- statis : kardidat diagram -->
+        <!-- statis : kandidat diagram -->
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
             <!-- 1. Chart Donat -->
@@ -221,7 +221,7 @@ $paslon_results = $conn->get_paslon_results();
 
         </section>
 
-        <!-- statis : kardidat progress -->
+        <!-- statis : kandidat progress -->
         <section class="space-y-4">
             <h3 class="text-xl font-extrabold text-white">Progress Perolehan Kandidat</h3>
 

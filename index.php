@@ -169,7 +169,7 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
   </div>
 </section>
 
-<!-- section : kardidat -->
+<!-- section : kandidat -->
 <section id="kandidat" class="relative bg-[#F8FAFC] pt-28 pb-28">
   <div class="max-w-6xl mx-auto px-6">
     <div class="text-center mb-16">
@@ -180,24 +180,24 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
       <?php
-        $kardidat = $conn->mysql_select("tb_kardidat");
-        foreach ($kardidat as $row) :?>
+        $kandidat = $conn->mysql_select("tb_kandidat");
+        foreach ($kandidat as $row) :?>
 
         <div class="card-kandidat shrink-0 flex flex-col justify-between relative group bg-white rounded-3xl shadow-[0_8px_30px_rgb(15,23,42,0.06)] overflow-hidden border border-2 border-slate-300/80 ">
           <div class="text-left">
 
-            <!-- kardidat : image -->
+            <!-- kandidat : image -->
             <div class="relative rounded-2xl overflow-hidden bg-slate-800 aspect-[4/3] mb-5">
-              <img src="upload/photo/<?=  $row['image']; ?>" alt="Kardidat <?= $row['nama'];?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img src="upload/photo/<?=  $row['image']; ?>" alt="kandidat <?= $row['nama'];?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
             </div>
 
-            <!-- kardidat : nama siswa -->
+            <!-- kandidat : nama siswa -->
             <p class="text-2xl text-center font-bold my-4 line-clamp-1">
                 <?= $row['nama'] ?>
             </p> 
             <div class="px-4 space-y-4 scrollbar-thin scrollbar-thumb-slate-700">
 
-              <!-- kardidat : Visi -->
+              <!-- kandidat : Visi -->
               <div class="bg-slate-100/60 p-3 rounded-xl border-slate-200/80 border-2">
                 <h4 class="text-md font-bold uppercase text-brand-blue mb-1 flex items-center gap-1">
                     <i data-lucide="compass" class="w-3.5 h-3.5 text-brand-yellow"></i> Visi
@@ -207,7 +207,7 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
                 </p>
               </div>
 
-              <!-- kardidat : Misi -->
+              <!-- kandidat : Misi -->
               <div class="bg-slate-100/60 p-3 rounded-xl border-slate-200/80 border-2">
                 <h4 class="text-md font-bold uppercase text-brand-blue mb-1 flex items-center gap-1">
                     <i data-lucide="compass" class="w-3.5 h-3.5 text-brand-yellow"></i> Misi
@@ -219,7 +219,7 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
             </div>
           </div>
 
-          <!-- kardidat : button -->
+          <!-- kandidat : button -->
           <div class="px-4 py-4 space-y-4 text-center">
             <a href="login.php"
               class="btn-cta w-full font-display font-semibold text-sm px-5 py-3 rounded-xl border-2 border-primary-700 text-primary-700 bg-slate-100 text-navy-500 hover:bg-primary-700 hover:text-white flex items-center justify-center gap-2">

@@ -1,7 +1,7 @@
 
-function load_kardidat() 
+function load_kandidat() 
 {
-  fetch('../api/kardidat.php', {
+  fetch('../api/kandidat.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -14,40 +14,40 @@ function load_kardidat()
   .then(data => {
 
     if (data.status !== 'success') {
-      document.getElementById('card-kardidat').innerHTML =
+      document.getElementById('card-kandidat').innerHTML =
         `<p>${data.message || data.data || 'Gagal memuat data.'}</p>`;
       return;
     }
 
     let html = '';
 
-    data.data.forEach(kardidat => {
+    data.data.forEach(kandidat => {
       html += `
         <div class="card border rounded-md text-center w-64">
           <div class="flex justify-center items-center">
-            <img src="../upload/photo/${kardidat.image}" alt="Kardidat ${kardidat.image}" class="w-32 h-32 object-cover object-center">
+            <img src="../upload/photo/${kandidat.image}" alt="kandidat ${kandidat.image}" class="w-32 h-32 object-cover object-center">
           </div>
-          <p>${kardidat.nama}</p>
-          <p>${kardidat.visi}</p>
-          <p>${kardidat.misi}</p>
-          <a href="dashboard.php?u=${kardidat.id}" class="text-blue-500 hover:text-blue-600">update</a>
-          <button onclick="delete_kardidat(${kardidat.id})" class="text-red-500 hover:text-red-600">delete</a>
+          <p>${kandidat.nama}</p>
+          <p>${kandidat.visi}</p>
+          <p>${kandidat.misi}</p>
+          <a href="dashboard.php?u=${kandidat.id}" class="text-blue-500 hover:text-blue-600">update</a>
+          <button onclick="delete_kandidat(${kandidat.id})" class="text-red-500 hover:text-red-600">delete</a>
         </div>
       `;
     });
 
-    document.getElementById('card-kardidat').innerHTML = html;
+    document.getElementById('card-kandidat').innerHTML = html;
   })
   .catch(error => {
     console.error(error);
-    document.getElementById('card-kardidat').innerHTML =
+    document.getElementById('card-kandidat').innerHTML =
       '<p>Terjadi kesalahan.</p>';
   });
 }
-load_kardidat();
-setInterval(load_kardidat, 10000); 
+load_kandidat();
+setInterval(load_kandidat, 10000); 
 
-async function add_kardidat(nama, visi, misi, imageFile) 
+async function add_kandidat(nama, visi, misi, imageFile) 
 {
   let imageName = null;
 
@@ -69,7 +69,7 @@ async function add_kardidat(nama, visi, misi, imageFile)
   }
 
   // 2. Baru kirim data teks + nama file sebagai JSON
-  const res = await fetch('../api/kardidat.php', {
+  const res = await fetch('../api/kandidat.php', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
@@ -84,19 +84,19 @@ async function add_kardidat(nama, visi, misi, imageFile)
 
   if (data.status === 'success') {
     alert('Kandidat berhasil ditambahkan!');
-    load_kardidat(); // refresh daftar card
+    load_kandidat(); // refresh daftar card
   } else {
     alert(data.message || 'Gagal menambahkan kandidat.');
   }
 }
 
-async function delete_kardidat(id_kardidat) {
-  const res = await fetch('../api/kardidat.php', {
+async function delete_kandidat(id_kandidat) {
+  const res = await fetch('../api/kandidat.php', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
       type: 'delete',
-      id: id_kardidat
+      id: id_kandidat
     })
   });
 
@@ -104,7 +104,7 @@ async function delete_kardidat(id_kardidat) {
 
   if (data.status == 'success') {
     alert('Kandidat berhasil dihapus!');
-    load_kardidat(); // refresh daftar card
+    load_kandidat(); // refresh daftar card
   } else {
     alert(data.message || 'Gagal menghapus kandidat.');
   }
@@ -115,13 +115,13 @@ const input_visi = document.getElementById('text-visi');
 const input_misi = document.getElementById('text-misi');
 const input_image = document.getElementById('photo');
 
-document.getElementById('btn-add-kardidat').addEventListener('click', () => {
+document.getElementById('btn-add-kandidat').addEventListener('click', () => {
   if (!input_nama.value.trim() || !input_visi.value.trim() || !input_misi.value.trim()) {
     alert('Semua field wajib diisi!');
     return;
   }
   const file = input_image.files[0] || null;
-  add_kardidat(input_nama.value, input_visi.value, input_misi.value, file);
+  add_kandidat(input_nama.value, input_visi.value, input_misi.value, file);
   
   input_nama.value = '';
   input_visi.value = '';

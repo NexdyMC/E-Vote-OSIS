@@ -1,6 +1,6 @@
 <?php
 session_start();
-$is_ajax = isset($_GET['ajax']) && $_GET['ajax'] == '1';
+
 require_once __DIR__ . "/../api/conn.php"; 
 
 if (isset($_POST["submit_kandidat"])) {
@@ -51,57 +51,38 @@ $suaraKandidat = $conn->get_paslon_results();
 
 $pageTitle  = 'Statistik Voting'; 
 $breadcrumb = ['Admin', 'Statistik Voting']; 
-$activePage = 'dashboard'; 
+$activePage = 'siswa'; 
+?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin</title>
+  
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+  <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet"> -->
+  <!-- <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet"> -->
+  <!-- <script src="https://unpkg.com/lucide@latest"></script> -->
+  <script src="../assets/scripts/tailwind.js"></script>
+  <script src="../assets/scripts/tailwind.config.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-body"> 
 
-if (!$is_ajax) {
-    require_once __DIR__ . '/../layout/partials/header.php';
-    require_once __DIR__ . '/../layout/partials/sidebar.php';
-    require_once __DIR__ . '/../layout/partials/navbar.php';
-    ?>
-    <main id="main-content" class="flex-1 p-4 sm:p-8 overflow-y-auto">
-<?php }; ?>
-    
+<div class="flex min-h-screen">
+
+  <?php require __DIR__ . '/../layout/partials/sidebar.php'?>
+  <main class="flex-1 min-w-0">
+
+    <!-- Header Admin -->
+    <?php require __DIR__ . '/../layout/partials/topbar.php'?>
     <div class="p-4 sm:p-8 space-y-8">
-      
-      <!-- Tampilkan Alert Jika Ada -->
+
       <?= $pesan_alert ?>
 
-      <!-- 4 KARTU STATISTIK ATAS -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div class="bg-white rounded-2xl p-6 border shadow-sm">
-          <p class="text-2xl font-display font-bold text-navy-900"><?= number_format($totalDPT, 0, ',', '.') ?></p>
-          <p class="text-sm text-slate-500">Total Siswa (DPT)</p>
-        </div>
-        <div class="bg-white rounded-2xl p-6 border shadow-sm">
-          <p class="text-2xl font-display font-bold text-navy-900"><?= number_format($totalSuaraMasuk, 0, ',', '.') ?></p>
-          <p class="text-sm text-slate-500">Suara Masuk</p>
-        </div>
-        <div class="bg-white rounded-2xl p-6 border shadow-sm">
-          <p class="text-2xl font-display font-bold text-navy-900"><?= $partisipasi ?>%</p>
-          <p class="text-sm text-slate-500">Tingkat Partisipasi</p>
-        </div>
-        <div class="bg-navy-900 rounded-2xl p-6">
-          <p id="sisaWaktuText" class="text-2xl font-display font-bold text-white">LIVE</p>
-          <p class="text-sm text-slate-400">Status Pemilihan</p>
-        </div>
-      </div>
-
-      <!-- CHART AREA -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="lg:col-span-2 bg-navy-900 rounded-3xl p-6 sm:p-8 text-white">
-          <h3 class="font-display font-semibold mb-6">Perolehan Suara per Kandidat</h3>
-          <div class="h-72"><canvas id="chartSuara"></canvas></div>
-        </div>
-        <div class="bg-white rounded-3xl p-6 sm:p-8 border shadow-sm">
-          <h3 class="font-display font-semibold mb-6">Partisipasi Pemilih</h3>
-          <div class="h-56"><canvas id="chartPartisipasi"></canvas></div>
-        </div>
-      </div>
-
-      <hr class="my-8">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border overflow-x-auto">
           <h3 class="font-display font-semibold text-lg mb-4">Data Pemilih (Siswa)</h3>
           <table class="w-full text-left text-sm">
@@ -140,12 +121,19 @@ if (!$is_ajax) {
         </div>
       </div>
     </div>
-  <?php if (!$is_ajax): ?>
-    </main>
-  <?php endif; ?>
+  </main>
+</div>
+
+
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<!-- AOS JS -->
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
 
 <script>
-  lucide.createIcons();
+  // lucide.createIcons();
   AOS.init({ duration: 550, once: true, offset: 40 });
 
   // Parsing data PHP ke JS
@@ -195,7 +183,97 @@ if (!$is_ajax) {
       plugins: { legend: { display: false } }
     }
   });
+  // Buka modal. mode: 'add' atau 'edit'. data: object kandidat (saat edit).
+  function openModal(mode, data) {
+    const form = document.getElementById('formKandidat');
+    form.reset();
+    document.getElementById('previewFoto').src = 'https://placehold.co/100x100/EEF3FF/1E3A8A?text=Foto';
+
+    if (mode === 'edit' && data) {
+      document.getElementById('modalTitle').textContent = 'Edit Kandidat';
+      document.getElementById('inputId').value = data.id;
+      document.getElementById('inputNomor').value = data.nomor_urut;
+      document.getElementById('inputKetua').value = data.nama_ketua;
+      document.getElementById('inputWakil').value = data.nama_wakil;
+      document.getElementById('inputVisi').value = data.visi_misi;
+      document.getElementById('previewFoto').src = data.foto;
+    } else {
+      document.getElementById('modalTitle').textContent = 'Tambah Kandidat Baru';
+      document.getElementById('inputId').value = '';
+    }
+
+    document.getElementById('modalWrap').classList.remove('modal-hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalWrap').classList.add('modal-hidden');
+    document.body.style.overflow = '';
+  }
+
+  // Preview foto sebelum diunggah
+  function previewFotoFile(input) {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = e => document.getElementById('previewFoto').src = e.target.result;
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  // Tutup modal dengan tombol Escape
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 </script>
-<?php if (!$is_ajax): ?>
-  <?php require_once __DIR__ . '/../layout/partials/footer.php'; ?>
-<?php endif; ?>
+<script>
+  const dropzone = document.getElementById('dropzoneFoto');
+  const inputFoto = document.getElementById('inputFoto');
+  const previewFoto = document.getElementById('previewFoto');
+
+  // 1. Jika dropzone diklik, buka file explorer
+  dropzone.addEventListener('click', () => {
+    inputFoto.click();
+  });
+
+  // 2. Mencegah browser membuka gambar di tab baru saat gambar di-drag
+  dropzone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropzone.classList.add('border-primary-500', 'bg-primary-50'); // Efek menyala saat di-drag
+  });
+
+  dropzone.addEventListener('dragleave', (e) => {
+    e.preventDefault();
+    dropzone.classList.remove('border-primary-500', 'bg-primary-50'); // Kembali normal
+  });
+
+  // 3. Menangkap file saat di-drop
+  dropzone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropzone.classList.remove('border-primary-500', 'bg-primary-50');
+    
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      inputFoto.files = e.dataTransfer.files; // Memasukkan file yang di-drop ke dalam input
+      tampilkanPreview(e.dataTransfer.files[0]);
+    }
+  });
+
+  // 4. Menangkap file jika dipilih menggunakan klik (File Explorer)
+  inputFoto.addEventListener('change', function() {
+    if (this.files && this.files.length > 0) {
+      tampilkanPreview(this.files[0]);
+    }
+  });
+
+  // Fungsi mengubah gambar placeholder menjadi gambar asli yang diupload
+  function tampilkanPreview(file) {
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        previewFoto.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert('Tolong upload file berupa gambar (PNG/JPG/WEBP)');
+    }
+  }
+</script>
+</body>
+</html>

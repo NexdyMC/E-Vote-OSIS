@@ -10,4 +10,4 @@ create table tb_siswa (
   status boolean default false,
   voted int default 0
 )
-create table tb_kardidat 
+create table tb_kandidat 
