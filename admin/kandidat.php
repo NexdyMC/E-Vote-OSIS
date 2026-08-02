@@ -213,7 +213,7 @@ if (!$is_ajax) {
       document.getElementById('inputNamaKandidat').value = data.nama;
       document.getElementById('inputVisiKandidat').value = data.visi;
       document.getElementById('inputMisiKandidat').value = data.misi;
-      if (data.image) previewFoto.src = 'uploads/kandidat/' + data.image;
+      if (data.image) previewFoto.src = '../upload/photo/' + data.image;
     } else {
       document.getElementById('modalKandidatTitle').textContent = 'Tambah Kandidat Baru';
       document.getElementById('inputKandidatId').value = '';

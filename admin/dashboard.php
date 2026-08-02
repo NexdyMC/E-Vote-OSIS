@@ -111,7 +111,6 @@ if (!$is_ajax) {
                 <th class="p-3">Nama</th>
                 <th class="p-3">Kelas</th>
                 <th class="p-3">Status</th>
-                <th class="p-3 rounded-r-lg">Aksi</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
@@ -128,10 +127,6 @@ if (!$is_ajax) {
                     <?php else: ?>
                         <span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-bold">Belum</span>
                     <?php endif; ?>
-                </td>
-                <td class="p-3 space-x-2">
-                  <a href="update_siswa.php?token=<?= $row['token'] ?>" class="text-blue-600 hover:underline">Edit</a>
-                  <a href="hapus_siswa.php?token=<?= $row['token'] ?>" class="text-red-600 hover:underline" onclick="return confirm('Hapus siswa ini?')">Hapus</a>
                 </td>
               </tr>
               <?php }; ?>

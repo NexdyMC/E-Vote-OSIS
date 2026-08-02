@@ -81,12 +81,16 @@ class MySQL {
   }
   
   // mysql kandidat : update
-  public function update_kandidat($id, $nama, $visi, $misi) 
+  public function update_kandidat($id, $nama, $visi, $misi, $image = null) 
   {
-    $sql = "UPDATE tb_kandidat SET 
-            nama = '$nama', visi = '$visi', misi = '$misi' 
-            WHERE id = '$id'";
-    return $this->conn->query($sql);
+    if (!empty($image)) {
+        $stmt = $this->conn->prepare("UPDATE tb_kandidat SET nama=?, visi=?, misi=?, image=? WHERE id=?");
+        $stmt->bind_param("ssssi", $nama, $visi, $misi, $image, $id);
+    } else {
+        $stmt = $this->conn->prepare("UPDATE tb_kandidat SET nama=?, visi=?, misi=? WHERE id=?");
+        $stmt->bind_param("sssi", $nama, $visi, $misi, $id);
+    }
+    return $stmt->execute();
   }
 
   // mysql kandidat : delete
@@ -179,6 +183,24 @@ class MySQL {
     }
   }
 
+  // mysql image : delete 
+  public function delete_image($local_folder, $name_file) 
+  {
+    if (empty($name_file)) {
+      return false;
+    }
+
+    // Gabungkan path folder dengan nama file
+    $file_path = rtrim($local_folder, '/\\') . DIRECTORY_SEPARATOR . $name_file;
+
+    // Cek apakah file benar-benar ada di server, lalu hapus
+    if (file_exists($file_path) && is_file($file_path)) {
+      return unlink($file_path);
+    }
+
+    return false;
+  }
+  
   // mysql fitur : voting persen
   public function persen_voting_siswa() 
   {
