@@ -136,6 +136,11 @@ $activePage = "voting";
     <!-- script : js -->
     <script src="assets/scripts/voting.js"></script>
     <script>
+
+function logout() {
+    window.location.href = "logout.php";
+}
+
 lucide.createIcons();
 
 const scrollContainer = document.getElementById('scroll-container');

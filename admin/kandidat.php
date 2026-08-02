@@ -82,7 +82,7 @@ if (!$is_ajax) {
 
           <div class="flex justify-center mb-5">
             <span class="text-xs font-bold tracking-widest text-accent-500 bg-accent-400/15 px-3 py-1 rounded-full border border-accent-400/30">
-              PASLON NO. <?= $noUrut ?>
+              Calon Ketua OSIS <?= $noUrut ?>
             </span>
           </div>
 
@@ -195,6 +195,7 @@ if (!$is_ajax) {
   onclick di HTML (openModalKandidat, closeModalKandidat) sengaja
   ditempel ke `window` supaya tetap bisa diakses dari luar IIFE.
 -->
+
 
 <?php if (!$is_ajax): ?>
   <?php require_once __DIR__ . '/../layout/partials/footer.php'; ?>

@@ -300,24 +300,24 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
     <?php
     $tips = [
       [
-        'judul' => 'Login dengan Akun Siswa',
-        'desc'  => 'Masuk menggunakan NISN dan password sekolah — tidak perlu daftar akun baru.',
+        'judul' => 'Login dengan Token',
+        'desc'  => 'Masuk menggunakan Token yang sudah diberikan kepada panitia OSIS',
       ],
       [
-        'judul' => 'Baca Visi-Misi Dulu',
-        'desc'  => 'Luangkan 1-2 menit membaca ringkasan program tiap paslon di section Kandidat sebelum memilih.',
+        'judul' => 'Baca Visi-Misi',
+        'desc'  => 'Luangkan 1-2 menit membaca ringkasan program di section Kandidat sebelum memilih.',
       ],
       [
-        'judul' => 'Klik Pilih Sekali Saja',
-        'desc'  => 'Tekan tombol "Pilih Paslon" satu kali, sistem otomatis mengunci suara agar tidak bisa diubah/diganda.',
+        'judul' => 'Pilih Kardiadat',
+        'desc'  => 'Tekan tombol "Pilih Kardidat Ini" satu kali, sistem otomatis mengunci suara agar tidak bisa diubah/diganda.',
       ],
       [
-        'judul' => 'Tunggu Notifikasi Konfirmasi',
-        'desc'  => 'Pastikan muncul pesan "Suara berhasil direkam" sebelum menutup atau me-refresh halaman.',
+        'judul' => 'Tunggu Konfirmasi',
+        'desc'  => 'Pastikan muncul pesan "Vote berhasil disimpan." sebelum menutup atau me-refresh halaman.',
       ],
       [
-        'judul' => 'Bisa Lewat HP Saat Istirahat',
-        'desc'  => 'Website ini responsive — cukup buka browser dari HP di sela jam istirahat, tanpa perlu ke lab komputer.',
+        'judul' => 'Responsive',
+        'desc'  => 'Website ini responsive cukup buka browser dari HP di sela jam istirahat, tanpa perlu ke lab komputer.',
       ],
     ];
     ?>

@@ -214,45 +214,46 @@ $paslon_results = $conn->get_paslon_results();
 
     <!-- script : js -->
 <script>
-    // 1. Inisialisasi Icon Lucide
+
     lucide.createIcons();
 
-    // ==========================================
-    // Fungsi Animasi Reload Nomor dari 0
-    // ==========================================
+    function logout() {
+        window.location.href = "logout.php";
+    }
+    
     function animateValue(obj, start, end, duration, isPercent = false) {
         let startTimestamp = null;
         const step = (timestamp) => {
             if (!startTimestamp) startTimestamp = timestamp;
-            // Hitung progress waktu berjalan
+        
             const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            // Efek ease-out (melambat di akhir agar mulus)
+        
             const easeOut = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
             let currentVal = Math.floor(easeOut * (end - start) + start);
             
-            // Format teks (tambah titik & simbol persen)
+        
             obj.innerHTML = currentVal.toLocaleString('id-ID') + (isPercent ? '%' : '');
             
             if (progress < 1) {
                 window.requestAnimationFrame(step);
             } else {
-                // Pastikan angka akhir akurat
+            
                 obj.innerHTML = end.toLocaleString('id-ID') + (isPercent ? '%' : '');
             }
         };
         window.requestAnimationFrame(step);
     }
 
-    // Jalankan animasi untuk semua text number saat pertama kali halaman diload
+
     document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll('.animate-number').forEach(elem => {
             let endVal = parseFloat(elem.getAttribute('data-value'));
             let isPercent = elem.getAttribute('data-is-percent') === 'true';
-            animateValue(elem, 0, endVal, 1500, isPercent); // 1500ms = 1.5 detik
+            animateValue(elem, 0, endVal, 1500, isPercent);
         });
     });
 
-    // 2. Mengambil Data Paslon dari PHP Pertama Kali (Initial Load)
+
     const paslonLabels = <?= json_encode(array_column($paslon_results, 'nama')); ?>;
     const paslonSuara  = <?= json_encode(array_column($paslon_results, 'suara'), JSON_NUMERIC_CHECK); ?>;
 
@@ -262,7 +263,7 @@ $paslon_results = $conn->get_paslon_results();
     const gradDonut = [<?php foreach ($paslon_results as $row) { echo "'" . $row['warna'] . "',"; } ?>];
     const gradBar   = [<?php foreach ($paslon_results as $row) { echo "'" . $row['warna'] . "',"; } ?>];
 
-    // --- A. Eksekusi Chart Donat (Simpan ke variabel chartDonut) ---
+
     const chartDonut = new Chart(ctxDonut, {
         type: 'doughnut', 
         data: {
@@ -284,7 +285,6 @@ $paslon_results = $conn->get_paslon_results();
         }
     });
 
-    // --- B. Eksekusi Diagram Batang (Simpan ke variabel chartBar) ---
     const chartBar = new Chart(ctxBar, {
         type: 'bar',
         data: {
@@ -304,7 +304,6 @@ $paslon_results = $conn->get_paslon_results();
         }
     });
 
-    // --- C. Timer & AJAX Real-Time Update ---
     let seconds = 5;
     const syncElem = document.getElementById('syncTime');
     const syncIcon = document.getElementById('syncIcon');
@@ -312,7 +311,7 @@ $paslon_results = $conn->get_paslon_results();
     function fetchLiveData() {
         if (syncIcon) syncIcon.classList.add('animate-spin');
 
-        fetch('../api/kandidat.php', {
+        fetch('api/kandidat.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ type: 'statistik' }) 
@@ -320,7 +319,6 @@ $paslon_results = $conn->get_paslon_results();
         .then(response => response.json())
         .then(result => {
             if (result.status === 'success') {
-                // Update Animasi Chart
                 const dataBaru = result.suaraKandidat; 
                 const suaraBaru = dataBaru.map(k => k.suara);
 
@@ -329,18 +327,14 @@ $paslon_results = $conn->get_paslon_results();
                 chartBar.data.datasets[0].data = suaraBaru;
                 chartBar.update();
 
-                // Update & Animasikan Ulang DOM (Teks Suara per Paslon)
                 dataBaru.forEach((k) => {
                     let elSuara = document.getElementById('val-suara-' + k.no_urut);
                     if (elSuara) {
                         let currentVal = parseFloat(elSuara.getAttribute('data-value'));
-                        // Jika ada perubahan suara (atau kamu bisa hapus `if` ini jika ingin selalu reload animasi setiap 5 detik meski data tidak berubah)
                         if (currentVal !== k.suara) {
                             elSuara.setAttribute('data-value', k.suara);
-                            // Animasikan kembali dari 0 sampai nilai terbaru
                             animateValue(elSuara, 0, k.suara, 1500, false); 
                             
-                            // Hitung & Update Persentase bar (opsional jika API mu ada data total suara masuk)
                             if (result.totalMasuk) {
                                 let persenVal = ((k.suara / result.totalMasuk) * 100).toFixed(1);
                                 if (isNaN(persenVal)) persenVal = 0;
@@ -358,7 +352,6 @@ $paslon_results = $conn->get_paslon_results();
                     }
                 });
 
-                // Update Angka Partisipasi Keseluruhan (Jika kamu menambahkan data totalMasuk & totalDPT di API)
                 if (result.totalMasuk && result.totalDPT) {
                     let elTotalSuara = document.getElementById('val-total-suara');
                     let elPartisipasi = document.getElementById('val-partisipasi');
@@ -390,7 +383,6 @@ $paslon_results = $conn->get_paslon_results();
         });
     }
 
-    // Jalankan timer hitung mundur
     if (syncElem) {
         setInterval(() => {
             seconds--;

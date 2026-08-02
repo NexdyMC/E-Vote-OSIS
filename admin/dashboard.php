@@ -4,18 +4,23 @@ $is_ajax = isset($_GET['ajax']) && $_GET['ajax'] == '1';
 require_once __DIR__ . "/../api/conn.php"; 
 
 if (isset($_POST["submit_kandidat"])) {
-        
-    $visi = $_POST["text-visi"]; 
-    $misi = $_POST["text-misi"]; 
-    
-    $nama_file_baru = random_id(8); 
-    $folder_tujuan = "../uploads/photo/"; 
-    
+
+    // PENTING: sesuaikan "text-nama" dengan atribut name= input nama
+    // kandidat di form HTML kamu, kalau berbeda.
+    $nama = $_POST["text-nama"] ?? '';
+    $visi = $_POST["text-visi"];
+    $misi = $_POST["text-misi"];
+
+    $nama_file_baru = random_id(8);
+    // Disamakan dengan folder yang dipakai api/kandidat.php ("../upload/photo/")
+    // supaya foto kandidat yang diupload lewat dashboard maupun lewat API
+    // tersimpan di folder yang sama.
+    $folder_tujuan = "../upload/photo/";
+
     $upload_foto = $conn->upload_image($folder_tujuan, $nama_file_baru, 'photo');
-    
-    if ($upload_foto) {    
-        // Catatan: Pastikan variabel $nama dideklarasikan dari $_POST sebelum baris ini jika form aslinya memiliki input nama
-        $simpan = $conn->add_kandidat($nama, $visi, $misi, $upload_foto);
+
+    if ($upload_foto) {
+        $simpan = $conn->add_kandidat($nama, $visi, $misi, $nama_file_baru);
         if ($simpan) {
             header("Location: dashboard.php?v=true");
             exit;

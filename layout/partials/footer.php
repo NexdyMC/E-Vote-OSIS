@@ -18,8 +18,7 @@
 <!-- AOS JS (CSS-nya sudah di head lewat header.php) -->
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
-<script src="../layout/scripts/kandidat.js"></script>
-
+<script src="../assets/scripts/kandidat.js"></script>
 
 
 <script>

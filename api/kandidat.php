@@ -1,6 +1,6 @@
 <?php
 include "conn.php";
-header('Content-Type: multipart/form-data');
+header('Content-Type: application/json; charset=utf-8');
 $inputData = json_decode(file_get_contents('php://input'), true);
 
 switch ($inputData['type'] ?? '')
@@ -46,17 +46,18 @@ switch ($inputData['type'] ?? '')
         'message' => 'data gagal dikirim'
       ]);
     }
+    break;
+
   // api mode : delete
   case 'delete':
-    $id = $inputData['id'] ?? null;
-    $file = $conn->select_kandidat("id = $id","image");
-    
+    $id = intval($inputData['id'] ?? 0);
+    $file = $conn->select_kandidat("id = $id", "image");
+
     foreach ($file as $row) {
-      echo $row['image'];
-      $status  = unlink("../upload/photo/" . $row['image']);
+      @unlink("../upload/photo/" . $row['image']);
     }
     $stmt = $conn->delete_kandidat($id);
-    
+
     if ($stmt) {
       echo json_encode([
         'status' => 'success',
@@ -68,13 +69,19 @@ switch ($inputData['type'] ?? '')
         'message' => 'data gagal dikirim'
       ]);
     }
-    
+    break;
+
   // api mode : statistik live chart
   case 'statistik':
-    
-    $suaraKandidat = $conn->select_suara_kandidat(); 
-    $totalDPT      = $conn->get_total_dpt();      
-    $totalMasuk    = $conn->get_total_suara_masuk();
+
+    // Pakai method yang sama dengan yang dipakai dashboard.php & hasil.php
+    // saat render pertama kali, supaya struktur datanya (nama, suara, warna,
+    // no_urut, persen) konsisten dengan yang dibaca oleh JavaScript.
+    $suaraKandidat = $conn->get_paslon_results();
+    $statistikSiswa = $conn->persen_voting_siswa();
+
+    $totalDPT   = $statistikSiswa['total_siswa'] ?? 0;
+    $totalMasuk = $statistikSiswa['sudah_voting'] ?? 0;
 
     echo json_encode([
       'status' => 'success',
