@@ -1,20 +1,4 @@
 <?php
-/* =========================================================
-   PARTIAL: layout/partials/sidebar.php
-   ---------------------------------------------------------
-   Variabel yang harus tersedia sebelum include:
-   $activePage  ('dashboard' | 'kandidat' | 'siswa')
-
-   Catatan penting:
-   - Setiap <a> menu utama diberi class "ajax-link" — ini yang
-     ditangkap oleh script fetch di footer.php.
-   - data-title & data-breadcrumb dipakai JS untuk memperbarui
-     judul halaman & breadcrumb di navbar.php secara instan
-     setiap kali konten di-load lewat SPA (karena navbar.php
-     sendiri TIDAK ikut di-render ulang saat navigasi AJAX).
-   - Link "Keluar" sengaja TIDAK diberi class ajax-link supaya
-     logout tetap memicu reload/redirect penuh seperti biasa.
-   ========================================================= */
 if (!isset($activePage)) { $activePage = ''; }
 ?>
 <div id="sidebarOverlay" onclick="toggleSidebar(false)"

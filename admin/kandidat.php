@@ -26,10 +26,6 @@ $admin = $_SESSION['admin'] ?? [
     'role' => 'Admin Pemilu',
 ];
 
-// --- Data kandidat asli dari database, urut berdasarkan id ---
-// ("Nomor Urut" TIDAK disimpan sebagai kolom terpisah — conn.php
-//  menghitungnya otomatis dari urutan baris (lihat get_paslon_results()),
-//  jadi di sini nomor urut juga dihitung dari posisi loop supaya konsisten.)
 $kandidat_list = $conn->select_kandidat('1 ORDER BY id ASC');
 
 $pageTitle  = 'Kelola Pasangan Calon / Kandidat';

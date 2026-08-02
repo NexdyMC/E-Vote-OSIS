@@ -30,7 +30,7 @@ $admin = $_SESSION['admin'] ?? [
 // ("Nomor Urut" TIDAK disimpan sebagai kolom terpisah — conn.php
 //  menghitungnya otomatis dari urutan baris (lihat get_paslon_results()),
 //  jadi di sini nomor urut juga dihitung dari posisi loop supaya konsisten.)
-$kandidat_list = $conn->select_kandidat('1 ORDER BY id ASC');
+$kandidat_list = $conn->select_kardidat('1 ORDER BY id ASC');
 
 $pageTitle  = 'Kelola Pasangan Calon / Kandidat';
 $breadcrumb = ['Admin', 'Kandidat'];
@@ -42,7 +42,7 @@ if (!$is_ajax) {
     require_once __DIR__ . '/../layout/partials/navbar.php';
     ?>
     <main id="main-content" class="flex-1 p-4 sm:p-8 overflow-y-auto">
-<?php }; ?>
+<?php endif; ?>
 
   <?= $pesan_alert ?>
 

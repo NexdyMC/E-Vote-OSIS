@@ -89,11 +89,11 @@ class MySQL {
     return $data;
   }
   
-  // mysql kandidat : add 
+  // mysql kardidat : add 
   public function add_kandidat($nama, $visi, $misi, $image)
   {
     $stmt = $this->conn->prepare(
-        "INSERT INTO tb_kandidat (nama, visi, misi, image)
+        "INSERT INTO tb_kardidat (nama, visi, misi, image)
          VALUES (?, ?, ?, ?)"
     );
 
@@ -110,10 +110,10 @@ class MySQL {
     return true;
   }
 
-  // mysql kandidat : select
-  public function select_kandidat($where = "", $column = "*")
+  // mysql kardidat : select
+  public function select_kardidat($where = "", $column = "*")
   {
-    $sql = "SELECT $column FROM tb_kandidat";
+    $sql = "SELECT $column FROM tb_kardidat";
 
     if (!empty($where)) {
         $sql .= " WHERE $where";
@@ -129,12 +129,12 @@ class MySQL {
     return $result->fetch_all(MYSQLI_ASSOC);
   }
   
-  // mysql kandidat : update  
-  public function update_kandidat($id, $nama, $visi, $misi) 
+  // mysql kardidat : update  
+  public function update_kardidat($id, $nama, $visi, $misi) 
   {
     $stmt = $this->conn->prepare(
           // SET nama = ? WHERE id = ?"
-        "UPDATE tb_kandidat SET
+        "UPDATE tb_kardidat SET
         nama = ? , visi = ?, misi = ? 
         WHERE id = ?"
     );
@@ -145,8 +145,8 @@ class MySQL {
     return $data;
   }
 
-  // mysql kandidat : delete
-  public function delete_kandidat($id)
+  // mysql kardidat : delete
+  public function delete_kardidat($id)
   {
 
     // ubah value voted menjadi 0
@@ -155,9 +155,9 @@ class MySQL {
     $stmt->bind_param('i', $id);
     $stmt->execute();
 
-    // delete kandidat
+    // delete kardidat
     $stmt = $this->conn->prepare(
-        "DELETE FROM tb_kandidat WHERE id = ?"
+        "DELETE FROM tb_kardidat WHERE id = ?"
       );
     $stmt->bind_param("i", $id);
     $data = $stmt->execute();
@@ -198,7 +198,7 @@ class MySQL {
   }
 
   // mysql siswa : voting
-  public function voting_kandidat($id, $voted)
+  public function voting_kardidat($id, $voted)
   {
     $stmt = $this->conn->prepare(
       "UPDATE tb_siswa SET
@@ -309,8 +309,8 @@ class MySQL {
     $sudah_query = $this->conn->query("SELECT COUNT(*) as count FROM tb_siswa WHERE status = 1");
     $sudah = $sudah_query->fetch_assoc()['count'];
     
-    $kandidat_query = $this->conn->query("SELECT COUNT(*) as count FROM tb_kandidat");
-    $kandidat = $kandidat_query->fetch_assoc()['count'];
+    $kardidat_query = $this->conn->query("SELECT COUNT(*) as count FROM tb_kardidat");
+    $kardidat = $kardidat_query->fetch_assoc()['count'];
 
     $persen_belum = ($total > 0) ? ($belum / $total) * 100 : 0;
     $persen_sudah = ($total > 0) ? ($sudah / $total) * 100 : 0;
@@ -321,15 +321,15 @@ class MySQL {
         'sudah_voting' => $sudah,
         'persen_belum' => round($persen_belum),
         'persen_sudah' => round($persen_sudah),
-        'kandidat' => $kandidat
+        'kardidat' => $kardidat
     ];
   }
   
-  // mysql : grafik kandidat
+  // mysql : grafik kardidat
   public function get_data_grafik_voting() {  
   
     $query = "SELECT k.nama AS nama_kand, COUNT(s.voted) AS total_suara 
-              FROM tb_kandidat k 
+              FROM tb_kardidat k 
               LEFT JOIN tb_siswa s ON k.id = s.voted AND s.status = 1 
               GROUP BY k.id, k.nama";
               
@@ -357,9 +357,9 @@ class MySQL {
   // mysql : get paslon results
   public function get_paslon_results() {
     
-    // Query menggabungkan tb_kandidat dan menghitung jumlah suara
+    // Query menggabungkan tb_kardidat dan menghitung jumlah suara
     $query = "SELECT k.id, k.nama AS nama_kand, COUNT(s.voted) AS total_suara 
-              FROM tb_kandidat k 
+              FROM tb_kardidat k 
               LEFT JOIN tb_siswa s ON k.id = s.voted AND s.status = 1 
               GROUP BY k.id, k.nama
               ORDER BY k.id ASC"; // Diurutkan berdasarkan ID agar rapi

@@ -24,7 +24,7 @@ if ($nama === '' || $visi === '' || $misi === '') {
 // --- Upload foto (opsional saat edit, wajib secara logis saat tambah baru) ---
 $namaFileBaru = null;
 if (!empty($_FILES['foto']['name'])) {
-    $folderTujuan = __DIR__ . '/../upload/photo';
+    $folderTujuan = __DIR__ . '/uploads/kandidat';
     if (!is_dir($folderTujuan)) {
         mkdir($folderTujuan, 0755, true);
     }
@@ -35,11 +35,11 @@ $berhasil = false;
 
 if ($id > 0) {
     // --- Mode Edit ---
-    // Catatan: update_kandidat() bawaan conn.php belum mendukung kolom
+    // Catatan: update_kardidat() bawaan conn.php belum mendukung kolom
     // image (hanya nama/visi/misi). Jadi kalau admin upload foto baru
     // saat edit, foto lama di DB TIDAK ikut berubah kecuali method
-    // update_kandidat() di conn.php ditambah parameter $image.
-    $berhasil = $conn->update_kandidat($id, $nama, $visi, $misi);
+    // update_kardidat() di conn.php ditambah parameter $image.
+    $berhasil = $conn->update_kardidat($id, $nama, $visi, $misi);
 } else {
     // --- Mode Tambah ---
     $berhasil = $conn->add_kandidat($nama, $visi, $misi, $namaFileBaru ?? '');
