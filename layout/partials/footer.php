@@ -18,6 +18,10 @@
 <!-- AOS JS (CSS-nya sudah di head lewat header.php) -->
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
+<script src="../layout/scripts/kandidat.js"></script>
+
+
+
 <script>
   lucide.createIcons();
   AOS.init({ duration: 550, once: true, offset: 40 });
@@ -31,9 +35,6 @@
     else { sidebar.classList.remove('open'); overlay.classList.add('hidden'); }
   }
 
-  /* =======================================================
-     SPA NAVIGATION — Fetch API (tanpa reload halaman)
-     ======================================================= */
 
   // Skeleton loading (efek pulse) selagi konten baru diambil
   function loadingSkeleton() {
@@ -158,5 +159,8 @@
     window.location.href
   );
 </script>
+
+
+
 </body>
 </html>

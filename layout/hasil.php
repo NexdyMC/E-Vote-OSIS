@@ -6,30 +6,6 @@ $total_pemilih_terdaftar = 1200;
 $total_suara_masuk      = 850;
 $suara_belum_memilih    = $total_pemilih_terdaftar - $total_suara_masuk;
 $persentase_partisipasi = round(($total_suara_masuk / $total_pemilih_terdaftar) * 100, 1);
-
-$paslon_results = [
-    [
-        'no_urut' => '01',
-        'nama'    => 'Ahmad Fauzi & Siti Nurhaliza',
-        'suara'   => 425,
-        'persen'  => 50.0,
-        'warna'   => '#2563EB' // Blue
-    ],
-    [
-        'no_urut' => '02',
-        'nama'    => 'Rian Ardianto & Dina Permata',
-        'suara'   => 255,
-        'persen'  => 30.0,
-        'warna'   => '#FACC15' // Yellow
-    ],
-    [
-        'no_urut' => '03',
-        'nama'    => 'Muhammad Zaki & Aulia Putri',
-        'suara'   => 170,
-        'persen'  => 20.0,
-        'warna'   => '#10B981' // Emerald
-    ],
-];
 ?>
 <!DOCTYPE html>
 <html lang="id">

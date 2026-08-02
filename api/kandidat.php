@@ -68,10 +68,25 @@ switch ($inputData['type'] ?? '')
         'message' => 'data gagal dikirim'
       ]);
     }
+    
+  // api mode : statistik live chart
+  case 'statistik':
+    
+    $suaraKandidat = $conn->select_suara_kandidat(); 
+    $totalDPT      = $conn->get_total_dpt();      
+    $totalMasuk    = $conn->get_total_suara_masuk();
 
+    echo json_encode([
+      'status' => 'success',
+      'suaraKandidat' => $suaraKandidat,
+      'totalDPT'      => $totalDPT,
+      'totalMasuk'    => $totalMasuk
+    ]);
+    break;
   default:
     echo json_encode([
         'status' => 'error',
         'message' => 'Unknown type'
     ]);
 }
+

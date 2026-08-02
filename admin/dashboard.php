@@ -14,6 +14,7 @@ if (isset($_POST["submit_kandidat"])) {
     $upload_foto = $conn->upload_image($folder_tujuan, $nama_file_baru, 'photo');
     
     if ($upload_foto) {    
+        // Catatan: Pastikan variabel $nama dideklarasikan dari $_POST sebelum baris ini jika form aslinya memiliki input nama
         $simpan = $conn->add_kandidat($nama, $visi, $misi, $upload_foto);
         if ($simpan) {
             header("Location: dashboard.php?v=true");
@@ -73,15 +74,18 @@ if (!$is_ajax) {
       <!-- 4 KARTU STATISTIK ATAS -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <div class="bg-white rounded-2xl p-6 border shadow-sm">
-          <p class="text-2xl font-display font-bold text-navy-900"><?= number_format($totalDPT, 0, ',', '.') ?></p>
+          <!-- Ditambahkan class animate-number dan ID val-dpt -->
+          <p id="val-dpt" class="text-2xl font-display font-bold text-navy-900 animate-number" data-value="<?= $totalDPT ?>" data-is-percent="false">0</p>
           <p class="text-sm text-slate-500">Total Siswa (DPT)</p>
         </div>
         <div class="bg-white rounded-2xl p-6 border shadow-sm">
-          <p class="text-2xl font-display font-bold text-navy-900"><?= number_format($totalSuaraMasuk, 0, ',', '.') ?></p>
+          <!-- Ditambahkan class animate-number dan ID val-suara-masuk -->
+          <p id="val-suara-masuk" class="text-2xl font-display font-bold text-navy-900 animate-number" data-value="<?= $totalSuaraMasuk ?>" data-is-percent="false">0</p>
           <p class="text-sm text-slate-500">Suara Masuk</p>
         </div>
         <div class="bg-white rounded-2xl p-6 border shadow-sm">
-          <p class="text-2xl font-display font-bold text-navy-900"><?= $partisipasi ?>%</p>
+          <!-- Ditambahkan class animate-number dan ID val-partisipasi -->
+          <p id="val-partisipasi" class="text-2xl font-display font-bold text-navy-900 animate-number" data-value="<?= $partisipasi ?>" data-is-percent="true">0%</p>
           <p class="text-sm text-slate-500">Tingkat Partisipasi</p>
         </div>
         <div class="bg-navy-900 rounded-2xl p-6">
@@ -142,25 +146,69 @@ if (!$is_ajax) {
     </main>
   <?php endif; ?>
 
-<script>
+  <script>
   lucide.createIcons();
-  AOS.init({ duration: 550, once: true, offset: 40 });
+  
+  // Jika menggunakan library AOS
+  if (typeof AOS !== 'undefined') {
+      AOS.init({ duration: 550, once: true, offset: 40 });
+  }
 
-  // Parsing data PHP ke JS
-  const dataKandidat = <?= json_encode($suaraKandidat) ?>;
-  const labelKandidat = dataKandidat.map(k => k.nama);
-  const nilaiKandidat = dataKandidat.map(k => k.suara);
-  const warnaKandidat = dataKandidat.map(k => k.warna);
+  // ==========================================
+  // Fungsi Animasi Reload Nomor dari 0
+  // ==========================================
+  function animateValue(obj, start, end, duration, isPercent = false) {
+      let startTimestamp = null;
+      const step = (timestamp) => {
+          if (!startTimestamp) startTimestamp = timestamp;
+          const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+          // Efek melambat di akhir
+          const easeOut = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+          
+          let currentVal = isPercent 
+              ? (easeOut * (end - start) + start).toFixed(1) 
+              : Math.floor(easeOut * (end - start) + start);
+          
+          // Format sesuai tipe data
+          if (isPercent) {
+              obj.innerHTML = currentVal + '%';
+          } else {
+              obj.innerHTML = currentVal.toLocaleString('id-ID'); // Format ribuan
+          }
+          
+          if (progress < 1) {
+              window.requestAnimationFrame(step);
+          } else {
+              // Set hasil final secara presisi di akhir durasi
+              obj.innerHTML = isPercent ? end + '%' : end.toLocaleString('id-ID');
+          }
+      };
+      window.requestAnimationFrame(step);
+  }
 
-  // Chart Bar (Suara Kandidat)
-  new Chart(document.getElementById('chartSuara'), {
+  // Animasi dijalankan pertama kali saat halaman dibuka
+  document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll('.animate-number').forEach(elem => {
+          let endVal = parseFloat(elem.getAttribute('data-value'));
+          let isPercent = elem.getAttribute('data-is-percent') === 'true';
+          animateValue(elem, 0, endVal, 1500, isPercent); // 1.5 detik
+      });
+  });
+
+  // 1. Inisialisasi awal Chart dengan data PHP bawaan pertama kali dimuat
+  const initialDataKandidat = <?= json_encode($suaraKandidat) ?>;
+  const initialTotalSuara   = <?= $totalSuaraMasuk ?>;
+  const initialTotalDPT     = <?= $totalDPT ?>;
+
+  // Render Chart Bar (Suara Kandidat)
+  const chartSuara = new Chart(document.getElementById('chartSuara'), {
     type: 'bar',
     data: {
-      labels: labelKandidat,
+      labels: initialDataKandidat.map(k => k.nama),
       datasets: [{
         label: 'Jumlah Suara',
-        data: nilaiKandidat,
-        backgroundColor: warnaKandidat,
+        data: initialDataKandidat.map(k => k.suara),
+        backgroundColor: initialDataKandidat.map(k => k.warna),
         borderRadius: 8
       }]
     },
@@ -175,13 +223,13 @@ if (!$is_ajax) {
     }
   });
 
-  // Chart Doughnut (Partisipasi)
-  new Chart(document.getElementById('chartPartisipasi'), {
+  // Render Chart Doughnut (Partisipasi)
+  const chartPartisipasi = new Chart(document.getElementById('chartPartisipasi'), {
     type: 'doughnut',
     data: {
       labels: ['Sudah Memilih', 'Belum Memilih'],
       datasets: [{
-        data: [<?= $totalSuaraMasuk ?>, <?= $totalDPT - $totalSuaraMasuk ?>],
+        data: [initialTotalSuara, initialTotalDPT - initialTotalSuara],
         backgroundColor: ['#2563EB', '#E2E8F0'],
         borderWidth: 0
       }]
@@ -193,7 +241,63 @@ if (!$is_ajax) {
       plugins: { legend: { display: false } }
     }
   });
+
+  // 2. Fungsi AJAX untuk mengambil data live secara berkala
+  function updateLiveStatistik() {
+    fetch('../api/kandidat.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'statistik' })
+    })
+    .then(response => response.json())
+    .then(result => {
+      if (result.status === 'success') {
+        const dataKand = result.suaraKandidat;
+        const tSuara   = result.totalMasuk;
+        const tDPT     = result.totalDPT;
+        
+        // Cek dan eksekusi Animasi Angka pada Kartu Statistik jika ada perubahan Suara
+        let pSudah = tDPT > 0 ? ((tSuara / tDPT) * 100).toFixed(1) : 0;
+        
+        const elDPT = document.getElementById('val-dpt');
+        const elSuaraMasuk = document.getElementById('val-suara-masuk');
+        const elPartisipasi = document.getElementById('val-partisipasi');
+
+        // Jika DPT berubah
+        if (elDPT && parseFloat(elDPT.getAttribute('data-value')) !== tDPT) {
+            elDPT.setAttribute('data-value', tDPT);
+            animateValue(elDPT, 0, tDPT, 1500, false);
+        }
+        // Jika Suara Masuk berubah
+        if (elSuaraMasuk && parseFloat(elSuaraMasuk.getAttribute('data-value')) !== tSuara) {
+            elSuaraMasuk.setAttribute('data-value', tSuara);
+            animateValue(elSuaraMasuk, 0, tSuara, 1500, false);
+        }
+        // Jika Partisipasi (%) berubah
+        if (elPartisipasi && parseFloat(elPartisipasi.getAttribute('data-value')) !== parseFloat(pSudah)) {
+            elPartisipasi.setAttribute('data-value', pSudah);
+            animateValue(elPartisipasi, 0, parseFloat(pSudah), 1500, true);
+        }
+
+        // Update Data Chart Bar
+        chartSuara.data.labels = dataKand.map(k => k.nama);
+        chartSuara.data.datasets[0].data = dataKand.map(k => k.suara);
+        chartSuara.update(); // Menggunakan animasi bawaan chart JS
+
+        // Update Data Chart Doughnut
+        chartPartisipasi.data.datasets[0].data = [tSuara, tDPT - tSuara];
+        chartPartisipasi.update();
+      }
+    })
+    .catch(error => console.error('Gagal memuat data live:', error));
+  }
+
+  // 3. Jalankan fungsi AJAX secara otomatis
+  // Di-set ke 5000ms (5 detik) agar animasi dan data termuat "Live/Real-time"
+  // (Jika benar-benar ingin 5 menit, ubah angka 5000 menjadi 300000)
+  setInterval(updateLiveStatistik, 5000);
 </script>
+
 <?php if (!$is_ajax): ?>
   <?php require_once __DIR__ . '/../layout/partials/footer.php'; ?>
 <?php endif; ?>
