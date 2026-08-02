@@ -197,7 +197,7 @@ class MySQL {
     ];
   }
   
-  // mysql : grafik kardidat 
+  // mysql grafik : kardidat 
   public function get_data_grafik_voting() 
   {  
     $query = "SELECT k.nama AS nama_kand, COUNT(s.voted) AS total_suara 
@@ -222,7 +222,7 @@ class MySQL {
     ];
   }
 
-  // mysql : get paslon results
+  // mysql grafik : get paslon results
   public function get_paslon_results() {
     $query = "SELECT k.id, k.nama AS nama_kand, COUNT(s.voted) AS total_suara 
               FROM tb_kardidat k 
@@ -261,6 +261,67 @@ class MySQL {
         $paslon_results[] = $data;
     }
     return $paslon_results;
+  }
+
+  // mysql setting : get value
+  public function get_setting() 
+  {
+    $sql = "SELECT * FROM tb_setting LIMIT 1";
+    $result = $this->conn->query($sql);
+
+    if (!$result || $result->num_rows === 0) {
+      return [
+        'nama_sekolah'    => 'SMK Informatika Sumedang',
+        'judul_pemilihan' => 'E-Voting OSIS',
+        'tahun_ajaran'    => '2025/2026',
+        'status_voting'   => 1,
+        'waktu_mulai'     => date('Y-m-d H:i:s'),
+        'waktu_selesai'   => date('Y-m-d H:i:s', strtotime('+1 day')),
+        'logo_sekolah'    => ''
+      ];
+    }
+
+    return $result->fetch_assoc();
+  }
+
+  // mysql setting : update 
+  public function update_setting($nama_sekolah, $judul_pemilihan, $tahun_ajaran, $status_voting, $waktu_mulai, $waktu_selesai, $logo_sekolah = null)
+  {
+    if (!empty($logo_sekolah)) {
+      $stmt = $this->conn->prepare(
+        "UPDATE tb_setting SET 
+          nama_sekolah = ?, 
+          judul_pemilihan = ?, 
+          tahun_ajaran = ?, 
+          status_voting = ?, 
+          waktu_mulai = ?, 
+          waktu_selesai = ?, 
+          logo_sekolah = ? 
+        WHERE id = 1"
+      );
+      $stmt->bind_param("sssisss", $nama_sekolah, $judul_pemilihan, $tahun_ajaran, $status_voting, $waktu_mulai, $waktu_selesai, $logo_sekolah);
+    } else {
+      // Jika logo tidak diubah
+      $stmt = $this->conn->prepare(
+        "UPDATE tb_setting SET 
+          nama_sekolah = ?, 
+          judul_pemilihan = ?, 
+          tahun_ajaran = ?, 
+          status_voting = ?, 
+          waktu_mulai = ?, 
+          waktu_selesai = ? 
+        WHERE id = 1"
+      );
+      $stmt->bind_param("sssiss", $nama_sekolah, $judul_pemilihan, $tahun_ajaran, $status_voting, $waktu_mulai, $waktu_selesai);
+    }
+
+    if (!$stmt) {
+      return false;
+    }
+
+    $data = $stmt->execute();
+    $stmt->close();
+    return $data;
   }
 }
 
