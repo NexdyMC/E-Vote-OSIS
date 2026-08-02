@@ -95,11 +95,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <!-- Deretan 3 Logo -->
       <div class="flex justify-center gap-4 mb-7">
         <img src="https://placehold.co/72x72/FFFFFF/1E3A8A?text=SMK" alt="Logo Sekolah"
-             class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/95 object-contain p-2 shadow-lg shadow-black/20">
+             class="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-white/95 object-contain p-2 shadow-lg shadow-black/20">
         <img src="https://placehold.co/72x72/FFFFFF/1E3A8A?text=OSIS" alt="Logo OSIS"
-             class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/95 object-contain p-2 shadow-lg shadow-black/20">
+             class="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-white/95 object-contain p-2 shadow-lg shadow-black/20">
         <img src="https://placehold.co/72x72/FFFFFF/1E3A8A?text=VOTE" alt="Logo E-Voting"
-             class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/95 object-contain p-2 shadow-lg shadow-black/20">
+             class="w-16 h-16 sm:w-16 sm:h-16 rounded-full bg-white/95 object-contain p-2 shadow-lg shadow-black/20">
       </div>
 
       <!-- Kartu Login Utama -->
@@ -109,8 +109,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <div class="w-14 h-14 mx-auto rounded-2xl bg-primary-50 flex items-center justify-center mb-4">
             <i data-lucide="shield-check" class="w-7 h-7 text-primary-700"></i>
           </div>
-          <h1 class="font-display font-bold text-xl sm:text-2xl text-navy-900">Validasi Token Voting</h1>
-          <p class="text-sm text-slate-500 mt-2 leading-relaxed">Masukkan token akses yang telah diberikan oleh panitia.</p>
+          <h1 class="font-display font-bold text-xl sm:text-2xl text-navy-900">Login Pemilihan Osis</h1>
+          <p class="text-sm text-slate-500 mt-2 leading-relaxed">Masukkan  <span class="font-bold">Token</span> Anda untuk memulai voting</p>
         </div>
 
         <?php if ($error): ?>
@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="POST" class="space-y-5">
           <!-- Satu-satunya input: Kode Token -->
           <div class="relative">
-            <i data-lucide="key-round" class="w-5 h-5 text-primary-500 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+            <i data-lucide="ticket" class="w-5 h-5 text-primary-500 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none"></i>
             <input
               type="text"
               name="token"
@@ -131,8 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               autofocus
               autocomplete="off"
               placeholder="TOKEN VOTING"
-              oninput="this.value = this.value.toUpperCase()"
-              class="token-input w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-200 text-center text-lg sm:text-xl font-display font-bold uppercase tracking-[0.15em] text-navy-900 placeholder:text-slate-300 placeholder:font-normal placeholder:tracking-normal focus:border-primary-500 focus:ring-4 focus:ring-primary-100 outline-none"
+              class="token-input w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-slate-200 text-center text-lg sm:text-xl font-display font-bold tracking-[0.15em] text-navy-900 placeholder:text-slate-300 placeholder:font-normal placeholder:tracking-normal focus:border-primary-500 focus:ring-4 focus:ring-primary-100 outline-none"
             >
           </div>
 

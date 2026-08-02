@@ -8,11 +8,9 @@ function random_id($length = 12) {
   $cuid = "";
 
   for ($i = 0 ; $i < $length ; $i++) {
-      
       $biner_x = rand(0, 1);
       $biner_y = rand(0, 1);
       $indexHuruf = rand(0, 25);
-
       
       if ($biner_x == 1) {
           $cuid .= strtoupper($array[$indexHuruf]);
@@ -20,9 +18,7 @@ function random_id($length = 12) {
           $cuid .= rand(0, 9); 
       }
   }
-  
   return $cuid;
-
 }
 
 class MySQL { 
@@ -31,7 +27,6 @@ class MySQL {
   // start construct class
   public function __construct($host, $user, $pass, $db) 
   {
-
     $this->conn = new mysqli($host, $user, $pass, $db);
 
     if ($this->conn->connect_error) {
@@ -43,232 +38,117 @@ class MySQL {
   public function mysql_select($table, $column = "*", $where = "")
   {
     $sql = "SELECT $column FROM $table";
-
     if (!empty($where)) {
-        $sql .= " WHERE $where";
+        $sql .= " WHERE $where"; 
     }
-
     $result = $this->conn->query($sql);
-
-    if (!$result) {
-        return [];
-    }
-
+    if (!$result) return [];
     return $result->fetch_all(MYSQLI_ASSOC);
   }
 
   // mysql query : update
   public function mysql_update($table, $id, $new_name)
   {
-    $stmt = $this->conn->prepare(
-        "UPDATE $table SET 
-        nama = ? 
-        WHERE id = ?"
-    );
-
-    $stmt->bind_param(
-        "si",
-        $new_name,
-        $id
-    );
-    $data = $stmt->execute();
-    $stmt->close();
-    return $data;
+    $sql = "UPDATE $table SET nama = '$new_name' WHERE id = '$id'";
+    return $this->conn->query($sql);
   }
   
-  // mysql query : delete 
+  // mysql query : delete
   public function mysql_delete($table, $column, $id)
   {
-    $stmt = $this->conn->prepare(
-        "DELETE FROM $table WHERE $column = ?"
-    );
-
-    $stmt->bind_param("i", $id);
-    $data = $stmt->execute();
-    $stmt->close();
-    return $data;
+    $sql = "DELETE FROM $table WHERE $column = '$id'";
+    return $this->conn->query($sql);
   }
   
-  // mysql kardidat : add 
+  // mysql kardidat : add
   public function add_kandidat($nama, $visi, $misi, $image)
   {
-    $stmt = $this->conn->prepare(
-        "INSERT INTO tb_kardidat (nama, visi, misi, image)
-         VALUES (?, ?, ?, ?)"
-    );
-
-    if (!$stmt) {
-        die("Prepare Error: " . $this->conn->error);
-    }
-
-    $stmt->bind_param("ssss", $nama, $visi, $misi, $image);
-
-    if (!$stmt->execute()) {
-        die("Execute Error: " . $stmt->error);
-    }
-    $stmt->close();
-    return true;
+    $sql = "INSERT INTO tb_kardidat (nama, visi, misi, image) 
+            VALUES ('$nama', '$visi', '$misi', '$image')";
+    return $this->conn->query($sql);
   }
 
   // mysql kardidat : select
   public function select_kardidat($where = "", $column = "*")
   {
     $sql = "SELECT $column FROM tb_kardidat";
-
     if (!empty($where)) {
         $sql .= " WHERE $where";
     }
-
     $result = $this->conn->query($sql);
-
-    if (!$result)
-    {
-        return [];
-    }
-
+    if (!$result) return [];
     return $result->fetch_all(MYSQLI_ASSOC);
   }
   
-  // mysql kardidat : update  
+  // mysql kardidat : update
   public function update_kardidat($id, $nama, $visi, $misi) 
   {
-    $stmt = $this->conn->prepare(
-          // SET nama = ? WHERE id = ?"
-        "UPDATE tb_kardidat SET
-        nama = ? , visi = ?, misi = ? 
-        WHERE id = ?"
-    );
-    
-    $stmt->bind_param("sssi", $nama, $visi, $misi, $id);
-    $data = $stmt->execute();
-    $stmt->close();
-    return $data;
+    $sql = "UPDATE tb_kardidat SET 
+            nama = '$nama', visi = '$visi', misi = '$misi' 
+            WHERE id = '$id'";
+    return $this->conn->query($sql);
   }
 
   // mysql kardidat : delete
   public function delete_kardidat($id)
   {
+    $sql_update = "UPDATE tb_siswa SET voted = 0, status = 0 WHERE voted = '$id'";
+    $this->conn->query($sql_update);
 
-    // ubah value voted menjadi 0
-    $stmt = $this->conn->prepare(
-      "UPDATE tb_siswa SET voted = 0, status = 0 WHERE voted = ?");
-    $stmt->bind_param('i', $id);
-    $stmt->execute();
-
-    // delete kardidat
-    $stmt = $this->conn->prepare(
-        "DELETE FROM tb_kardidat WHERE id = ?"
-      );
-    $stmt->bind_param("i", $id);
-    $data = $stmt->execute();
-    $stmt->close();
-    return $data;
+    $sql_delete = "DELETE FROM tb_kardidat WHERE id = '$id'";
+    return $this->conn->query($sql_delete);
   }
 
   // mysql siswa : add
   public function add_siswa($token, $nama, $kelas)
   {
-    $stmt = $this->conn->prepare(
-      "INSERT INTO tb_siswa 
-      (token, nama, kelas, status, voted) VALUE (?, ?, ?, 0, 0)");
-
-    $stmt->bind_param("sss", $token, $nama, $kelas);
-    $data = $stmt->execute();
-    $stmt->close();
-    return $data;
+    $sql = "INSERT INTO tb_siswa (token, nama, kelas, status, voted) 
+            VALUES ('$token', '$nama', '$kelas', 0, 0)";
+    return $this->conn->query($sql);
   }
 
   // mysql siswa : select
   public function select_siswa($where = "", $column = "*")
   {
     $sql = "SELECT $column FROM tb_siswa";
-
     if (!empty($where)) {
         $sql .= " WHERE $where";
     }
-
     $result = $this->conn->query($sql);
-
-    if (!$result)
-    {
-        return [];
-    }
-    
+    if (!$result) return [];
     return $result->fetch_all(MYSQLI_ASSOC);
   }
 
   // mysql siswa : voting
   public function voting_kardidat($id, $voted)
   {
-    $stmt = $this->conn->prepare(
-      "UPDATE tb_siswa SET
-      status = 1,
-      voted = ?
-      WHERE token = ?"
-    );
-
-    $stmt->bind_param("is", $voted, $id);
-    $data = $stmt->execute();
-    $stmt->close();
-    return $data;
+    $sql = "UPDATE tb_siswa SET status = 1, voted = '$voted' WHERE token = '$id'";
+    return $this->conn->query($sql);
   }
 
   // mysql Login : siswa
   public function login_siswa($token)
   {
-
-    if (empty($token)) {
-      return false;
-    }
+    if (empty($token)) return false;
     
-    $stmt = $this->conn->prepare(
-        "SELECT * FROM tb_siswa
-        WHERE BINARY token = ?"
-    );
+    $sql = "SELECT * FROM tb_siswa WHERE BINARY token = '$token'";
+    $result = $this->conn->query($sql);
 
-    if (!$stmt) {
-        return false;
-    }
-
-    $stmt->bind_param("s", $token);
-    $stmt->execute();
-
-    $result = $stmt->get_result();
-
-    if ($result->num_rows === 0) {
-        return false;
-    }
-    $data = $result->fetch_assoc();
-    $stmt->close();
-    return $data;
+    if (!$result || $result->num_rows === 0) return false;
+    return $result->fetch_assoc();
   }
   
   // mysql login : admin
   public function login_admin($token)
   {
-    $stmt = $this->conn->prepare(
-        "SELECT * FROM tb_admin
-        WHERE password = ?"
-    );
+    $sql = "SELECT * FROM tb_admin WHERE password = '$token'";
+    $result = $this->conn->query($sql);
 
-    if (!$stmt) {
-        return false;
-    }
-
-    $stmt->bind_param("s", $token);
-    $stmt->execute();
-
-    $result = $stmt->get_result();
-
-    if ($result->num_rows === 0) {
-        return false;
-    }
-    $data = $result->fetch_assoc();
-    $stmt->close();
-    return $data;
+    if (!$result || $result->num_rows === 0) return false;
+    return $result->fetch_assoc();
   }
 
-  // mysql image : upload
+  // mysql image : upload 
   public function upload_image( $local_folder, $name_file, $post_file)
   {
     $file_name = $_FILES[$post_file]['name'];
@@ -278,23 +158,15 @@ class MySQL {
     $extension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
     $validasi_type = ['jpg', 'jpeg', 'png', 'webp'];
     
-    if (!in_array($extension , $validasi_type)) {
-      return false;
-    }
-
-    if ($file_size >= 2 * 1024 * 1024) {
-      return false;
-    }
+    if (!in_array($extension , $validasi_type)) return false;
+    if ($file_size >= 2 * 1024 * 1024) return false;
 
     $new_name = "$name_file" . ".$extension";
-
-    $destination =rtrim($local_folder, "/\\") . DIRECTORY_SEPARATOR . $new_name;
+    $destination = rtrim($local_folder, "/\\") . DIRECTORY_SEPARATOR . $new_name;
     
-    if (move_uploaded_file($file_tmp, $destination))
-    {
+    if (move_uploaded_file($file_tmp, $destination)) {
       return $new_name;
     }
-
   }
 
   // mysql fitur : voting persen
@@ -325,27 +197,23 @@ class MySQL {
     ];
   }
   
-  // mysql : grafik kardidat
-  public function get_data_grafik_voting() {  
-  
+  // mysql : grafik kardidat 
+  public function get_data_grafik_voting() 
+  {  
     $query = "SELECT k.nama AS nama_kand, COUNT(s.voted) AS total_suara 
               FROM tb_kardidat k 
               LEFT JOIN tb_siswa s ON k.id = s.voted AND s.status = 1 
               GROUP BY k.id, k.nama";
               
     $result = $this->conn->query($query);
-    
     $nama_kandidat = [];
     $value_voted = [];
-
   
     if ($result) {
         while ($row = $result->fetch_assoc()) {
             $nama_kandidat[] = $row['nama_kand'];     
             $value_voted[] = (int)$row['total_suara']; 
         }
-    } else {
-        error_log("Query Grafik Error: " . $this->conn->error);
     }
 
     return [
@@ -356,27 +224,17 @@ class MySQL {
 
   // mysql : get paslon results
   public function get_paslon_results() {
-    
-    // Query menggabungkan tb_kardidat dan menghitung jumlah suara
     $query = "SELECT k.id, k.nama AS nama_kand, COUNT(s.voted) AS total_suara 
               FROM tb_kardidat k 
               LEFT JOIN tb_siswa s ON k.id = s.voted AND s.status = 1 
               GROUP BY k.id, k.nama
-              ORDER BY k.id ASC"; // Diurutkan berdasarkan ID agar rapi
+              ORDER BY k.id ASC";
               
     $result = $this->conn->query($query);
     
     $temp_data = [];
     $total_semua_suara = 0;
-    
-    $color_list = [
-        '#2563EB', // Blue
-        '#FACC15', // Yellow
-        '#06B6D4', // Cyan
-        '#10B981', // Emerald
-        '#EF4444', // Red 
-        '#8B5CF6' // Purple
-    ];
+    $color_list = ['#2563EB', '#FACC15', '#06B6D4', '#10B981', '#EF4444', '#8B5CF6'];
 
     if ($result) {
         $index = 0;
@@ -391,11 +249,9 @@ class MySQL {
                 'persen'  => 0, 
                 'warna'   => $color_list[$index % count($color_list)]
             ];
-            
             $index++;
         }
     }
-
 
     $paslon_results = [];
     foreach ($temp_data as $data) {
@@ -414,3 +270,4 @@ $pass = "";
 $base = "db_piketos";
 
 $conn = new MySQL($host, $user, $pass, $base);
+?>

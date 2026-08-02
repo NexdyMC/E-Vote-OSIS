@@ -30,7 +30,7 @@ $paslon_results = $conn->get_paslon_results();
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style> body { font-family: 'Inter', sans-serif; } </style>
 </head>
-<body class="bg-slate-100 text-slate-100 min-h-screen flex flex-col justify-between pb-20">
+<body class="bg-slate-100 text-slate-100 min-h-screen flex flex-col justify-between">
 
     <!-- header  : desktop -->
     <header class="sticky top-0 z-40 bg-brand-darkblue/90 backdrop-blur-md border-b border-slate-800">
@@ -79,11 +79,11 @@ $paslon_results = $conn->get_paslon_results();
         
         <!-- Navbar : Navigation mobile bottom -->
         <div class="flex justify-center items-center gap-4 w-full">
-            <a href="hasil.php" class="inline-flex items-center justify-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-brand-yellow transition-colors px-5 py-2.5 w-1/2">
+            <a href="voting.php" class="inline-flex items-center justify-center gap-1.5 text-sm font-semibold text-slate-300 hover:text-brand-yellow transition-colors px-5 py-2.5 w-1/2">
                 <i data-lucide="vote" class="w-6 h-6"></i> Voting
             </a>
-            <a href="voting.php" class="inline-flex items-center justify-center gap-1.5 text-sm font-bold text-brand-darkblue bg-brand-yellow hover:bg-brand-yellowhover px-5 py-2.5 rounded-xl shadow-md transition-all w-1/2">
-                    <i data-lucide="bar-chart-3" class="w-6 h-6"></i> Hasil
+            <a href="hasil.php" class="inline-flex items-center justify-center gap-1.5 text-sm font-bold text-brand-darkblue bg-brand-yellow hover:bg-brand-yellowhover px-5 py-2.5 rounded-xl shadow-md transition-all w-1/2">
+                <i data-lucide="bar-chart-3" class="w-6 h-6"></i> Hasil
             </a>
         </div>
     </nav>
