@@ -4,7 +4,7 @@ $is_ajax = isset($_GET['ajax']) && $_GET['ajax'] == '1';
 
 require_once __DIR__ . '/../api/conn.php';
 
-if (!isset($_SESSION['login'])) {
+if (!isset($_SESSION['id_admin'])) {
     header("Location: index.php");
     exit;
 }
