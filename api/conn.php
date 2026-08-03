@@ -318,47 +318,61 @@ class MySQL {
   }
 
   // mysql settings : update 
-  public function update_settings($nama_sekolah, $judul_pemilihan, $tahun_ajaran, $status_voting, $waktu_mulai, $waktu_selesai, $logo_sekolah = null)
+  public function update_settings($nama_sekolah, $judul_pemilihan, $tahun_ajaran, $status_voting, $waktu_mulai, $waktu_selesai, $logo_sekolah = null) 
   {
+    $status_voting = ($status_voting === '1' || $status_voting === 1) ? '1' : '0';
+
+    // 2. Jika ada logo baru yang diunggah
     if (!empty($logo_sekolah)) {
-      $stmt = $this->conn->prepare(
-        "UPDATE tb_settings SET 
-          nama_sekolah = ?, 
-          judul_pemilihan = ?, 
-          tahun_ajaran = ?, 
-          status_voting = ?, 
-          waktu_mulai = ?, 
-          waktu_selesai = ?, 
-          logo_sekolah = ? 
-        ORDER BY id ASC LIMIT 1"
-      );
+        $sql = "UPDATE tb_settings SET 
+                nama_sekolah = ?, 
+                judul_pemilihan = ?, 
+                tahun_ajaran = ?, 
+                status_voting = ?, 
+                waktu_mulai = ?, 
+                waktu_selesai = ?, 
+                logo_sekolah = ? 
+                WHERE id = 836197";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("sssssss", $nama_sekolah, $judul_pemilihan, $tahun_ajaran, $status_voting, $waktu_mulai, $waktu_selesai, $logo_sekolah);
+    } 
+    else {
+        $sql = "UPDATE tb_settings SET 
+                nama_sekolah = ?, 
+                judul_pemilihan = ?, 
+                tahun_ajaran = ?, 
+                status_voting = ?, 
+                waktu_mulai = ?, 
+                waktu_selesai = ? 
+                WHERE id = 836197";
+        
+        $stmt = $this->conn->prepare($sql);
 
-      if (!$stmt) return false;
-
-      $stmt->bind_param("sssisss", $nama_sekolah, $judul_pemilihan, $tahun_ajaran, $status_voting, $waktu_mulai, $waktu_selesai, $logo_sekolah);
-    } else {
-      // Jika logo tidak diubah
-      $stmt = $this->conn->prepare(
-        "UPDATE tb_settings SET 
-          nama_sekolah = ?, 
-          judul_pemilihan = ?, 
-          tahun_ajaran = ?, 
-          status_voting = ?, 
-          waktu_mulai = ?, 
-          waktu_selesai = ? 
-        ORDER BY id ASC LIMIT 1"
-      );
-
-      if (!$stmt) return false;
-
-      $stmt->bind_param("sssiss", $nama_sekolah, $judul_pemilihan, $tahun_ajaran, $status_voting, $waktu_mulai, $waktu_selesai);
+        $stmt->bind_param("ssssss", $nama_sekolah, $judul_pemilihan, $tahun_ajaran, $status_voting, $waktu_mulai, $waktu_selesai);
     }
 
-    $data = $stmt->execute();
-    $stmt->close();
-    return $data;
+    return $stmt->execute();
   }
+  
+  // mysql admin : get value
+  public function get_admin() 
+  {
+    $sql = "SELECT * FROM tb_admin LIMIT 1";
+    $result = $this->conn->query($sql);
 
+    if (!$result || $result->num_rows === 0) {
+      
+      return [
+        'id_admin'    => 'SMK Informatika Sumedang',
+        'admin' => 'E-Voting OSIS',
+        'kelas'    => '2025/2026',
+        'password'   => 1
+      ];
+    }
+
+    return $result->fetch_assoc();
+  }
 }
 
 $host = "localhost";

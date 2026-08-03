@@ -3,31 +3,99 @@ session_start();
 $is_ajax = isset($_GET['ajax']) && $_GET['ajax'] == '1';
 require_once __DIR__ . "/../api/conn.php"; 
 
-// 1. Ambil data pengaturan terbaru dari DB
-$settings = $conn->get_settings();
+if (!isset($_SESSION['token'])) {
+    header("Location: index.php");
+    exit;
+}
 
-// Setup Variabel Tampilan untuk Navbar & Layout
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $current_settings = $conn->get_settings();
+    $logo_lama        = $current_settings['logo_sekolah'] ?? '';
+
+    $nama_sekolah    = trim($_POST['nama_sekolah'] ?? '');
+    $tahun_ajaran    = trim($_POST['tahun_ajaran'] ?? '');
+    $judul_pemilihan = trim($_POST['judul_pemilihan'] ?? '');
+
+    $status_voting_input = $_POST['status_voting'] ?? '0';
+    $status_voting       = ($status_voting_input == '1') ? '1' : '0';
+
+    $waktu_mulai_raw   = $_POST['waktu_mulai'] ?? '';
+    $waktu_selesai_raw = $_POST['waktu_selesai'] ?? '';
+
+    $waktu_mulai   = !empty($waktu_mulai_raw) ? date('Y-m-d H:i:s', strtotime($waktu_mulai_raw)) : null;
+    $waktu_selesai = !empty($waktu_selesai_raw) ? date('Y-m-d H:i:s', strtotime($waktu_selesai_raw)) : null;
+
+    $logo_sekolah = null;
+    if (isset($_FILES['logo_sekolah']) && $_FILES['logo_sekolah']['error'] === UPLOAD_ERR_OK) {
+        $folder_tujuan = __DIR__ . "/../upload/logo/";
+
+        if (!file_exists($folder_tujuan)) {
+            mkdir($folder_tujuan, 0777, true);
+        }
+
+        $file_tmp  = $_FILES['logo_sekolah']['tmp_name'];
+        $file_name = $_FILES['logo_sekolah']['name'];
+        $file_ext  = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+        $allowed_extensions = ['png', 'jpg', 'jpeg', 'webp'];
+        if (in_array($file_ext, $allowed_extensions)) {
+            $nama_logo_baru = 'logo_' . time() . '.' . $file_ext;
+            
+            // Pindahkan file baru
+            if (move_uploaded_file($file_tmp, $folder_tujuan . $nama_logo_baru)) {
+                $logo_sekolah = $nama_logo_baru;
+
+                // HAPUS FILE LOGO LAMA DARI SERVER
+                if (!empty($logo_lama) && file_exists($folder_tujuan . $logo_lama)) {
+                    @unlink($folder_tujuan . $logo_lama);
+                }
+            }
+        }
+    }
+
+
+    $update_status = $conn->update_settings(
+        $nama_sekolah,
+        $judul_pemilihan,
+        $tahun_ajaran,
+        $status_voting,
+        $waktu_mulai,
+        $waktu_selesai,
+        $logo_sekolah
+    );
+
+    // Redirect Kembali ke Halaman Settings
+    if ($update_status) {
+        header("Location: settings.php?v=true");
+    } else {
+        header("Location: settings.php?v=false");
+    }
+    exit;
+}
+
+
 $pageTitle  = 'Pengaturan Sistem'; 
 $breadcrumb = ['Admin', 'Pengaturan']; 
 $activePage = 'settings'; 
 
-// Variabel Profil Admin untuk Navbar
-$admin = $_SESSION['admin'] ?? [
-    'nama' => 'Bu Rina Marlina, S.Kom', 
-    'foto' => 'https://i.pravatar.cc/150?img=47', 
-    'role' => 'Admin Pemilu', 
-];
-
-// 2. Format tanggal untuk input type="datetime-local" (YYYY-MM-DDThh:mm)
-$waktu_mulai_html   = !empty($settings['waktu_mulai']) ? date('Y-m-d\TH:i', strtotime($settings['waktu_mulai'])) : '';
-$waktu_selesai_html = !empty($settings['waktu_selesai']) ? date('Y-m-d\TH:i', strtotime($settings['waktu_selesai'])) : '';
-
-// 3. Setup logo default jika kosong
+$settings = $conn->get_settings();
 $logoUrl = !empty($settings['logo_sekolah']) 
     ? '../upload/logo/' . $settings['logo_sekolah'] 
     : 'https://placehold.co/150x150/EEF3FF/1E3A8A?text=Logo';
 
-// 4. Pesan Alert Status (?v=true / ?v=false)
+
+$admin = $_SESSION['admin'] ?? [
+    'nama' => '', 
+    'foto' => "$logoUrl", 
+    'role' => 'Admin Pemilu', 
+];
+
+$waktu_mulai_html   = !empty($settings['waktu_mulai']) ? date('Y-m-d\TH:i', strtotime($settings['waktu_mulai'])) : '';
+$waktu_selesai_html = !empty($settings['waktu_selesai']) ? date('Y-m-d\TH:i', strtotime($settings['waktu_selesai'])) : '';
+
+
+// Render Alert Status
 $pesan_alert = "";
 if (isset($_GET["v"])) {
   $status = $_GET["v"]; 
@@ -60,14 +128,14 @@ if (!$is_ajax) {
   <p class="text-sm text-slate-500 mt-1">Konfigurasi identitas sekolah dan jadwal E-Voting OSIS.</p>
 </div>
 
-<!-- Render Pesan Alert jika ada -->
+<!-- Render Pesan Alert -->
 <?= $pesan_alert ?>
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
   
-  <!-- Form Pengaturan -->
+  <!-- Form Pengaturan (Action diosongkan agar kirim ke halaman ini sendiri) -->
   <div class="lg:col-span-2">
-    <form action="simpan-settings.php" method="POST" enctype="multipart/form-data" class="bg-white rounded-3xl p-6 sm:p-8 shadow-[0_8px_30px_rgb(15,23,42,0.06)] border border-slate-100 space-y-6">
+    <form action="" method="POST" enctype="multipart/form-data" class="bg-white rounded-3xl p-6 sm:p-8 shadow-[0_8px_30px_rgb(15,23,42,0.06)] border border-slate-100 space-y-6">
       
       <h3 class="text-lg font-bold text-navy-900 border-b border-slate-100 pb-3 mb-4">Informasi Umum</h3>
     
@@ -80,7 +148,7 @@ if (!$is_ajax) {
           <div id="dropzoneLogo" class="flex-1 border-2 border-dashed border-slate-300 bg-slate-50 hover:bg-blue-50 hover:border-blue-400 rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer transition-colors text-center group">
             <i data-lucide="image" class="w-5 h-5 text-slate-400 group-hover:text-blue-500 mb-1"></i>
             <span class="text-sm font-semibold text-navy-900">Ubah Logo</span>
-            <span class="text-[11px] text-slate-500 mt-0.5">Klik untuk memilih gambar (PNG, JPG, WEBP)</span>
+            <span class="text-[11px] text-slate-500 mt-0.5">Klik atau drag gambar ke sini (PNG, JPG, WEBP)</span>
             <input type="file" name="logo_sekolah" id="inputLogo" accept="image/png, image/jpeg, image/webp" class="hidden">
           </div>
         </div>
@@ -186,30 +254,60 @@ if (!$is_ajax) {
 
 </div>
 
-<!-- JavaScript Live Preview Logo -->
+<!-- JavaScript Live Preview & Drag Drop Logo -->
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
     const dropzone = document.getElementById('dropzoneLogo');
     const inputLogo = document.getElementById('inputLogo');
     const previewLogo = document.getElementById('previewLogo');
 
-    if (dropzone && inputLogo) {
-        dropzone.addEventListener('click', () => inputLogo.click());
+    if (!dropzone || !inputLogo || !previewLogo) return;
 
-        inputLogo.addEventListener('change', function () {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    previewLogo.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+    // Klik Dropzone untuk buka file picker
+    dropzone.addEventListener('click', () => inputLogo.click());
+
+    function processAndPreviewFile(file) {
+        if (!file || !file.type.startsWith('image/')) {
+            alert('Format file tidak didukung! Harap unggah file gambar (PNG, JPG, WEBP).');
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = (e) => { previewLogo.src = e.target.result; };
+        reader.readAsDataURL(file);
     }
+
+    inputLogo.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) processAndPreviewFile(file);
+    });
+
+    // Event Drag & Drop
+    ['dragenter', 'dragover'].forEach(evt => {
+        dropzone.addEventListener(evt, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.add('border-blue-500', 'bg-blue-100/50');
+        });
+    });
+
+    ['dragleave', 'drop'].forEach(evt => {
+        dropzone.addEventListener(evt, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dropzone.classList.remove('border-blue-500', 'bg-blue-100/50');
+        });
+    });
+
+    dropzone.addEventListener('drop', (e) => {
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            inputLogo.files = files;
+            processAndPreviewFile(files[0]);
+        }
+    });
 });
 </script>
-<script src="../assets/scripts/dashboard.js"></script>
+
 <?php if (!$is_ajax): ?>
     </main>
     <?php require_once __DIR__ . '/../layout/partials/footer.php'; ?>

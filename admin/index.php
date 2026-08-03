@@ -3,6 +3,11 @@
 session_start();
 require_once __DIR__ . "/../api/conn.php";
 
+if (isset($_SESSION['token'])) {
+    header("Location: dashboard.php");
+    exit;
+}
+
 $error = "status";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -15,14 +20,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
 
         $siswa = $conn->login_admin($user, $pass);
+				$admin = $conn->get_admin();
 
         if (!$siswa) {
             $error = "false";
         } else {
 
-            $_SESSION['id_admin'] = $siswa['id_admin'];
-            $_SESSION['admin'] = $siswa['admin'];
-            $_SESSION['kelas'] = $siswa['kelas'];
+            $_SESSION['id_admin'] = $admin['id_admin'];
+            $_SESSION['admin'] = $admin['admin'];
+            $_SESSION['kelas'] = $admin['kelas'];
+						$_SESSION['login'] = true;
 
             header("Location: dashboard.php");
             exit;

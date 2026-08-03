@@ -2,7 +2,7 @@
 /* =========================================================
    PARTIAL: layout/partials/navbar.php
    ========================================================= */
-// 🛡️ Safe Fallback jika variabel dari file utama lupa didefinisikan
+   
 $pageTitle  = $pageTitle ?? 'Dashboard';
 $breadcrumb = $breadcrumb ?? [$pageTitle];
 $admin      = $admin ?? [

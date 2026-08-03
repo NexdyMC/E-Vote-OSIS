@@ -3,6 +3,7 @@
 require_once __DIR__ . "/../config/rand.php";
 require_once __DIR__ . "/../config/conn.php";
 
+
 if (isset($_POST['btn-upload'])) {
   
   $file_enc = random(10);

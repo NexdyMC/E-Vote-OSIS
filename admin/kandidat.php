@@ -1,14 +1,13 @@
 <?php
-/* =========================================================
-   ADMIN/KANDIDAT.PHP — Kelola Pasangan Calon
-   ---------------------------------------------------------
-   $is_ajax menentukan apakah file ini dipanggil lewat fetch()
-   dari footer.php (SPA) atau dibuka penuh (refresh / ketik URL).
-   ========================================================= */
 session_start();
 $is_ajax = isset($_GET['ajax']) && $_GET['ajax'] == '1';
 
 require_once __DIR__ . '/../api/conn.php';
+
+if (!isset($_SESSION['login'])) {
+    header("Location: index.php");
+    exit;
+}
 
 // --- Pesan alert dari redirect simpan-kandidat.php (?v=true/false) ---
 $pesan_alert = '';

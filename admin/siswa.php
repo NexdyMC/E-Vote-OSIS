@@ -7,17 +7,18 @@
    ========================================================= */
 session_start();
 $is_ajax = isset($_GET['ajax']) && $_GET['ajax'] == '1';
-
 require_once __DIR__ . '/../api/conn.php';
 
-// --- Alert gagal tambah (dari simpan-siswa.php) ---
+if (!isset($_SESSION['login'])) {
+    header("Location: index.php");
+    exit;
+}
+
 $pesan_alert = '';
 if (isset($_GET['v']) && $_GET['v'] === 'false') {
     $pesan_alert = "<div class='p-4 mb-6 text-sm text-red-800 rounded-xl bg-red-50 border border-red-100 font-medium'>Gagal menambahkan siswa. Pastikan nama &amp; kelas terisi.</div>";
 }
 
-// Token baru hasil tambah siswa — ditampilkan sekali supaya admin
-// bisa langsung menyalin & memberikannya ke siswa yang bersangkutan.
 $tokenBaru = $_GET['new_token'] ?? null;
 $namaBaru  = $_GET['nama'] ?? null;
 

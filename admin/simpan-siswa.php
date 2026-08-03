@@ -9,6 +9,11 @@
    ========================================================= */
 require_once __DIR__ . '/../api/conn.php';
 
+if (!isset($_SESSION['login'])) {
+    header("Location: index.php");
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: siswa.php');
     exit;

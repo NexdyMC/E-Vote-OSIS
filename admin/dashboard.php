@@ -3,6 +3,11 @@ session_start();
 $is_ajax = isset($_GET['ajax']) && $_GET['ajax'] == '1';
 require_once __DIR__ . "/../api/conn.php"; 
 
+if (!isset($_SESSION['token'])) {
+    header("Location: index.php");
+    exit;
+}
+
 if (isset($_POST["submit_kandidat"])) {
 
     // PENTING: sesuaikan "text-nama" dengan atribut name= input nama
