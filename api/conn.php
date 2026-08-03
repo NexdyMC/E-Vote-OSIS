@@ -153,9 +153,9 @@ class MySQL {
   }
   
   // mysql login : admin
-  public function login_admin($token)
+  public function login_admin($user, $pass)
   {
-    $sql = "SELECT * FROM tb_admin WHERE password = '$token'";
+    $sql = "SELECT * FROM tb_admin WHERE admin = '$user' && password = '$pass'";
     $result = $this->conn->query($sql);
 
     if (!$result || $result->num_rows === 0) return false;
@@ -330,8 +330,11 @@ class MySQL {
           waktu_mulai = ?, 
           waktu_selesai = ?, 
           logo_sekolah = ? 
-        WHERE id = 1"
+        ORDER BY id ASC LIMIT 1"
       );
+
+      if (!$stmt) return false;
+
       $stmt->bind_param("sssisss", $nama_sekolah, $judul_pemilihan, $tahun_ajaran, $status_voting, $waktu_mulai, $waktu_selesai, $logo_sekolah);
     } else {
       // Jika logo tidak diubah
@@ -343,13 +346,12 @@ class MySQL {
           status_voting = ?, 
           waktu_mulai = ?, 
           waktu_selesai = ? 
-        WHERE id = 1"
+        ORDER BY id ASC LIMIT 1"
       );
-      $stmt->bind_param("sssiss", $nama_sekolah, $judul_pemilihan, $tahun_ajaran, $status_voting, $waktu_mulai, $waktu_selesai);
-    }
 
-    if (!$stmt) {
-      return false;
+      if (!$stmt) return false;
+
+      $stmt->bind_param("sssiss", $nama_sekolah, $judul_pemilihan, $tahun_ajaran, $status_voting, $waktu_mulai, $waktu_selesai);
     }
 
     $data = $stmt->execute();

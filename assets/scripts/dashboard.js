@@ -128,3 +128,104 @@ document.getElementById('btn-add-kandidat').addEventListener('click', () => {
   input_misi.value = '';
   input_image.value = '';
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('drag-container');
+    if (!container) return;
+
+    let draggedItem = null;
+
+    // Ambil semua elemen yang bisa di-drag
+    const items = container.querySelectorAll('.drag-item');
+
+    items.forEach(item => {
+        // 1. Saat elemen mulai di-drag
+        item.addEventListener('dragstart', (e) => {
+            draggedItem = item;
+            e.dataTransfer.effectAllowed = 'move';
+            
+            // Efek visual saat di-drag (agak transparan)
+            setTimeout(() => {
+                item.classList.add('opacity-40', 'scale-95');
+            }, 0);
+        });
+
+        // 2. Saat proses drag selesai
+        item.addEventListener('dragend', () => {
+            item.classList.remove('opacity-40', 'scale-95');
+            draggedItem = null;
+            
+            // Bersihkan semua highlight border dropzone
+            items.forEach(i => i.classList.remove('border-blue-500', 'ring-2', 'ring-blue-200'));
+
+            // Kirim posisi urutan baru ke Server PHP
+            saveNewOrder();
+        });
+
+        // 3. Saat elemen yang di-drag berada di atas elemen target
+        item.addEventListener('dragover', (e) => {
+            e.preventDefault(); // Wajib untuk mengaktifkan drop target
+            e.dataTransfer.dropEffect = 'move';
+
+            if (item !== draggedItem) {
+                item.classList.add('border-blue-500', 'ring-2', 'ring-blue-200');
+            }
+        });
+
+        // 4. Saat keluar dari target drop
+        item.addEventListener('dragleave', () => {
+            item.classList.remove('border-blue-500', 'ring-2', 'ring-blue-200');
+        });
+
+        // 5. Saat elemen di-drop
+        item.addEventListener('drop', (e) => {
+            e.preventDefault();
+            item.classList.remove('border-blue-500', 'ring-2', 'ring-blue-200');
+
+            if (item !== draggedItem) {
+                const allItems = [...container.querySelectorAll('.drag-item')];
+                const draggedPos = allItems.indexOf(draggedItem);
+                const targetPos = allItems.indexOf(item);
+
+                // Tukar posisi elemen di DOM
+                if (draggedPos < targetPos) {
+                    container.insertBefore(draggedItem, item.nextSibling);
+                } else {
+                    container.insertBefore(draggedItem, item);
+                }
+            }
+        });
+    });
+
+    // 6. Fungsi AJAX untuk Simpan Urutan Baru ke Database
+    function saveNewOrder() {
+        const updatedOrder = [];
+        
+        container.querySelectorAll('.drag-item').forEach((item, index) => {
+            updatedOrder.push({
+                id: item.dataset.id,     // ID kandidat / ID widget
+                no_urut: index + 1       // Urutan baru (1, 2, 3, dst)
+            });
+        });
+
+        // Kirim HTTP POST JSON ke backend
+        fetch('../api/update-order.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ items: updatedOrder })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log('✅ Urutan berhasil disimpan di database!');
+            } else {
+                console.error('❌ Gagal menyimpan urutan:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error AJAX:', error);
+        });
+    }
+});

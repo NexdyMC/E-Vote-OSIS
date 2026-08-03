@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 25 Jul 2026 pada 03.10
--- Versi server: 8.0.30
--- Versi PHP: 8.1.10
+-- Generation Time: Aug 03, 2026 at 02:09 PM
+-- Server version: 8.0.30
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_admin`
+-- Table structure for table `tb_admin`
 --
 
 CREATE TABLE `tb_admin` (
@@ -35,7 +35,7 @@ CREATE TABLE `tb_admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data untuk tabel `tb_admin`
+-- Dumping data for table `tb_admin`
 --
 
 INSERT INTO `tb_admin` (`id_admin`, `nama`, `kelas`, `password`) VALUES
@@ -44,7 +44,7 @@ INSERT INTO `tb_admin` (`id_admin`, `nama`, `kelas`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_kandidat`
+-- Table structure for table `tb_kandidat`
 --
 
 CREATE TABLE `tb_kandidat` (
@@ -56,83 +56,118 @@ CREATE TABLE `tb_kandidat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data untuk tabel `tb_kandidat`
+-- Dumping data for table `tb_kandidat`
 --
 
 INSERT INTO `tb_kandidat` (`id`, `nama`, `visi`, `misi`, `image`) VALUES
-(1, 'Febri', 'menjadikan smk informatika menjadi maju', 'mengubah menjadi smk dengan gaya profesional religius', ''),
-(2, 'fahri nasluroh', 'menjadi siswa yang aktif dan unggul', 'menjadi smk informatika yang aman yang nyaman untuk belajar ', NULL);
+(60, 'Geisika Yoan', 'Menjadikan OSIS sebagai organisasi yang menjadi wadah aspirasi warga SMK Informatika Sumedang, serta mengembangkan potensi siswa agar aktif, kreatif dan berani berpendapat.', '1. Mengembangkan siswa siswi SMK Informatika Sumedang untuk lebih aktif dalam bersosialisasi.\r\n2. Meningkatkan minat literasi dikalangan siswa.\r\n3. Membentuk lingkungan sekolah yang peduli terhadap kebersihan dan kesehatan.\r\n4. Membangun keterampilan dan pengetahuan siswa.', 'kandidat_6a6f3bb88ca50.png'),
+(61, 'Arisu', 'Mewujudkan OSIS SMK Informatika Sumedang yang unggul dalam prestasi, solid dalam kebersamaan, dan hebat dalam karya menuju generasi yang berkarakter, berdaya saing, dan berpengaruh positif bagi sekolah.', '1. Membangun OSIS yang aktif, inspiratif, dan meningkatkan kualitas diri dari pengurus osis yang menjadi contoh nyata bagi seluruh siswa\r\n2. Menciptakan lingkungan sekolah yang nyaman, kreatif, dan penuh semangat kolaborasi.\r\n3. Mengembangkan potensi setiap siswa melalui kegiatan inovatif dan berbasis teknologi.\r\n4. Menumbuhkan semangat peduli, disiplin, dan bertanggung jawab dalam setiap tindakan.\r\n5. Menjadikan OSIS sebagai wadah aspirasi, tempat berkembang, tempat semua suara di dengar dan ruang perubahan.', 'kandidat_6a6f702aa265a.jpg'),
+(64, 'Febri Pratama', 'Mewujudkan osis smk informatika sumedang sebagai osis yang kreatif,dan terampil, dan bisa mewujudkan keteladanan yang disiplin dan bertanggung jawab.', '1. Menyelenggarakan perlombaan supaya meningkatkan kreativitas dan meningkatkan minat bakat siswa.\r\n2. Menciptakan organisasi OSIS lebih kreatif, inovatif, serta memiliki kepedulian terhadap sesama siswa.\r\n3. Menjalani komunikasi yang baik antar semua pihak sekolah agar menciptakan hubungan yang harmonis.\r\n4. Mendorong siswa untuk menciptakan karya yang inovatif dan kreatif untuk wadah kesuksesan sebuah talenta siswa.', 'kandidat_6a6f705b42c16.png');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_siswa`
+-- Table structure for table `tb_settings`
+--
+
+CREATE TABLE `tb_settings` (
+  `id` int NOT NULL,
+  `nama_sekolah` varchar(40) NOT NULL,
+  `judul_pemilihan` varchar(30) NOT NULL,
+  `tahun_ajaran` varchar(20) NOT NULL,
+  `status_voting` enum('0','1') NOT NULL,
+  `waktu_mulai` datetime NOT NULL,
+  `waktu_selesai` datetime NOT NULL,
+  `logo_sekolah` varchar(40) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `tb_settings`
+--
+
+INSERT INTO `tb_settings` (`id`, `nama_sekolah`, `judul_pemilihan`, `tahun_ajaran`, `status_voting`, `waktu_mulai`, `waktu_selesai`, `logo_sekolah`) VALUES
+(836197, 'SMK Informatika Sumedang', 'E-Vote OSIS', '2026 - 2027', '0', '2026-09-06 12:22:14', '2026-09-26 12:22:14', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_siswa`
 --
 
 CREATE TABLE `tb_siswa` (
   `token` varchar(10) NOT NULL,
   `nama` varchar(100) NOT NULL,
   `kelas` varchar(20) NOT NULL,
-  `status` tinyint(1) DEFAULT '0',
-  `voted` int DEFAULT '0'
+  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `voted` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Dumping data untuk tabel `tb_siswa`
+-- Dumping data for table `tb_siswa`
 --
 
 INSERT INTO `tb_siswa` (`token`, `nama`, `kelas`, `status`, `voted`) VALUES
-('0206', 'Nexdy experiment', '11 RPL 1', 1, 1),
+('0206', 'Nexdy experiment', '11 RPL 1', 1, 60),
 ('25D3', 'Nexdy experiment', '11 RPL 1', 0, 0),
 ('89P7', 'Nexdy experiment', '11 RPL 1', 0, 0),
-('ABCD', 'febri pratama', '11 RPL 1', 0, 0),
-('DFJK', 'muhammad ramdhani ', '11 RPL 1', 0, 0),
-('HIJK', 'aditya anugrah', '11 RPL 1', 0, 0),
-('NXYZ', 'Nexdy experiment', '11 RPL 1', 0, 0),
-('ONBE', 'Nexdy experiment', '11 RPL 1', 0, 0),
-('OPQR', 'fahri nasluroh', '11 RPL 1', 0, 0),
-('RSTU', 'cahya permana', '11 RPL 1', 0, 0),
-('TUVW', 'ridwan saepuloh', '11 RPL 1', 0, 0),
-('TZ8B', 'Nexdy experiment', '11 RPL 1', 0, 0),
-('X8O5', 'Nexdy experiment', '11 RPL 1', 0, 0);
+('ABCD', 'febri pratama', '11 RPL 1', 1, 64),
+('DFJK', 'muhammad ramdhani ', '11 RPL 1', 1, 61),
+('HIJK', 'aditya anugrah', '11 RPL 1', 1, 60),
+('NXYZ', 'Nexdy experiment', '11 RPL 1', 1, 60),
+('ONBE', 'Nexdy experiment', '11 RPL 1', 1, 61),
+('OPQR', 'fahri nasluroh', '11 RPL 1', 1, 60),
+('TZ8B', 'Nexdy experiment', '11 RPL 1', 1, 60),
+('X8O5', 'Nexdy experiment', '11 RPL 1', 1, 64);
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `tb_admin`
+-- Indexes for table `tb_admin`
 --
 ALTER TABLE `tb_admin`
   ADD PRIMARY KEY (`id_admin`);
 
 --
--- Indeks untuk tabel `tb_kandidat`
+-- Indexes for table `tb_kandidat`
 --
 ALTER TABLE `tb_kandidat`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `tb_siswa`
+-- Indexes for table `tb_settings`
+--
+ALTER TABLE `tb_settings`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tb_siswa`
 --
 ALTER TABLE `tb_siswa`
   ADD PRIMARY KEY (`token`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `tb_admin`
+-- AUTO_INCREMENT for table `tb_admin`
 --
 ALTER TABLE `tb_admin`
   MODIFY `id_admin` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_kandidat`
+-- AUTO_INCREMENT for table `tb_kandidat`
 --
 ALTER TABLE `tb_kandidat`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+
+--
+-- AUTO_INCREMENT for table `tb_settings`
+--
+ALTER TABLE `tb_settings`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=836198;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
