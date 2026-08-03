@@ -4,11 +4,6 @@ require_once __DIR__ . '/../api/conn.php';
 
 $folderTujuan = __DIR__ . '/../upload/photo';
 
-if (!isset($_SESSION['id_admin'])) {
-    header("Location: index.php");
-    exit;
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id'])) {
     $id = (int) $_POST['id'];
     

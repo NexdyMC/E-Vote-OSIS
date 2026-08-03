@@ -9,10 +9,6 @@
    ========================================================= */
 require_once __DIR__ . '/../api/conn.php';
 
-if (!isset($_SESSION['id_admin'])) {
-    header("Location: index.php");
-    exit;
-}
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: siswa.php');
@@ -27,7 +23,7 @@ if ($nama === '' || $kelas === '') {
     exit;
 }
 
-$token    = random_id(10);
+$token    = random_id(4);
 $berhasil = $conn->add_siswa($token, $nama, $kelas);
 
 if ($berhasil) {

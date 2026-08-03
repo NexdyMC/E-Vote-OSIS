@@ -16,7 +16,7 @@ if (!isset($_SESSION['id_admin'])) {
 
 $pesan_alert = '';
 if (isset($_GET['v']) && $_GET['v'] === 'false') {
-    $pesan_alert = "<div class='p-4 mb-6 text-sm text-red-800 rounded-xl bg-red-50 border border-red-100 font-medium'>Gagal menambahkan siswa. Pastikan nama &amp; kelas terisi.</div>";
+    $pesan_alert = "<div class='  p-4 mb-6 text-sm text-red-800 rounded-xl bg-red-50 border border-red-100 font-medium'>Gagal menambahkan siswa. Pastikan nama &amp; kelas terisi.</div>";
 }
 
 $tokenBaru = $_GET['new_token'] ?? null;
@@ -68,7 +68,7 @@ if (!$is_ajax) {
   <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
     <div data-aos="fade-up" class="bg-white rounded-2xl p-5 border border-slate-100 shadow-[0_8px_24px_rgb(15,23,42,0.05)]">
       <p class="text-2xl font-display font-bold text-navy-900"><?= number_format($statistik['total_siswa'], 0, ',', '.') ?></p>
-      <p class="text-sm text-slate-500 mt-1">Total Siswa (DPT)</p>
+      <p class="text-sm text-slate-500 mt-1">Total Siswa</p>
     </div>
     <div data-aos="fade-up" data-aos-delay="80" class="bg-white rounded-2xl p-5 border border-slate-100 shadow-[0_8px_24px_rgb(15,23,42,0.05)]">
       <p class="text-2xl font-display font-bold text-emerald-600"><?= number_format($statistik['sudah_voting'], 0, ',', '.') ?></p>
@@ -168,8 +168,51 @@ if (!$is_ajax) {
 
         <div>
           <label class="text-sm font-medium text-navy-700 mb-1.5 block">Kelas</label>
-          <input type="text" name="kelas" required placeholder="cth. XII RPL 1"
-                 class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none text-sm">
+          <select name="kelas" id="input-kelas" require class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none text-sm">
+            <option value="">Pilih Kelas</option>
+            <!-- option : 10 RPL -->
+            <option value="10 RPL 1">10 RPL 1</option>
+            <option value="10 RPL 2">10 RPL 2</option>
+            <option value="10 RPL 3">10 RPL 3</option>
+            <option value="10 RPL 4">10 RPL 4</option>
+            <option value="10 RPL 5">10 RPL 5</option>
+            <option value="10 RPL 6">10 RPL 6</option>
+            <option value="10 RPL 7">10 RPL 7</option>
+            <option value="10 RPL 8">10 RPL 8</option>
+            <option value="10 RPL 9">10 RPL 9</option>
+            <!--  Kelas : 10 DKV -->
+            <option value="10 DKV 1">10 DKV 1</option>
+            <option value="10 DKV 2">10 DKV 2</option>
+            <option value="10 DKV 3">10 DKV 3</option>
+            <!-- option : 11 RPL -->
+            <option value="11 RPL 1">11 RPL 1</option>
+            <option value="11 RPL 2">11 RPL 2</option>
+            <option value="11 RPL 3">11 RPL 3</option>
+            <option value="11 RPL 4">11 RPL 4</option>
+            <option value="11 RPL 5">11 RPL 5</option>
+            <option value="11 RPL 6">11 RPL 6</option>
+            <option value="11 RPL 7">11 RPL 7</option>
+            <option value="11 RPL 8">11 RPL 8</option>
+            <option value="11 RPL 9">11 RPL 9</option>
+            <!--  Kelas : 11 DKV -->
+            <option value="11 DKV 1">11 DKV 1</option>
+            <option value="11 DKV 2">11 DKV 2</option>
+            <option value="11 DKV 3">11 DKV 3</option>
+            <!-- option : 12 RPL -->
+            <option value="12 RPL 1">12 RPL 1</option>
+            <option value="12 RPL 2">12 RPL 2</option>
+            <option value="12 RPL 3">12 RPL 3</option>
+            <option value="12 RPL 4">12 RPL 4</option>
+            <option value="12 RPL 5">12 RPL 5</option>
+            <option value="12 RPL 6">12 RPL 6</option>
+            <option value="12 RPL 7">12 RPL 7</option>
+            <option value="12 RPL 8">12 RPL 8</option>
+            <option value="12 RPL 9">12 RPL 9</option>
+            <!--  Kelas : 12 DKV -->
+            <option value="12 DKV 1">12 DKV 1</option>
+            <option value="12 DKV 2">12 DKV 2</option>
+            <option value="12 DKV 3">12 DKV 3</option>
+          </select>
         </div>
 
         <p class="text-xs text-slate-400 -mt-2">Token voting dibuat otomatis oleh sistem setelah data disimpan.</p>
