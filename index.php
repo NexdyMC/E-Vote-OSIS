@@ -11,16 +11,17 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Vote OSIS</title>
-  <!-- CDN : Tailwind css  -->
-  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-  <script src="assets/scripts/tailwind.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Vote OSIS</title>
+
+  <!-- link : CDN  -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/scripts/tailwind.config.js"></script>
-  <!-- link : font google -->
+  <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
   <!-- link : style css -->
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -32,12 +33,12 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
     
     <!-- navbar : title -->
     <div class="flex items-center gap-2">
-      <div class="w-9 h-9 rounded-xl bg-primary-700 flex items-center justify-center font-display font-bold text-accent-400">SI</div>
-      <span class="font-display font-semibold text-sm sm:text-base text-navy-900">E-Vote<span class="text-primary-600"> OSIS</span></span>
+      <img src="assets/images/logo-smk.png" alt="Logo IFSU" class="w-12 h-12">
+      <p class="font-display font-semibold text-xl text-navy-900">E-Vote<span class="text-primary-600"> OSIS</span></p>
     </div>
 
     <!-- navbar : menu -->
-    <div class="hidden md:flex items-center gap-8 text-sm font-medium text-navy-800">
+    <div class="hidden md:flex items-center gap-8 text-md font-medium text-navy-800">
       <a href="#beranda" class="hover:text-primary-600 transition">Beranda</a>
       <a href="#tahapan" class="hover:text-primary-600 transition">Tahapan</a>
       <a href="#kandidat" class="hover:text-primary-600 transition">Kandidat</a>
@@ -46,20 +47,22 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
       <a href="#video" class="hover:text-primary-600 transition">Video</a>
     </div>
 
-    <!-- navbar : button -->
+    <!-- navbar : login -->
     <?php if ($isLoggedIn): ?>
       <div class="flex items-center gap-3">
-        <span class="hidden sm:block text-sm text-navy-700">Hai, <span class="font-semibold"><?= htmlspecialchars($namaSiswa) ?></span></span>
-        <a href="logout.php" class="text-sm font-medium px-4 py-2 rounded-full border border-slate-200 hover:bg-slate-50 transition">Keluar</a>
+        <span class="hidden sm:block text-md text-navy-700">Hai, <span class="font-semibold"><?= htmlspecialchars($namaSiswa) ?></span></span>
+        <a href="siswa/logout.php" class="text-md font-medium px-4 py-2 rounded-full border border-slate-200 hover:bg-slate-50 transition">Keluar</a>
       </div>
     <?php else: ?>
-      <a href="login.php" class="btn-cta text-sm font-semibold px-5 py-2.5 rounded-full bg-primary-700 text-white hover:bg-primary-600">Masuk</a>
+      <a href="siswa/login.php" class="flex items-center btn-cta text-md font-semibold px-5 py-2.5 rounded-full bg-primary-700 text-white hover:bg-primary-600">
+        Login<i data-lucide="log-in" class="ml-2 w-4 h-4"></i>
+      </a>
     <?php endif; ?>
   </nav>
 </header>
 
 <!-- section : hero -->
-<section id="beranda" class="relative overflow-hidden bg-[#F8FAFC] pt-40 pb-32">
+<section id="beranda" class="relative overflow-hidden bg-[#F8FAFC] pt-44 pb-32">
   <div class="absolute rounded-full blur-3xl opacity-35 pointer-events-none w-72 h-72 bg-primary-500 -top-10 -left-10"></div>
   <div class="absolute rounded-full blur-3xl opacity-35 pointer-events-none w-80 h-80 bg-accent-400 top-24 right-0"></div>
 
@@ -200,7 +203,7 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
               <!-- kandidat : Visi -->
               <div class="bg-slate-100/60 p-3 rounded-xl border-slate-200/80 border-2">
                 <h4 class="text-md font-bold uppercase text-brand-blue mb-1 flex items-center gap-1">
-                    <i data-lucide="compass" class="w-3.5 h-3.5 text-brand-yellow"></i> Visi
+                    <i data-lucide="compass" class="w-6 h-6 text-brand-blue"></i> Visi
                 </h4>
                 <p class="text-sm text-bland-blue leading-relaxed ">
                     <?= nl2br($row['visi']); ?>
@@ -210,7 +213,7 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
               <!-- kandidat : Misi -->
               <div class="bg-slate-100/60 p-3 rounded-xl border-slate-200/80 border-2">
                 <h4 class="text-md font-bold uppercase text-brand-blue mb-1 flex items-center gap-1">
-                    <i data-lucide="compass" class="w-3.5 h-3.5 text-brand-yellow"></i> Misi
+                    <i data-lucide="compass" class="w-6 h-6 text-brand-blue"></i> Misi
                 </h4>
                 <p class="text-sm text-bland-blue leading-relaxed ">
                     <?= nl2br($row['misi']); ?>
@@ -405,11 +408,12 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
 <!-- section : footer -->
 <footer class="bg-white border-t border-slate-100 py-8">
   <div class="max-w-6xl mx-auto px-6 text-center text-sm text-navy-500">
-    &copy; <?= date('Y') ?> Febri Pratama — All Right Reserved.
+    &copy; 2026 Febri Pratama — All Right Reserved.
   </div>
 </footer>
 
 <script>
+  lucide.createIcons();
   // ===================== COUNTDOWN VOTING =====================
   const targetVoting = new Date(<?= $waktuVotingBerakhir ?> * 1000).getTime();
 

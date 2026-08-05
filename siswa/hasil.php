@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . "/api/conn.php";
+require_once __DIR__ . "/../api/conn.php";
 session_start();
 
 if (!isset($_SESSION['token'])) {
@@ -25,20 +25,19 @@ $paslon_results = $conn->get_paslon_results();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Quick Count Hasil Voting</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Hasil Kandidat - E-Vote OSIS</title>
+    <!-- Link : CDN & css/js -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="assets/scripts/tailwind.config.js"></script>
-    <!-- Chart.js & Lucide Icons -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style> body { font-family: 'Inter', sans-serif; } </style>
+    <script src="../assets/scripts/tailwind.config.js"></script>
+    <link rel="stylesheet" href="../assets/css/voting.css">
 </head>
 <body class="bg-slate-100 text-slate-100 min-h-screen flex flex-col justify-between">
 
     <?php  if (!$is_ajax) {
-        require_once __DIR__ . '/layout/partials/topbar.php'; 
+        require_once __DIR__ . '/../layout/partials/topbar.php'; 
     } ?>
 
     <!-- section : hero section -->
@@ -54,7 +53,7 @@ $paslon_results = $conn->get_paslon_results();
                 </div>
         
                 <!-- hero : heading -->
-                <h1 class="text-navy-900 text-3xl sm:text-5xl font-extrabold text- tracking-tight">
+                <h1 class="text-slate-800 text-3xl sm:text-5xl font-extrabold text- tracking-tight">
                     Hasil Voting OSIS
                 </h1>
                 
@@ -147,7 +146,7 @@ $paslon_results = $conn->get_paslon_results();
             <!-- 1. Chart Donat -->
             <div class="bg-white border  border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-between transition-shadow hover:shadow-md">
                 <div class="w-full">
-                    <h3 class="text-base font-bold text-slate-800">Persentase Suara</h3>
+                    <h3 class="text-xl font-extrabold text-navy-800">Persentase Suara</h3>
                     <p class="text-xs text-slate-500 mb-6">Diagram Donat / Doughnut Chart</p>
                 </div>
                 <div class="relative w-full max-w-[280px] aspect-square flex items-center justify-center mx-auto">
@@ -158,7 +157,7 @@ $paslon_results = $conn->get_paslon_results();
             <!-- 2. Diagram Batang (Bar Chart) -->
             <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-between transition-shadow hover:shadow-md">
                 <div class="w-full">
-                    <h3 class="text-base font-bold text-slate-800">Perbandingan Perolehan Suara</h3>
+                    <h3 class="text-xl font-extrabold text-navy-800">Perbandingan Perolehan Suara</h3>
                     <p class="text-xs text-slate-500 mb-6">Diagram Batang / Bar Chart</p>
                 </div>
                 <div class="relative w-full h-[280px]">
@@ -170,7 +169,6 @@ $paslon_results = $conn->get_paslon_results();
         <!-- statis : kandidat progress -->
         <section class="space-y-4">
             <h3 class="text-xl font-extrabold text-navy-800">Progress Perolehan Kandidat</h3>
-
             <div class="grid grid-cols-1 gap-4">
                 <?php foreach ($paslon_results as $paslon): ?>
                 <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">

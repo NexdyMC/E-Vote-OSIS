@@ -3,7 +3,7 @@
         <div class="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-6 py-4">
             
             <!-- Navbar : Logo & Brand -->
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3 z-10">
                 <div class="w-12 h-12 rounded-xl bg-brand-yellow text-brand-darkblue font-bold flex items-center justify-center text-lg shadow-md">
                     <i data-lucide="vote" class="w-8 h-8"></i>
                 </div>
@@ -15,20 +15,20 @@
             </div>
 
             <!-- Navbar : Navigation desktop & mobile top -->
-            <div class="hidden md:flex justify-center items-center gap-4">
+            <div class="absolute left-0 right-0 hidden md:flex justify-center items-center gap-4">
                  
                 <a href="voting.php" 
                   class="inline-flex items-center gap-1.5 px-4 py-2 text-md font-bold transition-all <?= $activePage === 'voting' ? 'text-brand-darkblue bg-gradient-to-br to-amber-500 from-amber-300 rounded-lg shadow-md' : 'text-slate-300 hover:text-brand-yellow' ?>">
-                  <i data-lucide="bar-chart-3" class="w-6 h-6"></i>Voting
+                  <i data-lucide="vote" class="w-6 h-6"></i>Voting
                 </a>
                 <a href="hasil.php"  
                   class="inline-flex items-center gap-1.5 px-4 py-2 text-md font-bold transition-all <?= $activePage === 'hasil' ? 'text-brand-darkblue bg-gradient-to-br to-amber-500 from-amber-300 rounded-lg shadow-md' : 'text-slate-300 hover:text-brand-yellow' ?>">
-                  <i data-lucide="vote" class="w-6 h-6"></i>Hasil
+                  <i data-lucide="bar-chart-3" class="w-6 h-6"></i>Hasil
                 </a>
             </div>
 
             <!-- Navbar : User Info & Logout -->
-            <div class="flex items-center gap-4">
+            <div class="flex items-center gap-4 z-10">
                 <div class="text-right hidden md:block">
                     <p class="text-sm text-white font-semibold uppercase"><?= $_SESSION['nama'] ?? "User";?></p>
                     <p class="text-xs text-slate-400 uppercase"><?= $_SESSION['kelas'] ?? "kelas" ;?></p>

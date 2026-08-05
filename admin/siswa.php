@@ -31,7 +31,6 @@ $admin = $_SESSION['admin'] ?? [
 // --- Data siswa & statistik langsung dari database ---
 $siswa_list = $conn->select_siswa('1 ORDER BY nama ASC');
 $statistik  = $conn->persen_voting_siswa();
-
 $pageTitle  = 'Data Siswa / Data Pemilih Tetap (DPT)';
 $breadcrumb = ['Admin', 'Siswa / Data DPT'];
 $activePage = 'siswa';
@@ -77,7 +76,7 @@ if (!$is_ajax) {
     <div data-aos="fade-up" data-aos-delay="160" class="bg-white rounded-2xl p-5 border border-slate-100 shadow-[0_8px_24px_rgb(15,23,42,0.05)]">
       <p class="text-2xl font-display font-bold text-slate-400"><?= number_format($statistik['belum_voting'], 0, ',', '.') ?></p>
       <p class="text-sm text-slate-500 mt-1">Belum Memilih</p>
-    </div>
+    </div>n
   </div>
 
   <!-- ============ HEADER + TOMBOL TAMBAH ============ -->
