@@ -203,7 +203,7 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
               <!-- kandidat : Visi -->
               <div class="bg-slate-100/60 p-3 rounded-xl border-slate-200/80 border-2">
                 <h4 class="text-md font-bold uppercase text-brand-blue mb-1 flex items-center gap-1">
-                    <i data-lucide="compass" class="w-6 h-6 text-brand-blue"></i> Visi
+                    <i data-lucide="compass" class="w-5 h-5 text-brand-blue"></i> Visi
                 </h4>
                 <p class="text-sm text-bland-blue leading-relaxed ">
                     <?= nl2br($row['visi']); ?>
@@ -213,7 +213,7 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
               <!-- kandidat : Misi -->
               <div class="bg-slate-100/60 p-3 rounded-xl border-slate-200/80 border-2">
                 <h4 class="text-md font-bold uppercase text-brand-blue mb-1 flex items-center gap-1">
-                    <i data-lucide="compass" class="w-6 h-6 text-brand-blue"></i> Misi
+                    <i data-lucide="compass" class="w-5 h-5 text-brand-blue"></i> Misi
                 </h4>
                 <p class="text-sm text-bland-blue leading-relaxed ">
                     <?= nl2br($row['misi']); ?>
@@ -225,8 +225,8 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
           <!-- kandidat : button -->
           <div class="px-4 py-4 space-y-4 text-center">
             <a href="login.php"
-              class="btn-cta w-full font-display font-semibold text-sm px-5 py-3 rounded-xl border-2 border-primary-700 text-primary-700 bg-slate-100 text-navy-500 hover:bg-primary-700 hover:text-white flex items-center justify-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              class="btn-cta w-full font-display font-semibold text-md px-5 py-3 rounded-xl border-2 border-primary-700 text-primary-700 bg-slate-100 text-navy-500 hover:bg-primary-700 hover:text-white flex items-center justify-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="5" y="11" width="14" height="9" rx="2"/>
                 <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
               </svg>

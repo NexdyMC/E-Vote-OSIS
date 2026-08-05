@@ -4,7 +4,7 @@ session_start();
 $is_ajax = isset($_GET['ajax']) && $_GET['ajax'] == '1';
 
 if (!isset($_SESSION['token'])) {
-    header("Location: index.php");
+    header("Location: login.php");
     exit;
 }
 
@@ -31,8 +31,8 @@ $activePage = "voting";
 <body>
 
 	<?php if (!$is_ajax) {
-        require_once __DIR__ . '/../layout/partials/topbar.php'; 
-    }?>
+		require_once __DIR__ . '/../layout/partials/topbar.php'; 
+  }?>
 
 	<!-- section : main  -->
 	<main class="py-8 px-4 sm:px-6 max-w-6xl mx-auto w-full flex-1 flex flex-col justify-center space-y-3">
@@ -51,20 +51,28 @@ $activePage = "voting";
 							class="text-[#FACC15]">OSIS</span></h1>
 					<p class="text-gray-600">Pilih calon ketua OSIS yang menurut Anda paling tepat</p>
 
-					<!-- BANNER PERINGATAN VOTING -->
-					<div data-aos="fade-up" class="mb-6 p-4 sm:p-5 rounded-2xl bg-amber-50 border border-amber-200 flex gap-3.5 sm:gap-4 text-amber-900 shadow-sm">
-						<!-- Icon Warning/Alert -->
-						<div class="w-10 h-10 rounded-xl bg-amber-100 border border-amber-200 flex items-center justify-center shrink-0 text-amber-700 mt-0.5">
-							<i data-lucide="alert-triangle" class="w-5 h-5"></i>
+					<div
+						class="bg-amber-300/20 border-amber-300/80 border-l-[5px] border-l-amber-300 rounded-2xl p-4 sm:p-5 shadow-[0_4px_20px_rgb(30,58,138,0.05)] flex items-start sm:items-center gap-4 my-6 transition-all">
+
+						<!-- Icon Badge (Square Soft-Rounded) -->
+						<div
+							class="w-10 h-10 rounded-xl bg-amber-400 text-white flex items-center justify-center shrink-0 shadow-md shadow-blue-600/20">
+							<i data-lucide="info" class="w-5 h-5"></i>
 						</div>
-						
-						<!-- Teks Peringatan -->
+
+						<!-- Content Text -->
 						<div class="flex-1 min-w-0">
-							<h4 class="text-sm font-semibold text-amber-950 font-display">Penting! Harap Diperhatikan</h4>
-							<p class="text-xs sm:text-sm text-amber-800/90 mt-1 leading-relaxed">
-								Kesempatan memilih <strong class="font-semibold text-amber-950">hanya dapat dilakukan 1 (satu) kali</strong>. Pastikan Anda telah mempertimbangkan pilihan dengan cermat sebelum menekan tombol konfirmasi.
+							<div class="flex items-center gap-2">
+								<h4 class="font-display font-bold text-navy-900 text-sm sm:text-base leading-snug">
+									Penting Diperhatikan!
+								</h4>
+							</div>
+
+							<p class="text-xs sm:text-sm text-slate-600 mt-0.5 font-medium leading-relaxed text-left">
+								Anda hanya dapat memilih satu kali dan tidak dapat mengubah pilihan setelahnya!
 							</p>
 						</div>
+
 					</div>
 				</div>
 			</div>
@@ -112,7 +120,7 @@ $activePage = "voting";
 									<!-- kandidat : Visi -->
 									<div class="bg-slate-50 p-3 rounded-xl border-slate-200 border-2">
 										<h4 class="text-md font-bold uppercase text-blue-600 mb-1 flex items-center gap-1">
-											<i data-lucide="compass" class="w-3.5 h-3.5"></i> Visi
+											<i data-lucide="compass" class="w-5 h-5"></i> Visi
 										</h4>
 										<p class="text-sm text-slate-600 leading-relaxed">
 											<?= nl2br($row['visi']); ?>
@@ -122,7 +130,7 @@ $activePage = "voting";
 									<!-- kandidat : Misi -->
 									<div class="bg-slate-50 p-3 rounded-xl border-slate-200 border-2">
 										<h4 class="text-md font-bold uppercase text-blue-600 mb-1 flex items-center gap-1">
-											<i data-lucide="compass" class="w-3.5 h-3.5"></i> Misi
+											<i data-lucide="compass" class="w-5 h-5"></i> Misi
 										</h4>
 										<p class="text-sm text-slate-600 leading-relaxed">
 											<?= nl2br($row['misi']); ?>

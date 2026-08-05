@@ -68,7 +68,7 @@ if (!$is_ajax) {
             : 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=400&h=400&fit=crop&auto=format';
       ?>
       <div data-aos="fade-up" data-aos-delay="<?= min(($i + 1) * 80, 320) ?>"
-           class="bg-white rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(15,23,42,0.06)] border border-slate-100 card-hover flex flex-col">
+           class="bg-white rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(15,23,42,0.06)] border-2 border-slate-100 card-hover flex flex-col hover:border-blue-500">
 
         <!-- Foto -->
         <div class="relative aspect-[4/3] bg-slate-800 shrink-0">

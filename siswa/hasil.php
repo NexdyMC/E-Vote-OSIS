@@ -17,200 +17,252 @@ $suara_belum_memilih    = $total_pemilih_terdaftar - $total_suara_masuk;
 $persentase_partisipasi = round(($total_suara_masuk / $total_pemilih_terdaftar) * 100, 1);
 
 $activePage = 'hasil'; 
-
 $paslon_results = $conn->get_paslon_results();
+
 ?>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hasil Kandidat - E-Vote OSIS</title>
-    <!-- Link : CDN & css/js -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="../assets/scripts/tailwind.config.js"></script>
-    <link rel="stylesheet" href="../assets/css/voting.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hasil Kandidat - E-Vote OSIS</title>
+  <!-- Link : CDN & css/js -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="../assets/scripts/tailwind.config.js"></script>
+  <link rel="stylesheet" href="../assets/css/voting.css">
 </head>
+
 <body class="bg-slate-100 text-slate-100 min-h-screen flex flex-col justify-between">
 
-    <?php  if (!$is_ajax) {
-        require_once __DIR__ . '/../layout/partials/topbar.php'; 
-    } ?>
+  <?php  if (!$is_ajax) {
+    require_once __DIR__ . '/../layout/partials/topbar.php'; 
+  } ?>
 
-    <!-- section : hero section -->
-    <header class=" grid items-center py-10 px-4 border-b border-slate-100 bg-slate-100 backdrop-blur-md">
-        <div class="max-w-4xl mx-auto text-center space-y-3">
-            <div class="py-6 space-y-4">
-                
-                <!-- hero : icon -->
-                <div class="flex justify-center">
-                    <div class="flex justify-center items-center bg-gradient-to-br from-amber-500 to-amber-300 rounded-xl shadow-md transition-all w-20 h-20">
-                        <i data-lucide="bar-chart-3" class="w-10 h-10 stroke-[3]"></i>
-                    </div>
-                </div>
-        
-                <!-- hero : heading -->
-                <h1 class="text-slate-800 text-3xl sm:text-5xl font-extrabold text- tracking-tight">
-                    Hasil Voting OSIS
-                </h1>
-                
-                <!-- hero : description -->
-                <p class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
-                    Data diperbarui secara real-time setiap 5 detik
-                </p>
+  <!-- section : hero section -->
+  <header class=" grid items-center py-10 px-4 border-b border-slate-100 bg-slate-100 backdrop-blur-md">
+    <div class="max-w-4xl mx-auto text-center space-y-3">
+      <div class="py-6 space-y-4">
 
-                <!-- label : live -->
-                <div class="inline-flex items-center gap-2.5 px-4 py-1.5 bg-white border border-green-300 rounded-full shadow-sm">
-                    <div class="relative flex h-3.5 w-3.5 items-center justify-center">
-                        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
-                        <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-500"></span>       
-                    </div>
-                    <span class="text-sm font-semibold text-teal-600">Live Update <span id="syncTime" class="ml-1 text-teal-500">5s</span></span>        
-                    <i data-lucide="refresh-cw" id="syncIcon" class="w-3.5 h-3.5 text-teal-600 transition-all"></i>
-                </div>
-            </div>
+        <!-- hero : icon -->
+        <div class="flex justify-center">
+          <div
+            class="flex justify-center items-center bg-gradient-to-br from-amber-500 to-amber-300 rounded-xl shadow-md transition-all w-20 h-20">
+            <i data-lucide="bar-chart-3" class="w-10 h-10 stroke-[3]"></i>
+          </div>
         </div>
-    </header>
 
-    <!-- section : statis -->
-    <main class="max-w-7xl mx-auto px-4  sm:px-6 w-full space-y-12 my-10">
-        <!-- statis : jumlah voting -->
-        <section>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                
-                <!-- card : total suara -->
-                <div class="relative overflow-hidden bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl p-6 text-white shadow-lg shadow-cyan-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-cyan-500/50">
-                    <div class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/20 blur-2xl"></div>
-                    <div class="relative z-10 flex justify-between items-start">
-                        <div>
-                            <span class="text-sm font-semibold tracking-wider">Total Suara</span>
-                            <!-- Ditambahkan class animate-number dan data-value -->
-                            <div id="val-total-suara" class="text-4xl font-extrabold text-white animate-number" data-value="<?= $totalSiswa['sudah_voting']; ?>" data-is-percent="false">0</div>
-                        </div>
-                        <div class="p-3 bg-white/20 rounded-xl backdrop-blur-sm border border-white/20">
-                            <i data-lucide="bar-chart-3" class="w-10 h-10 stroke-[2]"></i>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- card : partisipasi -->
-                <div class="relative overflow-hidden bg-gradient-to-br from-emerald-400 to-teal-600 rounded-2xl p-6 text-white shadow-lg shadow-emerald-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-emerald-500/50">
-                    <div class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/20 blur-2xl"></div>
-                    <div class="relative z-10 flex justify-between items-start">
-                        <div>
-                            <span class="text-sm font-semibold tracking-wider">Partisipasi</span>
-                            <div id="val-partisipasi" class="text-4xl font-extrabold text-white animate-number" data-value="<?= $totalSiswa['persen_sudah']; ?>" data-is-percent="true">0%</div>
-                        </div>
-                        <div class="p-3 bg-white/20 rounded-xl backdrop-blur-sm border border-white/20">
-                            <i data-lucide="users" class="w-10 h-10 stroke-[2]"></i>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- card : belum voting -->
-                <div class="relative overflow-hidden bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl p-6 text-white shadow-lg shadow-amber-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-amber-500/50">
-                    <div class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/20 blur-2xl"></div>
-                    <div class="relative z-10 flex justify-between items-start">
-                        <div>
-                            <span class="text-sm font-semibold tracking-wider">Belum Voting</span>
-                            <div id="val-belum-voting" class="text-4xl font-extrabold text-white animate-number" data-value="<?= $totalSiswa['persen_belum']; ?>" data-is-percent="true">0%</div>
-                        </div>
-                        <div class="p-3 bg-white/20 rounded-xl backdrop-blur-sm border border-white/20">
-                            <i data-lucide="check-circle-2" class="w-10 h-10 stroke-[2]"></i>
-                        </div>
-                    </div>
-                </div>
+        <!-- hero : heading -->
+        <h1 class="text-slate-800 text-3xl sm:text-5xl font-extrabold text- tracking-tight">
+          Hasil Voting OSIS
+        </h1>
 
-                <!-- card : total kandidat -->
-                <div class="relative overflow-hidden bg-gradient-to-br from-green-500 to-emerald-700 rounded-2xl p-6 text-white shadow-lg shadow-green-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-green-500/50">
-                    <div class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/20 blur-2xl"></div>
-                    <div class="relative z-10 flex justify-between items-start">
-                        <div>
-                            <span class="text-sm font-semibold tracking-wider">Kandidat</span>
-                            <div class="text-4xl font-extrabold text-white animate-number" data-value="<?= $totalSiswa['kandidat']; ?>" data-is-percent="false">0</div>
-                        </div>
-                        <div class="p-3 bg-white/20 rounded-xl backdrop-blur-sm border border-white/20">
-                            <i data-lucide="award" class="w-10 h-10 stroke-[2]"></i>
-                        </div>
-                    </div>
-                </div>
-        
+        <!-- hero : description -->
+        <p class="text-slate-600 text-sm sm:text-base max-w-xl mx-auto">
+          Data diperbarui secara real-time setiap 5 detik
+        </p>
+
+        <!-- label : live -->
+        <div
+          class="inline-flex items-center gap-2.5 px-4 py-1.5 bg-white border border-green-300 rounded-full shadow-sm">
+          <div class="relative flex h-3.5 w-3.5 items-center justify-center">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
+            <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-green-500"></span>
+          </div>
+          <span class="text-sm font-semibold text-teal-600">Live Update <span id="syncTime"
+              class="ml-1 text-teal-500">5s</span></span>
+          <i data-lucide="refresh-cw" id="syncIcon" class="w-3.5 h-3.5 text-teal-600 transition-all"></i>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- section : statis -->
+  <main class="max-w-7xl mx-auto px-4  sm:px-6 w-full space-y-12 my-10">
+    <!-- statis : jumlah voting -->
+    <section>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+        <!-- card : total suara -->
+        <div
+          class="relative overflow-hidden bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl p-6 text-white shadow-lg shadow-cyan-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-cyan-500/50">
+          <div class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/20 blur-2xl"></div>
+          <div class="relative z-10 flex justify-between items-start">
+            <div>
+              <span class="text-sm font-semibold tracking-wider">Total Suara</span>
+              <!-- Ditambahkan class animate-number dan data-value -->
+              <div id="val-total-suara" class="text-4xl font-extrabold text-white animate-number"
+                data-value="<?= $totalSiswa['sudah_voting']; ?>" data-is-percent="false">0</div>
             </div>
-        </section>
+            <div class="p-3 bg-white/20 rounded-xl backdrop-blur-sm border border-white/20">
+              <i data-lucide="bar-chart-3" class="w-10 h-10 stroke-[2]"></i>
+            </div>
+          </div>
+        </div>
 
-        <!-- statis : kandidat diagram -->
-        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <!-- 1. Chart Donat -->
-            <div class="bg-white border  border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-between transition-shadow hover:shadow-md">
-                <div class="w-full">
-                    <h3 class="text-xl font-extrabold text-navy-800">Persentase Suara</h3>
-                    <p class="text-xs text-slate-500 mb-6">Diagram Donat / Doughnut Chart</p>
-                </div>
-                <div class="relative w-full max-w-[280px] aspect-square flex items-center justify-center mx-auto">
-                    <canvas id="voteChart"></canvas>
-                </div>
+        <!-- card : partisipasi -->
+        <div
+          class="relative overflow-hidden bg-gradient-to-br from-emerald-400 to-teal-600 rounded-2xl p-6 text-white shadow-lg shadow-emerald-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-emerald-500/50">
+          <div class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/20 blur-2xl"></div>
+          <div class="relative z-10 flex justify-between items-start">
+            <div>
+              <span class="text-sm font-semibold tracking-wider">Partisipasi</span>
+              <div id="val-partisipasi" class="text-4xl font-extrabold text-white animate-number"
+                data-value="<?= $totalSiswa['persen_sudah']; ?>" data-is-percent="true">0%</div>
+            </div>
+            <div class="p-3 bg-white/20 rounded-xl backdrop-blur-sm border border-white/20">
+              <i data-lucide="users" class="w-10 h-10 stroke-[2]"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- card : belum voting -->
+        <div
+          class="relative overflow-hidden bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl p-6 text-white shadow-lg shadow-amber-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-amber-500/50">
+          <div class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/20 blur-2xl"></div>
+          <div class="relative z-10 flex justify-between items-start">
+            <div>
+              <span class="text-sm font-semibold tracking-wider">Belum Voting</span>
+              <div id="val-belum-voting" class="text-4xl font-extrabold text-white animate-number"
+                data-value="<?= $totalSiswa['persen_belum']; ?>" data-is-percent="true">0%</div>
+            </div>
+            <div class="p-3 bg-white/20 rounded-xl backdrop-blur-sm border border-white/20">
+              <i data-lucide="check-circle-2" class="w-10 h-10 stroke-[2]"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- card : total kandidat -->
+        <div
+          class="relative overflow-hidden bg-gradient-to-br from-green-500 to-emerald-700 rounded-2xl p-6 text-white shadow-lg shadow-green-500/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-green-500/50">
+          <div class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/20 blur-2xl"></div>
+          <div class="relative z-10 flex justify-between items-start">
+            <div>
+              <span class="text-sm font-semibold tracking-wider">Kandidat</span>
+              <div class="text-4xl font-extrabold text-white animate-number"
+                data-value="<?= $totalSiswa['kandidat']; ?>" data-is-percent="false">0</div>
+            </div>
+            <div class="p-3 bg-white/20 rounded-xl backdrop-blur-sm border border-white/20">
+              <i data-lucide="award" class="w-10 h-10 stroke-[2]"></i>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- statis : kandidat diagram -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- 1. Chart Donat -->
+      <div
+        class="bg-white border  border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-between transition-shadow hover:shadow-md">
+        <div class="w-full">
+          <h3 class="text-xl font-extrabold text-navy-800">Persentase Suara</h3>
+          <p class="text-xs text-slate-500 mb-6">Diagram Donat / Doughnut Chart</p>
+        </div>
+        <div class="relative w-full max-w-[280px] aspect-square flex items-center justify-center mx-auto">
+          <canvas id="voteChart"></canvas>
+        </div>
+      </div>
+
+      <!-- 2. Diagram Batang (Bar Chart) -->
+      <div
+        class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-between transition-shadow hover:shadow-md">
+        <div class="w-full">
+          <h3 class="text-xl font-extrabold text-navy-800">Perbandingan Perolehan Suara</h3>
+          <p class="text-xs text-slate-500 mb-6">Diagram Batang / Bar Chart</p>
+        </div>
+        <div class="relative w-full h-[280px]">
+          <canvas id="barChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- statis : kandidat progress -->
+    <section class="space-y-4">
+      <h3 class="text-xl font-extrabold text-navy-800">Progress Perolehan Kandidat</h3>
+      <div class="grid grid-cols-1 gap-4">
+        <?php foreach ($paslon_results as $paslon): ?>
+        <div class="bg-white border  border-slate-200 rounded-2xl p-5 shadow-xl">
+          <div class="flex sm:flex-row sm:items-center justify-between gap-3 mb-3">
+
+            <div class="flex items-center gap-3">
+              <span
+                class="w-10 h-10 rounded-xl bg-[<?= $paslon['warna'] ?>] text-brand-dark font-extrabold text-sm flex items-center justify-center shrink-0 shadow-md">
+                <?= $paslon['no_urut'] ?>
+              </span>
+              <div>
+                <h4 class="text-base font-bold text-navy-800"><?= $paslon['nama'] ?></h4>
+                <p class="text-xs text-slate-400">Paslon Nomor Urut <?= $paslon['no_urut'] ?></p>
+              </div>
             </div>
 
-            <!-- 2. Diagram Batang (Bar Chart) -->
-            <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-between transition-shadow hover:shadow-md">
-                <div class="w-full">
-                    <h3 class="text-xl font-extrabold text-navy-800">Perbandingan Perolehan Suara</h3>
-                    <p class="text-xs text-slate-500 mb-6">Diagram Batang / Bar Chart</p>
-                </div>
-                <div class="relative w-full h-[280px]">
-                    <canvas id="barChart"></canvas>
-                </div>
+            <div class="flex items-center justify-between sm:justify-end gap-4 text-right">
+              <div>
+                <!-- Ditambahkan class animate-number dan ID dinamis -->
+                <span id="val-suara-<?= $paslon['no_urut'] ?>"
+                  class="text-2xl font-extrabold text-navy-800 animate-number" data-value="<?= $paslon['suara'] ?>"
+                  data-is-percent="false">0</span>
+                <span class="text-xs text-slate-400 block">Suara</span>
+              </div>
             </div>
-        </section>
+          </div>
 
-        <!-- statis : kandidat progress -->
-        <section class="space-y-4">
-            <h3 class="text-xl font-extrabold text-navy-800">Progress Perolehan Kandidat</h3>
-            <div class="grid grid-cols-1 gap-4">
-                <?php foreach ($paslon_results as $paslon): ?>
-                <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
-                        <div class="flex items-center gap-3">
-                            <span class="w-10 h-10 rounded-xl bg-[<?= $paslon['warna'] ?>] text-brand-dark font-extrabold text-sm flex items-center justify-center shrink-0 shadow-md">
-                                <?= $paslon['no_urut'] ?>
-                            </span>
-                            <div>
-                                <h4 class="text-base font-bold text-white"><?= $paslon['nama'] ?></h4>
-                                <p class="text-xs text-slate-400">Paslon Nomor Urut <?= $paslon['no_urut'] ?></p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between sm:justify-end gap-4 text-right">
-                            <div>
-                                <!-- Ditambahkan class animate-number dan ID dinamis -->
-                                <span id="val-suara-<?= $paslon['no_urut'] ?>" class="text-2xl font-extrabold text-brand-yellow animate-number" data-value="<?= $paslon['suara'] ?>" data-is-percent="false">0</span>
-                                <span class="text-xs text-slate-400 block">Suara</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Progress Bar -->
-                    <div class="w-full bg-slate-950 rounded-full h-5.5 p-0.5 border border-slate-800 overflow-hidden">
-                        <div id="bar-paslon-<?= $paslon['no_urut'] ?>" class="h-3.5 rounded-full transition-all duration-1000 text-xs font-bold text-right px-3" style="width: <?= $paslon['persen'] ?>%; background-color: <?= $paslon['warna'] ?>;">
-                            <span id="val-persen-<?= $paslon['no_urut'] ?>" class="animate-number" data-value="<?= $paslon['persen'] ?>" data-is-percent="true">0%</span>
-                        </div>
-                    </div>
-                </div>
-                <?php endforeach; ?>
+          <!-- Progress Bar -->
+          <div class="w-full bg-slate-200 border-slate-200 rounded-full h-5.5 p-0.5 border verflow-hidden">
+            <div id="bar-paslon-<?= $paslon['no_urut'] ?>"
+              class="h-3.5 rounded-full transition-all duration-1000 text-xs font-bold text-right px-3"
+              style="width: <?= $paslon['persen'] ?>%; background-color: <?= $paslon['warna'] ?>;">
+              <span id="val-persen-<?= $paslon['no_urut'] ?>" class="animate-number"
+                data-value="<?= $paslon['persen'] ?>" data-is-percent="true">0%</span>
             </div>
-        </section>
+          </div>
+        </div>
+        <?php endforeach; ?>
+      </div>
+    </section>
 
-    </main>
+    <!-- Label Informasi Real-time Voting -->
+    <div
+      class="bg-gradient-to-r from-blue-50/90 via-blue-50/40 to-white border border-blue-100/80 border-l-[5px] border-l-blue-600 rounded-2xl p-4 sm:p-5 shadow-[0_4px_20px_rgb(30,58,138,0.05)] flex items-start sm:items-center gap-4 my-6 transition-all">
 
-    <!-- section : footer -->
-    <footer class="bg-slate-950 border-t border-slate-900 py-6 text-center text-sm text-slate-500">
-        &copy; 2026 Febri Pratama — All rights reserved. 
-    </footer>
+      <!-- Icon Badge (Square Soft-Rounded) -->
+      <div
+        class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-blue-600/20">
+        <i data-lucide="info" class="w-5 h-5"></i>
+      </div>
 
-    <!-- script : js -->
+      <!-- Content Text -->
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-2">
+          <h4 class="font-display font-bold text-navy-900 text-sm sm:text-base leading-snug">
+            Informasi Penting
+          </h4>
+          <!-- Indicator Live (Opsional) -->
+          <span
+            class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 border border-emerald-200/60">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Auto Live
+          </span>
+        </div>
+
+        <p class="text-xs sm:text-sm text-slate-600 mt-0.5 font-medium leading-relaxed">
+          Data voting diperbarui secara otomatis setiap <span class="font-bold text-navy-900">5 detik</span>. Anda juga
+          dapat melakukan refresh manual dengan menekan tombol refresh.
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- section : footer -->
+  <footer class="bg-slate-950 border-t border-slate-900 py-6 text-center text-sm text-slate-500">
+    &copy; 2026 Febri Pratama — All rights reserved.
+  </footer>
+
+  <!-- script : js -->
 <script>
 
     lucide.createIcons();

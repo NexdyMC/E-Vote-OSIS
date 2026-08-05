@@ -76,17 +76,16 @@ if (!$is_ajax) {
     <div data-aos="fade-up" data-aos-delay="160" class="bg-white rounded-2xl p-5 border border-slate-100 shadow-[0_8px_24px_rgb(15,23,42,0.05)]">
       <p class="text-2xl font-display font-bold text-slate-400"><?= number_format($statistik['belum_voting'], 0, ',', '.') ?></p>
       <p class="text-sm text-slate-500 mt-1">Belum Memilih</p>
-    </div>n
+    </div>
   </div>
 
   <!-- ============ HEADER + TOMBOL TAMBAH ============ -->
-  <div class="flex items-center justify-between mb-6 gap-4">
+  <div data-aos="fade-up" class="flex items-center justify-between mb-6 gap-4">
     <div>
       <h2 class="font-display font-semibold text-navy-900">Daftar Siswa</h2>
       <p class="text-sm text-slate-500 mt-1"><?= count($siswa_list) ?> siswa terdaftar</p>
     </div>
-    <button type="button" onclick="openModalSiswa()" data-aos="fade-up"
-            class="btn-cta flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary-700 text-white text-sm font-semibold hover:bg-primary-600 shrink-0">
+    <button type="button" onclick="openModalSiswa()" data-aos="fade-up" class="btn-cta flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary-700 text-white text-sm font-semibold hover:bg-primary-600 shrink-0">
       <i data-lucide="user-plus" class="w-4 h-4"></i>
       <span class="hidden sm:inline">Tambah Siswa</span>
     </button>

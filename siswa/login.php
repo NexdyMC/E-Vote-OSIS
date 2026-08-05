@@ -1,5 +1,6 @@
 <?php
 
+
 session_start();
 require_once __DIR__ . "/../api/conn.php";
 
@@ -25,6 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+
 
 if (isset($_SESSION['token'])) {
     header("Location: voting.php");

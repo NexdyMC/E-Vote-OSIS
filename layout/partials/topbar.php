@@ -8,7 +8,7 @@
                     <i data-lucide="vote" class="w-8 h-8"></i>
                 </div>
                 <div>
-                    <h1 class="font-bold text-xl tracking-wide uppercase text-brand-yellow">E-Vote OSIS</h1>
+                    <h1 class="font-bold text-xl tracking-wide uppercase text-white">E-VOTE <span class="text-brand-yellow">OSIS</span></h1>
                     <p class="text-xs text-slate-400 hidden md:block">SMK Informatika Sumedang</p>
                     <p class="text-xs text-slate-400 block md:hidden uppercase"><?= $_SESSION['nama'] ?? "User";?></p>
                 </div>

@@ -86,7 +86,7 @@ if (!$is_ajax) {
         <div class="bg-white rounded-2xl p-6 border shadow-sm">
           <!-- Ditambahkan class animate-number dan ID val-dpt -->
           <p id="val-dpt" class="text-2xl font-display font-bold text-navy-900 animate-number" data-value="<?= $totalDPT ?>" data-is-percent="false">0</p>
-          <p class="text-sm text-slate-500">Total Siswa (DPT)</p>
+          <p class="text-sm text-slate-500">Total Siswa Voting</p>
         </div>
         <div class="bg-white rounded-2xl p-6 border shadow-sm">
           <!-- Ditambahkan class animate-number dan ID val-suara-masuk -->
@@ -156,7 +156,7 @@ if (!$is_ajax) {
     </main>
   <?php endif; ?>
 
-  <script>
+<script>
   lucide.createIcons();
   
   // Jika menggunakan library AOS
@@ -302,9 +302,7 @@ if (!$is_ajax) {
     .catch(error => console.error('Gagal memuat data live:', error));
   }
 
-  // 3. Jalankan fungsi AJAX secara otomatis
-  // Di-set ke 5000ms (5 detik) agar animasi dan data termuat "Live/Real-time"
-  // (Jika benar-benar ingin 5 menit, ubah angka 5000 menjadi 300000)
+  // 3. Jalankan fungsi AJAX dalam 5 detik
   setInterval(updateLiveStatistik, 5000);
 </script>
 
