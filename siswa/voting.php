@@ -11,13 +11,11 @@ if (!isset($_SESSION['token'])) {
 $paslon_list = $conn->mysql_select("tb_kandidat");
 $pageTitle = "Voting";
 ?>
-
 <!DOCTYPE html>
 <html lang="id">
 <?php  if (!$is_ajax) require_once __DIR__ . '/../layout/siswa/head.php'; ?>
 <body>
-
-	<?php if (!$is_ajax) require_once __DIR__ . '/../layout/siswa/topbar.php'; ?>
+	<?php if (!$is_ajax) require_once __DIR__ . '/../layout/siswa/navbar.php'; ?>
 
 	<!-- section : main  -->
 	<main class="flex flex-col justify-center flex-1 w-full max-w-6xl px-4 py-8 mx-auto space-y-3 sm:px-6">
@@ -167,8 +165,7 @@ $pageTitle = "Voting";
 		function logout() {
 			window.location.href = "logout.php";
 		}
-
-
+		
 		const scrollContainer = document.getElementById('scroll-container');
 		const btnLeft = document.getElementById('btn-prev');
 		const btnRigth = document.getElementById('btn-next');

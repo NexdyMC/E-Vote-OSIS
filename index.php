@@ -13,6 +13,7 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <title>E-Vote OSIS</title>
 
   <!-- link : CDN  -->
@@ -27,7 +28,7 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
 </head>
 <body class="antialiased bg-white text-navy-900">
 
-  <!-- header : navbar -->
+  <!-- navbar -->
   <header class="fixed inset-x-0 top-0 z-50 border-b bg-white/80 backdrop-blur-md border-slate-100">
     <nav class="flex items-center justify-between h-16 max-w-6xl px-6 mx-auto">
 
@@ -409,13 +410,14 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
     </div>
   </section>
 
-  <!-- section : footer -->
+  <!-- footer -->
   <footer class="py-8 bg-white border-t border-slate-100">
     <div class="max-w-6xl px-6 mx-auto text-sm text-center text-navy-500">
       &copy; 2026 Febri Pratama — All Right Reserved.
     </div>
   </footer>
 
+  <!-- script : js -->
   <script>
     lucide.createIcons();
     // ===================== COUNTDOWN VOTING =====================

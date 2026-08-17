@@ -1,34 +1,29 @@
 <?php
-
 session_start();
 require_once __DIR__ . "/../api/conn.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $token = trim($_POST['token'] ?? '');
-    if (empty($token)) {
-        $pesan_error = "Token tidak boleh kosong";
+  $token = trim($_POST['token'] ?? '');
+  if (empty($token)) {
+    $pesan_error = "Token tidak boleh kosong";
+  } else {
+    $siswa = $conn->login_siswa($token);
+    if (!$siswa) {
+      $pesan_error = "Token tidak ditemukan";
+    } elseif ($siswa['voted'] != 0) {
+      $pesan_error = "Anda sudah melakukan voting";
     } else {
-
-        $siswa = $conn->login_siswa($token);
-        if (!$siswa) {
-            $pesan_error = "Token tidak ditemukan";
-        } elseif ($siswa['voted'] != 0) {
-            $pesan_error = "Anda sudah melakukan voting";
-        } else {
-
-            $_SESSION['token'] = $siswa['token'];
-            $_SESSION['nama']  = $siswa['nama'];
-            $_SESSION['kelas'] = $siswa['kelas'];
-
-            header("Location: voting.php");
-            exit;
-        }
+      $_SESSION['token'] = $siswa['token'];
+      $_SESSION['nama']  = $siswa['nama'];
+      $_SESSION['kelas'] = $siswa['kelas'];
+      header("Location: voting.php");
+      exit;
     }
+  }
 }
-
 if (isset($_SESSION['token'])) {
-    header("Location: voting.php");
-    exit;
+  header("Location: voting.php");
+  exit;
 }
 ?>
 <!DOCTYPE html>
@@ -36,12 +31,16 @@ if (isset($_SESSION['token'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
   <title>Login Token — E-Voting OSIS</title>
+  
   <!-- link : CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script href="../assets/script/tailwind.config.js"></script>
+  
+  <!-- CDN : Google Font -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
-  <script href="../assets/script/tailwind.config.js"></script>
 </head>
 
 <body class="bg-[#0F172A] min-h-screen flex flex-col justify-between items-center p-4 font-sans text-slate-800">

@@ -22,9 +22,8 @@ $pageTitle = 'Hasil';
 <!DOCTYPE html>
 <html lang="id">
 <?php  if (!$is_ajax) require_once __DIR__ . '/../layout/siswa/head.php'; ?>
-<body class="flex flex-col justify-between min-h-screen bg-slate-100 text-slate-100">
-  
-  <?php  if (!$is_ajax) require_once __DIR__ . '/../layout/siswa/topbar.php'; ?>
+<body class="flex flex-col justify-between min-h-screen bg-slate-100 text-slate-100">  
+  <?php  if (!$is_ajax) require_once __DIR__ . '/../layout/siswa/navbar.php'; ?>
 
   <!-- section : hero section -->
   <section class="grid items-center px-4 py-10 border-b border-slate-100 bg-slate-100 backdrop-blur-md">
