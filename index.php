@@ -104,7 +104,7 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
 
   <!-- section : time line -->
   <section id="tahapan" class="relative pb-32 overflow-hidden bg-navy-900 pt-28">
-    <div class="absolute rounded-full pointer-events-none blur-3xl opacity-35 w-96 h-96 bg-primary-600 top-1/3 -right-20 opacity-20"></div>
+    <div class="absolute rounded-full pointer-events-none blur-3xl opacity-35 w-96 h-96 bg-primary-600 top-1/3 -right-20 "></div>
 
     <div class="relative max-w-5xl px-6 mx-auto">
       <div class="mb-20 text-center">
@@ -191,7 +191,7 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
           $kandidat = $conn->mysql_select("tb_kandidat");
           foreach ($kandidat as $row) :?>
 
-          <div class="card-kandidat shrink-0 flex flex-col justify-between relative group bg-white rounded-3xl shadow-[0_8px_30px_rgb(15,23,42,0.06)] overflow-hidden border border-2 border-slate-300/80 ">
+          <div class="card-kandidat shrink-0 flex flex-col justify-between relative group bg-white rounded-3xl shadow-[0_8px_30px_rgb(15,23,42,0.06)] overflow-hidden border-2 border-slate-300/80 ">
             <div class="text-left">
 
               <!-- kandidat : image -->
@@ -253,8 +253,8 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
 
   <!-- section : countdown voting -->
   <section id="countdown" class="relative pb-32 overflow-hidden bg-navy-900 pt-28">
-    <div class="absolute rounded-full pointer-events-none blur-3xl opacity-35 w-96 h-96 bg-primary-600 -top-16 -left-16 opacity-20"></div>
-    <div class="absolute bottom-0 right-0 rounded-full pointer-events-none blur-3xl opacity-35 w-72 h-72 bg-accent-400 opacity-10"></div>
+    <div class="absolute rounded-full pointer-events-none blur-3xl opacity-35 w-96 h-96 bg-primary-600 -top-16 -left-16"></div>
+    <div class="absolute bottom-0 right-0 rounded-full pointer-events-none blur-3xl opacity-35 w-72 h-72 bg-accent-400"></div>
 
     <div class="relative max-w-4xl px-6 mx-auto text-center">
       <span class="text-xs font-semibold tracking-widest uppercase sm:text-sm text-accent-400">Jangan Sampai Terlewat</span>
@@ -295,8 +295,8 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
 
   <!-- section : tips voting -->
   <section id="tips" class="relative bg-[#F8FAFC] pt-28 pb-32 overflow-hidden">
-    <div class="absolute rounded-full pointer-events-none blur-3xl opacity-35 w-72 h-72 bg-primary-500 top-10 -right-10 opacity-10"></div>
-    <div class="absolute rounded-full pointer-events-none blur-3xl opacity-35 w-80 h-80 bg-accent-400 bottom-10 -left-10 opacity-10"></div>
+    <div class="absolute rounded-full pointer-events-none blur-3xl opacity-35 w-72 h-72 bg-primary-500 top-10 -right-10"></div>
+    <div class="absolute rounded-full pointer-events-none blur-3xl opacity-35 w-80 h-80 bg-accent-400 bottom-10 -left-10"></div>
 
     <div class="relative px-6 mx-auto max-w-7xl">
       <div class="mb-16 text-center">
@@ -377,7 +377,7 @@ $waktuVotingBerakhir = strtotime('2026-09-26 08:00:00');
 
   <!-- section : video tutorial -->
   <section id="video" class="relative pb-32 overflow-hidden bg-navy-900 pt-28">
-    <div class="absolute top-0 right-0 rounded-full pointer-events-none blur-3xl opacity-35 w-96 h-96 bg-primary-600 opacity-15"></div>
+    <div class="absolute top-0 right-0 rounded-full pointer-events-none blur-3xl opacity-35 w-96 h-96 bg-primary-600"></div>
 
     <div class="relative max-w-3xl px-6 mx-auto">
       <div class="text-center mb-14">
