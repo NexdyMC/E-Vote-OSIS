@@ -125,137 +125,138 @@ $breadcrumb = ['Admin', 'Pengaturan'];
 $activePage = 'settings'; 
 
 if (!$is_ajax) {
-    require_once __DIR__ . '/../layout/admin/header.php';
-    require_once __DIR__ . '/../layout/admin/sidebar.php';
-    require_once __DIR__ . '/../layout/admin/navbar.php';
-    ?>
-    <main id="main-content" class="flex-1 p-4 overflow-y-auto sm:p-8">
+require_once __DIR__ . '/../layout/admin/header.php';
+require_once __DIR__ . '/../layout/admin/sidebar.php';
+require_once __DIR__ . '/../layout/admin/navbar.php';
+?>
+  <main id="main-content" class="flex-1 p-4 overflow-hidden sm:p-8">
 <?php } ?>
-
-<!-- Header Title -->
-<div data-aos="fade-up" class="mb-6">
-  <h2 class="text-2xl font-semibold font-display text-navy-900">Pengaturan Sistem</h2>
-  <p class="mt-1 text-sm text-slate-500">Konfigurasi identitas sekolah dan jadwal E-Voting OSIS.</p>
-</div>
-
-<!-- Render Pesan Alert -->
-<?= $pesan_alert ?>
-
-<div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
-  
-  <!-- Form Pengaturan (Action diosongkan agar kirim ke halaman ini sendiri) -->
-  <div data-aos="fade-up" data-aos-delay="200" class="lg:col-span-2">
-    <form action="" method="POST" enctype="multipart/form-data" class="bg-white rounded-3xl p-6 sm:p-8 shadow-[0_8px_30px_rgb(15,23,42,0.06)] border border-slate-100 space-y-6">
-      
-      <h3 class="pb-3 mb-4 text-lg font-bold border-b text-navy-900 border-slate-100">Informasi Umum</h3>
+    <?= $pesan_alert ?>
     
-      <!-- Input Logo Sekolah -->
-      <div>
-        <label class="block mb-2 text-sm font-medium text-navy-700">Logo Sekolah</label>
-        <div class="flex items-center gap-5">
-          <img id="previewLogo" src="<?= htmlspecialchars($logoUrl) ?>" alt="Logo Sekolah" class="object-cover w-20 h-20 border rounded-2xl border-slate-200 shrink-0 bg-slate-50">
-          
-          <div id="dropzoneLogo" class="flex flex-col items-center justify-center flex-1 p-4 text-center transition-colors border-2 border-dashed cursor-pointer border-slate-300 bg-slate-50 hover:bg-blue-50 hover:border-blue-400 rounded-xl group">
-            <i data-lucide="image" class="w-5 h-5 mb-1 text-slate-400 group-hover:text-blue-500"></i>
-            <span class="text-sm font-semibold text-navy-900">Ubah Logo</span>
-            <span class="text-[11px] text-slate-500 mt-0.5">Klik atau drag gambar ke sini (PNG, JPG, WEBP)</span>
-            <input type="file" name="logo_sekolah" id="inputLogo" accept="image/png, image/jpeg, image/webp" class="hidden">
-          </div>
-        </div>
-      </div>
-
-      <!-- Nama Sekolah & Tahun Ajaran -->
-      <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
-        <div>
-          <label class="text-sm font-medium text-navy-700 mb-1.5 block">Nama Sekolah</label>
-          <input type="text" name="nama_sekolah" value="<?= htmlspecialchars($settings['nama_sekolah'] ?? '') ?>" required 
-                 class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none text-sm">
-        </div>
-        <div>
-          <label class="text-sm font-medium text-navy-700 mb-1.5 block">Tahun Ajaran</label>
-          <input type="text" name="tahun_ajaran" value="<?= htmlspecialchars($settings['tahun_ajaran'] ?? '') ?>" required 
-                 class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none text-sm">
-        </div>
-      </div>
-
-      <!-- Judul Pemilihan -->
-      <div>
-        <label class="text-sm font-medium text-navy-700 mb-1.5 block">Judul Pemilihan</label>
-        <input type="text" name="judul_pemilihan" value="<?= htmlspecialchars($settings['judul_pemilihan'] ?? '') ?>" required 
-               class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none text-sm">
-      </div>
-
-      <h3 class="pb-3 mt-8 mb-4 text-lg font-bold border-b text-navy-900 border-slate-100">Jadwal & Status Pemilihan</h3>
-
-      <!-- Waktu Mulai & Selesai -->
-      <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
-        <div>
-          <label class="text-sm font-medium text-navy-700 mb-1.5 block">Waktu Mulai Voting</label>
-          <input type="datetime-local" name="waktu_mulai" id="inputWaktuMulai" value="<?= $waktu_mulai_html ?>" required 
-                 class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none text-sm">
-        </div>
-        <div>
-          <label class="text-sm font-medium text-navy-700 mb-1.5 block">Waktu Selesai Voting</label>
-          <input type="datetime-local" name="waktu_selesai" id="inputWaktuSelesai" value="<?= $waktu_selesai_html ?>" required 
-                 class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none text-sm">
-        </div>
-      </div>
-
-      <div class="flex justify-end pt-4">
-        <button type="submit" class="px-6 py-3 rounded-xl bg-[#1E3A8A] text-white text-sm font-semibold hover:bg-blue-800 transition shadow-lg shadow-blue-900/20 flex items-center gap-2">
-          <i data-lucide="save" class="w-4 h-4"></i> Simpan Pengaturan
-        </button>
-      </div>
-    </form>
-  </div>
-
-  <!-- Sidebar Info Timeline -->
-  <div data-aos="fade-up" data-aos-delay="300" class="space-y-6 lg:col-span-1">
-    <div class="relative p-6 overflow-hidden shadow-xl bg-slate-900 rounded-3xl">
-      <div class="absolute w-32 h-32 rounded-full -right-6 -top-6 bg-blue-500/20 blur-2xl"></div>
-      
-      <h3 class="relative z-10 flex items-center gap-2 mb-6 font-semibold text-white font-display">
-        <i data-lucide="clock" class="w-5 h-5 text-blue-400"></i> Timeline Siswa
-      </h3>
-
-      <div class="relative z-10 ml-3 space-y-8 border-l-2 border-slate-700">
-        
-        <!-- Step 1: Persiapan -->
-        <div class="relative pl-6">
-          <div class="absolute -left-[9px] top-1 w-4 h-4 bg-slate-700 rounded-full border-4 border-slate-900"></div>
-          <h4 class="text-sm font-bold text-slate-300">Sistem Belum Dibuka</h4>
-          <p class="mt-1 text-xs text-slate-500">Sebelum tanggal:</p>
-          <p id="teksMulai" class="inline-block px-2 py-1 mt-1 font-mono text-xs text-blue-400 rounded bg-slate-800">
-            <?= !empty($settings['waktu_mulai']) ? date('d M Y, H:i', strtotime($settings['waktu_mulai'])) : '-' ?>
-          </p>
-        </div>
-
-        <!-- Step 2: Voting Berlangsung -->
-        <div class="relative pl-6">
-          <div class="absolute -left-[11px] top-1 w-5 h-5 bg-blue-500 rounded-full border-4 border-slate-900 shadow-[0_0_10px_rgb(59,130,246,0.5)] flex items-center justify-center">
-             <div class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
-          </div>
-          <h4 class="text-sm font-bold text-white">Voting Berlangsung</h4>
-          <p class="mt-1 text-xs leading-relaxed text-slate-400">Siswa dapat login menggunakan token dan melakukan pemilihan kandidat.</p>
-        </div>
-
-        <!-- Step 3: Selesai -->
-        <div class="relative pl-6">
-          <div class="absolute -left-[9px] top-1 w-4 h-4 bg-slate-700 rounded-full border-4 border-slate-900"></div>
-          <h4 class="text-sm font-bold text-slate-300">Sistem Ditutup</h4>
-          <p class="mt-1 text-xs text-slate-500">Lewat dari tanggal:</p>
-          <p id="teksSelesai" class="inline-block px-2 py-1 mt-1 font-mono text-xs text-red-400 rounded bg-slate-800">
-            <?= !empty($settings['waktu_selesai']) ? date('d M Y, H:i', strtotime($settings['waktu_selesai'])) : '-' ?>
-          </p>
-        </div>
-
-      </div>
+    <!-- Header Title -->
+    <div data-aos="fade-up" class="mb-6">
+      <h2 class="text-2xl font-semibold font-display text-navy-900">Pengaturan Sistem</h2>
+      <p class="mt-1 text-sm text-slate-500">Konfigurasi identitas sekolah dan jadwal E-Voting OSIS.</p>
     </div>
-  </div>
 
-</div>
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+      
+      <!-- Form Pengaturan (Action diosongkan agar kirim ke halaman ini sendiri) -->
+      <div data-aos="fade-up" data-aos-delay="200" class="lg:col-span-2">
+        <form action="" method="POST" enctype="multipart/form-data" class="bg-white rounded-3xl p-6 sm:p-8 shadow-[0_8px_30px_rgb(15,23,42,0.06)] border border-slate-100 space-y-6">
+          
+          <h3 class="pb-3 mb-4 text-lg font-bold border-b text-navy-900 border-slate-100">Informasi Umum</h3>
+        
+          <!-- Input Logo Sekolah -->
+          <div>
+            <label class="block mb-2 text-sm font-medium text-navy-700">Logo Sekolah</label>
+            <div class="flex items-center gap-5">
+              <img id="previewLogo" src="<?= htmlspecialchars($logoUrl) ?>" alt="Logo Sekolah" class="object-cover w-20 h-20 border rounded-2xl border-slate-200 shrink-0 bg-slate-50">
+              
+              <div id="dropzoneLogo" class="flex flex-col items-center justify-center flex-1 p-4 text-center transition-colors border-2 border-dashed cursor-pointer border-slate-300 bg-slate-50 hover:bg-blue-50 hover:border-blue-400 rounded-xl group">
+                <i data-lucide="image" class="w-5 h-5 mb-1 text-slate-400 group-hover:text-blue-500"></i>
+                <span class="text-sm font-semibold text-navy-900">Ubah Logo</span>
+                <span class="text-[11px] text-slate-500 mt-0.5">Klik atau drag gambar ke sini (PNG, JPG, WEBP)</span>
+                <input type="file" name="logo_sekolah" id="inputLogo" accept="image/png, image/jpeg, image/webp" class="hidden">
+              </div>
+            </div>
+          </div>
 
-<!-- JavaScript Live Preview & Drag Drop Logo -->
+          <!-- Nama Sekolah & Tahun Ajaran -->
+          <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+            <div>
+              <label class="text-sm font-medium text-navy-700 mb-1.5 block">Nama Sekolah</label>
+              <input type="text" name="nama_sekolah" value="<?= htmlspecialchars($settings['nama_sekolah'] ?? '') ?>" required 
+                    class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none text-sm">
+            </div>
+            <div>
+              <label class="text-sm font-medium text-navy-700 mb-1.5 block">Tahun Ajaran</label>
+              <input type="text" name="tahun_ajaran" value="<?= htmlspecialchars($settings['tahun_ajaran'] ?? '') ?>" required 
+                    class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none text-sm">
+            </div>
+          </div>
+
+          <!-- Judul Pemilihan -->
+          <div>
+            <label class="text-sm font-medium text-navy-700 mb-1.5 block">Judul Pemilihan</label>
+            <input type="text" name="judul_pemilihan" value="<?= htmlspecialchars($settings['judul_pemilihan'] ?? '') ?>" required 
+                  class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none text-sm">
+          </div>
+
+          <h3 class="pb-3 mt-8 mb-4 text-lg font-bold border-b text-navy-900 border-slate-100">Jadwal & Status Pemilihan</h3>
+
+          <!-- Waktu Mulai & Selesai -->
+          <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+            <div>
+              <label class="text-sm font-medium text-navy-700 mb-1.5 block">Waktu Mulai Voting</label>
+              <input type="datetime-local" name="waktu_mulai" id="inputWaktuMulai" value="<?= $waktu_mulai_html ?>" required 
+                    class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none text-sm">
+            </div>
+            <div>
+              <label class="text-sm font-medium text-navy-700 mb-1.5 block">Waktu Selesai Voting</label>
+              <input type="datetime-local" name="waktu_selesai" id="inputWaktuSelesai" value="<?= $waktu_selesai_html ?>" required 
+                    class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 outline-none text-sm">
+            </div>
+          </div>
+
+          <div class="flex justify-end pt-4">
+            <button type="submit" class="px-6 py-3 rounded-xl bg-[#1E3A8A] text-white text-sm font-semibold hover:bg-blue-800 transition shadow-lg shadow-blue-900/20 flex items-center gap-2">
+              <i data-lucide="save" class="w-4 h-4"></i> Simpan Pengaturan
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Sidebar Info Timeline -->
+      <div data-aos="fade-up" data-aos-delay="300" class="space-y-6 lg:col-span-1">
+        <div class="relative p-6 overflow-hidden shadow-xl bg-slate-900 rounded-3xl">
+          <div class="absolute w-32 h-32 rounded-full -right-6 -top-6 bg-blue-500/20 blur-2xl"></div>
+          
+          <h3 class="relative z-10 flex items-center gap-2 mb-6 font-semibold text-white font-display">
+            <i data-lucide="clock" class="w-5 h-5 text-blue-400"></i> Timeline Siswa
+          </h3>
+
+          <div class="relative z-10 ml-3 space-y-8 border-l-2 border-slate-700">
+            
+            <!-- Step 1: Persiapan -->
+            <div class="relative pl-6">
+              <div class="absolute -left-[9px] top-1 w-4 h-4 bg-slate-700 rounded-full border-4 border-slate-900"></div>
+              <h4 class="text-sm font-bold text-slate-300">Sistem Belum Dibuka</h4>
+              <p class="mt-1 text-xs text-slate-500">Sebelum tanggal:</p>
+              <p id="teksMulai" class="inline-block px-2 py-1 mt-1 font-mono text-xs text-blue-400 rounded bg-slate-800">
+                <?= !empty($settings['waktu_mulai']) ? date('d M Y, H:i', strtotime($settings['waktu_mulai'])) : '-' ?>
+              </p>
+            </div>
+
+            <!-- Step 2: Voting Berlangsung -->
+            <div class="relative pl-6">
+              <div class="absolute -left-[11px] top-1 w-5 h-5 bg-blue-500 rounded-full border-4 border-slate-900 shadow-[0_0_10px_rgb(59,130,246,0.5)] flex items-center justify-center">
+                <div class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
+              </div>
+              <h4 class="text-sm font-bold text-white">Voting Berlangsung</h4>
+              <p class="mt-1 text-xs leading-relaxed text-slate-400">Siswa dapat login menggunakan token dan melakukan pemilihan kandidat.</p>
+            </div>
+
+            <!-- Step 3: Selesai -->
+            <div class="relative pl-6">
+              <div class="absolute -left-[9px] top-1 w-4 h-4 bg-slate-700 rounded-full border-4 border-slate-900"></div>
+              <h4 class="text-sm font-bold text-slate-300">Sistem Ditutup</h4>
+              <p class="mt-1 text-xs text-slate-500">Lewat dari tanggal:</p>
+              <p id="teksSelesai" class="inline-block px-2 py-1 mt-1 font-mono text-xs text-red-400 rounded bg-slate-800">
+                <?= !empty($settings['waktu_selesai']) ? date('d M Y, H:i', strtotime($settings['waktu_selesai'])) : '-' ?>
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+<?php if (!$is_ajax): ?>
+  </main>
+<?php endif; ?>
+  
 <script>
   document.addEventListener('DOMContentLoaded', () => {
       const dropzone = document.getElementById('dropzoneLogo');
@@ -310,6 +311,5 @@ if (!$is_ajax) {
 </script>
 
 <?php if (!$is_ajax): ?>
-    </main>
-    <?php require_once __DIR__ . '/../layout/admin/footer.php'; ?>
+  <?php require_once __DIR__ . '/../layout/admin/footer.php'; ?>
 <?php endif; ?>

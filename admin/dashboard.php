@@ -74,18 +74,19 @@ $activePage = 'dashboard';
 
 
 if (!$is_ajax) {
-    require_once __DIR__ . '/../layout/admin/header.php';
-    require_once __DIR__ . '/../layout/admin/sidebar.php';
-    require_once __DIR__ . '/../layout/admin/navbar.php';
-    ?>
-    <main id="main-content" class="flex-1 p-4 overflow-y-auto sm:p-8">
+  require_once __DIR__ . '/../layout/admin/header.php';
+  require_once __DIR__ . '/../layout/admin/sidebar.php';
+  require_once __DIR__ . '/../layout/admin/navbar.php';
+?>
+  <main id="main-content" class="flex-1 p-4 overflow-hidden sm:p-8">
 <?php }; ?>
-    
+
     <div class="p-4 space-y-8 sm:p-8">
       <div class="mb-6">
         <h2 class="text-2xl font-semibold font-display text-navy-900">Statistik Voting</h2>
         <p class="mt-1 text-sm text-slate-500">Pantau perolehan suara sementara dan tingkat partisipasi pemilih secara real-time.</p>
       </div>
+      
       <!-- Tampilkan Alert Jika Ada -->
       <?= $pesan_alert ?>
 
@@ -160,9 +161,10 @@ if (!$is_ajax) {
         </div>
       </div>
     </div>
-  <?php if (!$is_ajax): ?>
-    </main>
-  <?php endif; ?>
+
+<?php if (!$is_ajax): ?>
+  </main>
+<?php endif; ?>
 
 <script>
   (function () {
