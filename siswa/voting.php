@@ -9,33 +9,15 @@ if (!isset($_SESSION['token'])) {
 }
 
 $paslon_list = $conn->mysql_select("tb_kandidat");
-$activePage = "voting";
+$pageTitle = "Voting";
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
-
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Voting kandidat | E-Vote OSIS</title>
-	
-	<!-- link : CDN  -->
-	<script src="https://cdn.tailwindcss.com"></script>
-	<script src="assets/js/tailwind.config.js"></script>
-	<script src="https://unpkg.com/lucide@latest"></script>
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
-
-	<!-- link : style css -->
-	<link rel="stylesheet" href="assets/css/style.css">
-</head>
-
+<?php  if (!$is_ajax) require_once __DIR__ . '/../layout/siswa/head.php'; ?>
 <body>
 
-	<?php if (!$is_ajax) {
-		require_once __DIR__ . '/../layout/partials/topbar.php'; 
-  	}?>
+	<?php if (!$is_ajax) require_once __DIR__ . '/../layout/siswa/topbar.php'; ?>
 
 	<!-- section : main  -->
 	<main class="flex flex-col justify-center flex-1 w-full max-w-6xl px-4 py-8 mx-auto space-y-3 sm:px-6">

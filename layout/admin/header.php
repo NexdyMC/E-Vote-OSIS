@@ -1,6 +1,6 @@
 <?php
 /* =========================================================
-   PARTIAL: layout/partials/header.php
+   PARTIAL: layout/admin/header.php
    ---------------------------------------------------------
    Dipakai bersama oleh admin/dashboard.php, admin/kandidat.php,
    admin/siswa.php. HANYA di-include saat non-AJAX (full page

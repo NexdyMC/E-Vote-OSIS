@@ -1,6 +1,6 @@
 <?php
 /* =========================================================
-   PARTIAL: layout/partials/navbar.php
+   PARTIAL: layout/admin/navbar.php
    ========================================================= */
    
 $pageTitle  = $pageTitle ?? 'Dashboard';

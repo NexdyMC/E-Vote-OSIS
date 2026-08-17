@@ -1,6 +1,6 @@
 <?php
 /* =========================================================
-   PARTIAL: layout/partials/footer.php
+   PARTIAL: layout/admin/footer.php
    ---------------------------------------------------------
    Menutup wrapper dari navbar.php (#main-wrapper) & header.php
    (.flex), lalu memuat library JS + script SPA (Fetch API).

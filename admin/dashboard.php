@@ -66,9 +66,9 @@ $activePage = 'dashboard';
 
 
 if (!$is_ajax) {
-    require_once __DIR__ . '/../layout/partials/header.php';
-    require_once __DIR__ . '/../layout/partials/sidebar.php';
-    require_once __DIR__ . '/../layout/partials/navbar.php';
+    require_once __DIR__ . '/../layout/admin/header.php';
+    require_once __DIR__ . '/../layout/admin/sidebar.php';
+    require_once __DIR__ . '/../layout/admin/navbar.php';
     ?>
     <main id="main-content" class="flex-1 p-4 sm:p-8 overflow-y-auto">
 <?php }; ?>
@@ -307,5 +307,5 @@ if (!$is_ajax) {
 </script>
 
 <?php if (!$is_ajax): ?>
-  <?php require_once __DIR__ . '/../layout/partials/footer.php'; ?>
+  <?php require_once __DIR__ . '/../layout/admin/footer.php'; ?>
 <?php endif; ?>
