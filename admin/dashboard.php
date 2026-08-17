@@ -11,16 +11,11 @@ if (!isset($_SESSION['id_admin'])) {
 
 if (isset($_POST["submit_kandidat"])) {
 
-  // PENTING: sesuaikan "text-nama" dengan atribut name= input nama
-  // kandidat di form HTML kamu, kalau berbeda.
   $nama = $_POST["text-nama"] ?? '';
   $visi = $_POST["text-visi"];
   $misi = $_POST["text-misi"];
 
   $nama_file_baru = random_id(8);
-  // Disamakan dengan folder yang dipakai api/kandidat.php ("../upload/photo/")
-  // supaya foto kandidat yang diupload lewat dashboard maupun lewat API
-  // tersimpan di folder yang sama.
   $folder_tujuan = "../upload/photo/";
 
   $upload_foto = $conn->upload_image($folder_tujuan, $nama_file_baru, 'photo');
