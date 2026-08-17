@@ -32,7 +32,7 @@ $paslon_results = $conn->get_paslon_results();
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="../assets/scripts/tailwind.config.js"></script>
+  <script src="../assets/js/tailwind.config.js"></script>
   <link rel="stylesheet" href="../assets/css/voting.css">
 </head>
 

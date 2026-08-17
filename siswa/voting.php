@@ -18,52 +18,52 @@ $activePage = "voting";
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Voting kandidat | E-Voting OSIS</title>
-	<!-- Link : CDN & css/js -->
+	<title>Voting kandidat | E-Vote OSIS</title>
+	
+	<!-- link : CDN  -->
 	<script src="https://cdn.tailwindcss.com"></script>
-	<script src="assets/scripts/sweetalert.2.11.js"></script>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+	<script src="assets/js/tailwind.config.js"></script>
 	<script src="https://unpkg.com/lucide@latest"></script>
-	<script src="../assets/scripts/tailwind.config.js"></script>
-	<link rel="stylesheet" href="../assets/css/voting.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+	<!-- link : style css -->
+	<link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
 
 	<?php if (!$is_ajax) {
 		require_once __DIR__ . '/../layout/partials/topbar.php'; 
-  }?>
+  	}?>
 
 	<!-- section : main  -->
-	<main class="py-8 px-4 sm:px-6 max-w-6xl mx-auto w-full flex-1 flex flex-col justify-center space-y-3">
-		<div class="text-center space-y-4">
-			<div class="max-w-4xl mx-auto text-center space-y-3">
+	<main class="flex flex-col justify-center flex-1 w-full max-w-6xl px-4 py-8 mx-auto space-y-3 sm:px-6">
+		<div class="space-y-4 text-center">
+			<div class="max-w-4xl mx-auto space-y-3 text-center">
 				<div class="py-6 space-y-4">
 
 					<div class="flex justify-center">
 						<div
-							class="flex justify-center items-center text-white bg-gradient-to-br from-amber-500 to-amber-300 rounded-xl shadow-md transition-all w-20 h-20">
+							class="flex items-center justify-center w-20 h-20 text-white transition-all shadow-md bg-gradient-to-br from-amber-500 to-amber-300 rounded-xl">
 							<i data-lucide="users" class="w-10 h-10 stroke-[3]"></i>
 						</div>
 					</div>
 
-					<h1 class="text-5xl font-extrabold text-center mb-4 text-slate-800">E-Vote <span
-							class="text-[#FACC15]">OSIS</span></h1>
+					<h1 class="mb-4 text-5xl font-extrabold text-center text-slate-800">E-Vote <span class="text-[#FACC15]">OSIS</span></h1>
 					<p class="text-gray-600">Pilih calon ketua OSIS yang menurut Anda paling tepat</p>
-
-					<div
-						class="bg-amber-300/20 border-amber-300/80 border-l-[5px] border-l-amber-300 rounded-2xl p-4 sm:p-5 shadow-[0_4px_20px_rgb(30,58,138,0.05)] flex items-start sm:items-center gap-4 my-6 transition-all">
+					<div class="bg-amber-300/20 border-amber-300/80 border-l-[5px] border-l-amber-300 rounded-2xl p-4 sm:p-5 shadow-[0_4px_20px_rgb(30,58,138,0.05)] flex items-start sm:items-center gap-4 my-6 transition-all">
 
 						<!-- Icon Badge (Square Soft-Rounded) -->
 						<div
-							class="w-10 h-10 rounded-xl bg-amber-400 text-white flex items-center justify-center shrink-0 shadow-md shadow-blue-600/20">
+							class="flex items-center justify-center w-10 h-10 text-white shadow-md rounded-xl bg-amber-400 shrink-0 shadow-blue-600/20">
 							<i data-lucide="info" class="w-5 h-5"></i>
 						</div>
 
 						<!-- Content Text -->
 						<div class="flex-1 min-w-0">
 							<div class="flex items-center gap-2">
-								<h4 class="font-display font-bold text-navy-900 text-sm sm:text-base leading-snug">
+								<h4 class="text-sm font-bold leading-snug font-display text-navy-900 sm:text-base">
 									Penting Diperhatikan!
 								</h4>
 							</div>
@@ -90,27 +90,27 @@ $activePage = "voting";
 						foreach ($kandidat as $row):
 					?>
 
-					<div class="w-full h-full flex-none p-3">
+					<div class="flex-none w-full h-full p-3">
 						<div
 							class="w-full h-full bg-white rounded-3xl overflow-hidden hover:border-blue-500 shadow-[0_8px_30px_rgb(15,23,42,0.06)] border-2 border-slate-300/80 flex flex-col  group relative">
 							<!-- kandidat : image -->
 							<div class="relative rounded-2xl overflow-hidden bg-slate-800 aspect-[4/3] mb-4 shrink-0">
 								<img src="../upload/photo/<?=  $row['image']; ?>" alt="Kandidat <?= $row['nama'];?>"
-									class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+									class="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105">
 							</div>
 
 							<!-- kandidat : data -->
 							<div class="flex-1 p-4 scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent">
 
 								<!-- kandidat : nama siswa -->
-								<p class="text-2xl text-center font-bold mb-2 line-clamp-1 text-slate-800 shrink-0">
+								<p class="mb-2 text-2xl font-bold text-center line-clamp-1 text-slate-800 shrink-0">
 									<?= $row['nama'] ?>
 								</p>
 
 								<!-- kandidat : jenis -->
 								<div class="flex justify-center mb-6 shrink-0">
 									<span
-										class="text-sm font-bold tracking-widest text-brand-yellow bg-yellow-50 px-3 py-1 rounded-full border border-brand-yellow/20">
+										class="px-3 py-1 text-sm font-bold tracking-widest border rounded-full text-brand-yellow bg-yellow-50 border-brand-yellow/20">
 										Calon Ketua OSIS
 									</span>
 								</div>
@@ -118,21 +118,21 @@ $activePage = "voting";
 								<!-- kandidat : visi & misi -->
 								<div class="space-y-4">
 									<!-- kandidat : Visi -->
-									<div class="bg-slate-50 p-3 rounded-xl border-slate-200 border-2">
-										<h4 class="text-md font-bold uppercase text-blue-600 mb-1 flex items-center gap-1">
+									<div class="p-3 border-2 bg-slate-50 rounded-xl border-slate-200">
+										<h4 class="flex items-center gap-1 mb-1 font-bold text-blue-600 uppercase text-md">
 											<i data-lucide="compass" class="w-5 h-5"></i> Visi
 										</h4>
-										<p class="text-sm text-slate-600 leading-relaxed">
+										<p class="text-sm leading-relaxed text-slate-600">
 											<?= nl2br($row['visi']); ?>
 										</p>
 									</div>
 
 									<!-- kandidat : Misi -->
-									<div class="bg-slate-50 p-3 rounded-xl border-slate-200 border-2">
-										<h4 class="text-md font-bold uppercase text-blue-600 mb-1 flex items-center gap-1">
+									<div class="p-3 border-2 bg-slate-50 rounded-xl border-slate-200">
+										<h4 class="flex items-center gap-1 mb-1 font-bold text-blue-600 uppercase text-md">
 											<i data-lucide="compass" class="w-5 h-5"></i> Misi
 										</h4>
-										<p class="text-sm text-slate-600 leading-relaxed">
+										<p class="text-sm leading-relaxed text-slate-600">
 											<?= nl2br($row['misi']); ?>
 										</p>
 									</div>
@@ -140,9 +140,9 @@ $activePage = "voting";
 							</div>
 
 							<!-- kandidat : button voting -->
-							<div class="p-4 bg-white border-t overflow-hidden border-slate-100 shrink-0 z-10">
+							<div class="z-10 p-4 overflow-hidden bg-white border-t border-slate-100 shrink-0">
 								<button type="button" onclick="selectkandidat(<?= $row['id'];?>, '<?= $row['nama'];?>')"
-									class="w-full font-semibold text-sm px-5 py-3 rounded-xl border-2 border-blue-600 text-blue-600 bg-white hover:bg-blue-600 hover:text-white transition-colors flex items-center justify-center gap-2">
+									class="flex items-center justify-center w-full gap-2 px-5 py-3 text-sm font-semibold text-blue-600 transition-colors bg-white border-2 border-blue-600 rounded-xl hover:bg-blue-600 hover:text-white">
 									<i data-lucide="vote" class="w-4 h-4"></i>
 									Pilih Kandidat Ini
 								</button>
@@ -155,7 +155,7 @@ $activePage = "voting";
 
 			<!-- button : Kiri -->
 			<button id="btn-prev"
-				class="absolute left-0 top-1/2 w-10 h-10 rounded-full bg-slate-800 text-white flex items-center justify-center hover:bg-slate-700 hover:scale-110 transition-transform active:scale-95 z-10 shadow-lg">
+				class="absolute left-0 z-10 flex items-center justify-center w-10 h-10 text-white transition-transform rounded-full shadow-lg top-1/2 bg-slate-800 hover:bg-slate-700 hover:scale-110 active:scale-95">
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
 					stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 					<path d="m15 18-6-6 6-6" /></svg>
@@ -163,7 +163,7 @@ $activePage = "voting";
 
 			<!-- button : Kanan -->
 			<button id="btn-next"
-				class="absolute right-0 top-1/2 w-10 h-10 rounded-full bg-slate-800 text-white flex items-center justify-center hover:bg-slate-700 hover:scale-110 transition-transform active:scale-95 z-10 shadow-lg">
+				class="absolute right-0 z-10 flex items-center justify-center w-10 h-10 text-white transition-transform rounded-full shadow-lg top-1/2 bg-slate-800 hover:bg-slate-700 hover:scale-110 active:scale-95">
 				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
 					stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 					<path d="m9 18 6-6-6-6" /></svg>
@@ -173,18 +173,19 @@ $activePage = "voting";
 	</main>
 
 	<!-- section : footer -->
-	<footer class="bg-slate-950 border-t border-slate-900 py-6 text-center text-sm text-slate-500">
+	<footer class="py-6 text-sm text-center border-t bg-slate-950 border-slate-900 text-slate-500">
 		&copy; 2026 Febri Pratama — All rights reserved.
 	</footer>
 
 	<!-- script : js -->
-	<script src="../assets/scripts/voting.js"></script>
+	<script src="../assets/js/voting.js"></script>
 	<script>
+		lucide.createIcons();
+		
 		function logout() {
 			window.location.href = "logout.php";
 		}
 
-		lucide.createIcons();
 
 		const scrollContainer = document.getElementById('scroll-container');
 		const btnLeft = document.getElementById('btn-prev');

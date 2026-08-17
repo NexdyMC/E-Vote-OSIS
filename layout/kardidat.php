@@ -227,6 +227,6 @@ $activePage = 'kandidat';
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 </script>
 
-<?php require __DIR__ . '/partials/scripts-base.php'; ?>
+<?php require __DIR__ . '/partials/js-base.php'; ?>
 </body>
 </html>

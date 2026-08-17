@@ -222,6 +222,6 @@ $activePage = 'dashboard';
   setInterval(updateSisaWaktu, 1000);
 </script>
 
-<?php require __DIR__ . '/partials/scripts-base.php'; ?>
+<?php require __DIR__ . '/partials/js-base.php'; ?>
 </body>
 </html>

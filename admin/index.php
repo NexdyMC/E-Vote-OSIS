@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<link
 		href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap"
 		rel="stylesheet">
-	<script src="../assets/scripts/tailwind.config.js"></script>
+	<script src="../assets/js/tailwind.config.js"></script>
 </head>
 
 <body class="bg-[#0F172A] min-h-screen flex flex-col justify-between items-center p-4 font-sans text-slate-800">
