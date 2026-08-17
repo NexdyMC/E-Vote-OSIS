@@ -296,7 +296,7 @@ class MySQL {
     return $paslon_results;
   }
 
-  // mysql settings : get value
+  // mysql settings : get settings
   public function get_settings() 
   {
     $sql = "SELECT * FROM tb_settings LIMIT 1";
@@ -355,7 +355,7 @@ class MySQL {
     return $stmt->execute();
   }
   
-  // mysql admin : get value
+  // mysql admin : get admin
   public function get_admin() 
   {
     $sql = "SELECT * FROM tb_admin LIMIT 1";

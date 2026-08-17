@@ -18,8 +18,6 @@
 <!-- AOS JS (CSS-nya sudah di head lewat header.php) -->
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
-<script src="../assets/js/kandidat.js"></script>
-
 
 <script>
   lucide.createIcons();
@@ -34,13 +32,12 @@
     else { sidebar.classList.remove('open'); overlay.classList.add('hidden'); }
   }
 
-
   // Skeleton loading (efek pulse) selagi konten baru diambil
   function loadingSkeleton() {
     return `
-      <div class="p-4 sm:p-8 space-y-6 animate-pulse">
-        <div class="h-6 w-56 bg-slate-200 rounded-lg"></div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="p-4 space-y-6 sm:p-8 animate-pulse">
+        <div class="w-56 h-6 rounded-lg bg-slate-200"></div>
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <div class="h-28 bg-slate-200 rounded-2xl"></div>
           <div class="h-28 bg-slate-200 rounded-2xl"></div>
           <div class="h-28 bg-slate-200 rounded-2xl"></div>
@@ -56,8 +53,6 @@
     return div.innerHTML;
   }
 
-  // Navbar (topbar.php) tidak ikut di-fetch ulang saat navigasi AJAX,
-  // jadi judul halaman & breadcrumb-nya diperbarui manual lewat JS ini.
   function updateTopbar(title, breadcrumbArr) {
     const titleEl = document.getElementById('pageTitleText');
     const crumbEl = document.getElementById('breadcrumbText');
@@ -72,8 +67,6 @@
     }
   }
 
-  // Sidebar juga tidak ikut di-fetch ulang, jadi highlight menu aktif
-  // disinkronkan manual berdasarkan url tujuan.
   function setActiveLink(url) {
     document.querySelectorAll('.ajax-link').forEach(function (link) {
       const isActive = link.getAttribute('href') === url;
@@ -82,9 +75,6 @@
     });
   }
 
-  // <script> yang ikut terbawa dalam HTML hasil fetch tidak otomatis
-  // dieksekusi browser saat disisipkan lewat innerHTML — jadi dibuat
-  // ulang secara manual di sini agar chart/modal tiap halaman tetap jalan.
   function executeInlineScripts(container) {
     container.querySelectorAll('script').forEach(function (oldScript) {
       const newScript = document.createElement('script');
@@ -119,12 +109,11 @@
       }
       window.scrollTo({ top: 0, behavior: 'instant' });
     } catch (err) {
-      main.innerHTML = '<div class="p-8 text-center text-sm text-red-600">Gagal memuat halaman. Silakan coba lagi.</div>';
+      main.innerHTML = '<div class="p-8 text-sm text-center text-red-600">Gagal memuat halaman. Silakan coba lagi.</div>';
       console.error('SPA load error:', err);
     }
   }
 
-  // Tangkap semua klik pada .ajax-link (menu sidebar)
   document.addEventListener('click', function (e) {
     const link = e.target.closest('.ajax-link');
     if (!link) return;
@@ -138,7 +127,6 @@
     toggleSidebar(false);
   });
 
-  // Tombol Back/Forward browser
   window.addEventListener('popstate', function (e) {
     const state = e.state;
     const url = (state && state.url) ? state.url : window.location.pathname;
@@ -147,7 +135,6 @@
     loadContent(url, false, title, breadcrumb);
   });
 
-  // Simpan state halaman pertama supaya tombol Back tetap benar
   window.history.replaceState(
     {
       url: window.location.pathname.split('/').pop() + window.location.search,
