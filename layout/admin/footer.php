@@ -145,8 +145,5 @@
     window.location.href
   );
 </script>
-
-
-
 </body>
 </html>
